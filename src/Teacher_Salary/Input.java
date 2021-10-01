@@ -56,8 +56,8 @@ class Input extends Application {
         });
 
         btok.setOnAction(e -> {
-            Connection con = null;
-            PreparedStatement ps = null;
+            Connection con;
+            PreparedStatement ps;
             try {
                 Class.forName("com.mysql.cj.jdbc.Driver");
                 con = DriverManager.getConnection("jdbc:mysql://localhost:3306/xsl", "root", "xsl203457");

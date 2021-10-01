@@ -1,11 +1,5 @@
 package Teacher_Salary;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
-
 import javafx.application.Application;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -21,25 +15,26 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.Statement;
+
 public class Login extends Application {
     public static void main(String[] args) {
         launch(args);
     }
 
-    Statement stmt = null;
-    ResultSet rs_passwd = null;
-    String result_passwd = null;
-
     Choice choice = new Choice();
-    private StackPane stackpane = new StackPane();
-    private ImageView imageview = new ImageView(
-            new Image("file:D:\\eclipse-workspace\\Teacher_Salary_Project\\bin\\Teacher_Salary\\image\\下载.png"));
-    private HBox hbox = new HBox(10);
-    private GridPane gridpane = new GridPane();
-    private Button login_bt = new Button("Login"); // 设置登录按钮
-    private Button singup_bt = new Button("SingUp"); // 设置注册按钮
-    private Label lb1 = new Label("account:"); // 设置用户名标签
-    private Label lb2 = new Label("passwd:"); // 设置密码标签
+    private final StackPane stackpane = new StackPane();
+    private final ImageView imageview = new ImageView(
+            new Image("file:D:\\eclipse-workspace\\Teacher_Salary_Project\\bin\\Teacher_Salary\\image\\R-C.jpg"));
+    private final HBox hbox = new HBox(10);
+    private final GridPane gridpane = new GridPane();
+    private final Button login_bt = new Button("Login"); // 设置登录按钮
+    private final Button singup_bt = new Button("SingUp"); // 设置注册按钮
+    private final Label lb1 = new Label("account:"); // 设置用户名标签
+    private final Label lb2 = new Label("passwd:"); // 设置密码标签
     private TextField txfd1 = null; // 设置用户名填充域
     private PasswordField txfd2 = null; // 设置密码填充域 密码不回显
 
@@ -56,17 +51,17 @@ public class Login extends Application {
         stackpane.getChildren().addAll(imageview, hbox, gridpane);
         Scene scene = new Scene(stackpane, 300, 300);
         stage.setScene(scene);
-        stage.setTitle("log");
+        stage.setTitle("login");
         stage.show();
 
     }
 
-    private void LogIn(Stage stage) throws SQLException {
+    private void LogIn(Stage stage) {
         //登录监听器
         login_bt.setOnAction(e -> {
 
-            Statement stmt1 = null;
-            Statement stmt2 = null;
+            Statement stmt1;
+            Statement stmt2;
             ResultSet rs1 = null;
             ResultSet rs2 = null;
             try {
@@ -140,13 +135,13 @@ public class Login extends Application {
     public void Txfd1_attribute() {
         txfd1 = new TextField() {
             public void replaceText(int start, int end, String text) {
-                if (!text.matches("[a~z . , /]")) {
+                if (!text.matches("[a~z .,/]")) {
                     super.replaceText(start, end, text);
                 }
             }
 
             public void replaceSelection(String text) {
-                if (text.matches("[a~z . , /]")) {
+                if (text.matches("[a~z .,/]")) {
                     super.replaceSelection(text);
                 }
             }
@@ -161,13 +156,13 @@ public class Login extends Application {
         txfd2 = new PasswordField() {
             @Override
             public void replaceText(int start, int end, String text) {
-                if (!text.matches("[. / , ' ; :]")) {
+                if (!text.matches("[. /:]")) {
                     super.replaceText(start, end, text);
                 }
             }
 
             public void replaceSelection(String text) {
-                if (!text.matches("[. / , ' ; :]")) {
+                if (!text.matches("[. /;:]")) {
                     super.replaceSelection(text);
                 }
             }
