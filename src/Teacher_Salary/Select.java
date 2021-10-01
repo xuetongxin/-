@@ -1,9 +1,5 @@
 package Teacher_Salary;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.SQLException;
-
 import javafx.application.Application;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -18,12 +14,14 @@ import javafx.stage.Stage;
 class Select extends Application {
     Select() {
     }
+
     Pane pane = new Pane();
-    GridPane  gridpane=new GridPane();
-    BorderPane borderpane=new BorderPane();
-    Button btokid =new Button("OK");
-    Button btokname=new Button("OK");
-    Button btreturn=new Button("return");
+    GridPane gridpane = new GridPane();
+    BorderPane borderpane = new BorderPane();
+    Button btokid = new Button("OK");
+    Button btokname = new Button("OK");
+    Button btreturn = new Button("return");
+
     @Override
     public void start(Stage stage) throws Exception {
         // TODO 自动生成的方法存根
@@ -41,8 +39,8 @@ class Select extends Application {
         btreturn.setAlignment(Pos.BOTTOM_CENTER);
         borderpane.setBottom(btreturn);
 
-        btreturn.setOnAction(e->{
-            Choice choice=new Choice();
+        btreturn.setOnAction(e -> {
+            Choice choice = new Choice();
             try {
                 choice.start(stage);
             } catch (Exception e1) {

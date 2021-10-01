@@ -116,7 +116,7 @@ public class Login extends Application {
     }
 
 
-        private void body() {
+    private void body() {
 
         imageview.setFitHeight(810);
         imageview.setFitWidth(1535); // 背景图片属性

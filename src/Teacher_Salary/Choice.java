@@ -27,11 +27,12 @@ public class Choice extends Application {
     Button bt_update = new Button("update");
     Button bt_select = new Button("select");
     Button bt_delete = new Button("delete");
-    Button bt_close= new Button("close");
+    Button bt_close = new Button("close");
     Label label1 = null;
     Label label2 = null;
     Label label3 = null;
-    Label label4 = null;;
+    Label label4 = null;
+    ;
     Button btclose = new Button("Close");
     BorderPane borderpane = new BorderPane();
     GridPane gridpane = new GridPane();
@@ -71,7 +72,7 @@ public class Choice extends Application {
         // Panel_Loyout(); // 面板布局
         Bt_Choice(stage); // 按键选项
 
-        box.getChildren().addAll(bt_input, bt_update, bt_delete, bt_select,bt_close);
+        box.getChildren().addAll(bt_input, bt_update, bt_delete, bt_select, bt_close);
         borderpane.setCenter(gridpane);
         borderpane.setBottom(box);
         Scene scene = new Scene(borderpane, 400, 410);

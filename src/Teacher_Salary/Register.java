@@ -1,12 +1,5 @@
 package Teacher_Salary;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
-
 import javafx.application.Application;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -16,6 +9,8 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
+
+import java.sql.*;
 
 public class Register extends Application {
     Successful_SingUp Successful = new Successful_SingUp();
@@ -115,6 +110,7 @@ public class Register extends Application {
 
         stage.close();
     }
+
     void register_user_mysql() throws ClassNotFoundException, SQLException {
         Class.forName("com.mysql.cj.jdbc.Driver");
         Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/xsl", "root", "xsl203457");
