@@ -25,51 +25,53 @@ public class Login extends Application {
         launch(args);
     }
 
-    Choice choice = new Choice();
+    private Stage window ;
     private final StackPane stackpane = new StackPane();
     private final ImageView imageview = new ImageView(
-            new Image("file:D:\\eclipse-workspace\\Teacher_Salary_Project\\bin\\Teacher_Salary\\image\\R-C.jpg"));
+            new Image("file:D:\\IJ_WorkSpace\\out\\production\\IJ_WorkSpace\\Teacher_Salary\\image\\R-C.jpg"));
     private final HBox hbox = new HBox(10);
     private final GridPane gridpane = new GridPane();
     private final Button login_bt = new Button("Login"); // 设置登录按钮
-    private final Button singup_bt = new Button("SingUp"); // 设置注册按钮
+    private final Button signup_bt = new Button("SingUp"); // 设置注册按钮
     private final Label lb1 = new Label("account:"); // 设置用户名标签
     private final Label lb2 = new Label("passwd:"); // 设置密码标签
     private TextField txfd1 = null; // 设置用户名填充域
     private PasswordField txfd2 = null; // 设置密码填充域 密码不回显
+    private Statement stmt1;
+    private Statement stmt2;
+    private ResultSet rs1 = null;
+    private ResultSet rs2 = null;
 
-    @Override
     public void start(Stage stage) throws Exception {
-
+        window=stage;
         Txfd1_attribute(); // 设置用户名填充属性
         Txfd2_attribute(); // 设置密码填充属性
         body();
-        LogIn(stage); // 调用登录方法
-        SingeUp(stage); // 调用注册方法
+        LogIn(); // 调用登录方法
+        SingeUp(); // 调用注册方法
 
-        hbox.getChildren().add(singup_bt);
+        hbox.getChildren().add(signup_bt);
         stackpane.getChildren().addAll(imageview, hbox, gridpane);
         Scene scene = new Scene(stackpane, 300, 300);
-        stage.setScene(scene);
-        stage.setTitle("login");
-        stage.show();
+        window.setX(500);
+        window.setY(300);
+        window.setScene(scene);
+        window.setTitle("login");
+        window.show();
 
     }
 
-    private void LogIn(Stage stage) {
+    private void LogIn() {
+        Choice choice = new Choice();
         //登录监听器
         login_bt.setOnAction(e -> {
 
-            Statement stmt1;
-            Statement stmt2;
-            ResultSet rs1 = null;
-            ResultSet rs2 = null;
             try {
                 Class.forName("com.mysql.cj.jdbc.Driver");
                 Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/xsl", "root", "xsl203457");
                 stmt1 = con.createStatement();
                 stmt2 = con.createStatement();
-                rs1 = stmt1.executeQuery("select account from passwd_date");
+                rs1 = stmt1.executeQuery("select `account` from passwd_date\n");
                 rs2 = stmt2.executeQuery("select passwd from passwd_date");
 
             } catch (Exception ex) {
@@ -85,29 +87,29 @@ public class Login extends Application {
 
                             if (rs2.getString(1).matches(txfd2.getText())) {
 
-                                choice.start(stage);
+                                choice.start(window);
 
                             }
 
                         }
-                    } else {
-
+                    }else{
+                        System.out.println("用户不存在");
                     }
 
                 }
             } catch (Exception ex) {
-
+                ex.getStackTrace();
             }
         });
 
     }
 
-    private void SingeUp(Stage stage) {
+    private void SingeUp() {
         //注册用户监听器
-        singup_bt.setOnAction(e -> {
+        signup_bt.setOnAction(e -> {
             Register register = new Register();
             try {
-                register.start(stage);
+                register.start(window);
             } catch (Exception e1) {
                 // TODO 自动生成的 catch 块
                 e1.printStackTrace();
@@ -146,10 +148,7 @@ public class Login extends Application {
                 }
             }
         };
-
         txfd1.setPromptText("8~20数字、字母 不能存在符号");
-        // txfd1.setPrefColumnCount(5);
-
     }
 
     public void Txfd2_attribute() {
