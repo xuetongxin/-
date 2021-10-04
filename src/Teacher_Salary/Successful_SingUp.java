@@ -12,7 +12,7 @@ import javafx.stage.Stage;
 public class Successful_SingUp extends Application {
 
     @Override
-    public void start(Stage stage) throws Exception {
+    public void start(Stage stage) {
         Login login = new Login();
         Register register = new Register();
         HBox hbox = new HBox(200);
@@ -27,6 +27,8 @@ public class Successful_SingUp extends Application {
         borderpane.setBottom(hbox);
 
         Scene scene = new Scene(borderpane, 400, 400);
+        stage.setX(500);
+        stage.setY(200);
         stage.setScene(scene);
         stage.setTitle("");
         stage.show();
