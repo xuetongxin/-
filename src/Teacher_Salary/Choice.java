@@ -24,10 +24,10 @@ public class Choice extends Login {
     final Button Bt_Select = new Button("select");
     final Button Bt_Delete = new Button("delete");
     final Button Bt_Close = new Button("close");
-    final Label Input_Label=new Label();
-    final Label Update_label=new Label();
-    final Label Select_Label=new Label();
-    final Label Delete_Label=new Label();
+    final Label Input_Label = new Label();
+    final Label Update_label = new Label();
+    final Label Select_Label = new Label();
+    final Label Delete_Label = new Label();
 
     final BorderPane borderpane = new BorderPane();
     final GridPane gridpane = new GridPane();
@@ -39,7 +39,7 @@ public class Choice extends Login {
 
         box.setAlignment(Pos.CENTER); //Box 在面板中的位置
         box.setPadding(new Insets(0, 0, 10, 0)); // Box 节点距上，右，下，左 的距离
-        box.getChildren().addAll(Bt_Input,Bt_Update,Bt_Select,Bt_Delete,Bt_Close);
+        box.getChildren().addAll(Bt_Input, Bt_Update, Bt_Select, Bt_Delete, Bt_Close);
 
         borderpane.setCenter(gridpane);
         borderpane.setBottom(box);
@@ -51,7 +51,8 @@ public class Choice extends Login {
         stage.setTitle("choice");
         stage.show();
     }
-    private void Body(){
+
+    private void Body() {
         //设置录入标签
         Input_Label.setText("1.录入信息");
         // 标签字体属性  字体类型、加粗、倾斜、大小
@@ -104,7 +105,7 @@ public class Choice extends Login {
         });
 
         Bt_Delete.setOnAction(e -> {
-             new Delete().start(stage);
+            new Delete().start(stage);
         });
         //关闭界面
         Bt_Close.setOnAction(e -> {

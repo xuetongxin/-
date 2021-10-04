@@ -11,11 +11,11 @@ public class Delete extends Application {
     @Override
     public void start(Stage stage) {
         // TODO 自动生成的方法存根
-        BorderPane borderPane=new BorderPane();
-        Button Bt_Return =new Button("Return");
+        BorderPane borderPane = new BorderPane();
+        Button Bt_Return = new Button("Return");
 
         borderPane.setBottom(Bt_Return);
-        Bt_Return.setOnAction(e->new Choice().start(stage));
+        Bt_Return.setOnAction(e -> new Choice().start(stage));
 
         Scene scene = new Scene(borderPane, 400, 400);
         stage.setX(500);

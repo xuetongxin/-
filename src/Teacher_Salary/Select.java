@@ -22,11 +22,12 @@ import java.sql.Statement;
 public class Select extends Choice {
     Select() {
     }
+
     //创建表格
     TableView<Teacher> table = new TableView<>();
-    BorderPane borderPane=new BorderPane();
+    BorderPane borderPane = new BorderPane();
     HBox box = new HBox(5);
-    Button Bt_Return =new Button("Return");
+    Button Bt_Return = new Button("Return");
 
     @SuppressWarnings({"rawtypes", "unchecked"})
     @Override
@@ -61,7 +62,7 @@ public class Select extends Choice {
         // （很有用）宽度绑定窗口的宽度（意思窗口大小改变，它也跟着改变，自适应效果）
         table.prefWidthProperty().bind(stage.widthProperty());
 
-        Bt_Return.setOnAction(e->new Choice().start(stage));
+        Bt_Return.setOnAction(e -> new Choice().start(stage));
 
         box.getChildren().add(Bt_Return);
         borderpane.setCenter(table);
@@ -127,7 +128,6 @@ public class Select extends Choice {
             Salary.set(salary);
         }
 
-        
     }
 
     private void Mysql_Select() {

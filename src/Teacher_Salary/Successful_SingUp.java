@@ -10,11 +10,12 @@ import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
 
 public class Successful_SingUp extends Application {
-        private HBox hbox = new HBox(200);
-        private GridPane gridpane = new GridPane();
-        private BorderPane borderpane = new BorderPane();
-        private Button btok = new Button("确认");
-        private Button btcancle = new Button("取消");
+    private HBox hbox = new HBox(200);
+    private GridPane gridpane = new GridPane();
+    private BorderPane borderpane = new BorderPane();
+    private Button btok = new Button("确认");
+    private Button btcancle = new Button("取消");
+
     @Override
     public void start(Stage stage) {
 

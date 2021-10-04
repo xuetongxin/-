@@ -16,6 +16,7 @@ public class Input extends Choice {
 
     Input() {
     }
+
     private final GridPane gridpane = new GridPane();
     private final Button Bt_Ok = new Button("OK");
     private final Button Bt_Return = new Button("Return");
@@ -68,7 +69,7 @@ public class Input extends Choice {
         });
     }
 
-    private void Mysql_Input(){
+    private void Mysql_Input() {
         Connection con;
         PreparedStatement ps;
         try {

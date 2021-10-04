@@ -35,7 +35,7 @@ public class Update extends Choice {
 
         Bt_Update_Method();
         Bt_Reset.setOnAction(e -> new Update().start(window));
-        Bt_Return.setOnAction(e ->new Choice().start(window));
+        Bt_Return.setOnAction(e -> new Choice().start(window));
 
         Scene scene = new Scene(gridpane, 400, 400);
         stage.setX(500);
