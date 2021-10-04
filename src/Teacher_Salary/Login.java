@@ -50,8 +50,8 @@ public class Login extends Application {
         Txfd1_attribute(); // 设置用户名填充属性
         Txfd2_attribute(); // 设置密码填充属性
         body();
-        LogIn(); // 调用登录方法
-        SingeUp(); // 调用注册方法
+        Bt_Login.setOnAction(e->new Choice().start(window));
+        Bt_Singup.setOnAction(e->new Register().start(window));
 
         hbox.getChildren().add(Bt_Singup);
         stackpane.getChildren().addAll(imageview, hbox, gridpane);
@@ -64,78 +64,8 @@ public class Login extends Application {
 
     }
 
-    private void LogIn() {
-        Choice choice = new Choice();
-
-
-        //登录监听器
-        Bt_Login.setOnAction(e -> {
-
-            try {
-                choice.start(window);
-            } catch (Exception ex) {
-                ex.printStackTrace();
-            }
-/*
-            try {
-                Class.forName("com.mysql.cj.jdbc.Driver");
-                Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/xsl", "root", "xsl203457");
-                stmt1 = con.createStatement();
-                stmt2 = con.createStatement();
-                rs1 = stmt1.executeQuery("select `account` from passwd_date\n");
-                rs2 = stmt2.executeQuery("select passwd from passwd_date");
-
-            } catch (Exception ex) {
-                ex.getStackTrace();
-            }
-/*
-            try {
-                do {
-                    rs1.next();  //用于将光标从当前位置移动到下一行。
-                    if (rs1.getString(1).matches(txfd1.getText())) {
-
-                        do {
-                            rs2.next();
-                            if (rs2.getString(1).matches(txfd2.getText())) {
-
-                                choice.start(window);
-
-                            } else {
-                                System.out.println("hhhh");
-                            }
-
-                        } while (rs2.next());
-
-                    } else {
-                        System.out.println("用户不存在");
-                    }
-
-                } while (rs1.next());
-            } catch (Exception ex) {
-                ex.getStackTrace();
-            }
-
-            */
-        });
-
-
-    }
-
-    private void SingeUp() {
-        //注册用户监听器
-        Bt_Singup.setOnAction(e -> {
-            Register register = new Register();
-            try {
-                register.start(window);
-            } catch (Exception e1) {
-                // TODO 自动生成的 catch 块
-                e1.printStackTrace();
-            }
-        });
-    }
 
     private void body() {
-
         imageview.setFitHeight(810);
         imageview.setFitWidth(1535); // 背景图片属性
         hbox.setAlignment(Pos.BOTTOM_LEFT); // 注册按钮位置设置在左下

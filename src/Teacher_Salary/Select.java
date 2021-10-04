@@ -43,7 +43,6 @@ public class Select extends Choice {
         Position_Column.setCellValueFactory(new PropertyValueFactory<>("Position"));
         Salary_Column.setCellValueFactory(new PropertyValueFactory<>("Salary"));
 
-
         //列宽
         Id_Column.setMinWidth(100);
         Name_Column.setMinWidth(100);
@@ -62,10 +61,7 @@ public class Select extends Choice {
         // （很有用）宽度绑定窗口的宽度（意思窗口大小改变，它也跟着改变，自适应效果）
         table.prefWidthProperty().bind(stage.widthProperty());
 
-        Bt_Return.setOnAction(e->{
-            Choice choice=new Choice();
-            choice.start(stage);
-        });
+        Bt_Return.setOnAction(e->new Choice().start(stage));
 
         box.getChildren().add(Bt_Return);
         borderpane.setCenter(table);

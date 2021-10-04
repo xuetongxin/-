@@ -32,9 +32,9 @@ public class Input extends Choice {
         window = stage;
 
         Panel_Layout(gridpane, Id_Txfd, Name_Txfd, Position_Txfd, Salary_Txfd, Bt_Return, Bt_Ok, Bt_Reset);
-        Bt_Return_Method();
+        Bt_Return.setOnAction(e -> new Choice().start(window));
+        Bt_Reset.setOnAction(e -> new Input().start(window));
         Bt_Ok_Method();
-        Bt_Reset_Method();
 
         Scene scene = new Scene(gridpane, 400, 400);
         window.setX(500);
@@ -62,48 +62,28 @@ public class Input extends Choice {
         gridpane.add(bt_reset, 3, 5);
     }
 
-
-    private void Bt_Return_Method() {
-        Bt_Return.setOnAction(e -> {
-            Choice choice = new Choice();
-            try {
-                choice.start(window);
-            } catch (Exception e1) {
-                e1.printStackTrace();
-            }
-        });
-    }
-
     private void Bt_Ok_Method() {
         Bt_Ok.setOnAction(e -> {
-            Connection con;
-            PreparedStatement ps;
-            try {
-                Class.forName("com.mysql.cj.jdbc.Driver");
-                con = DriverManager.getConnection("jdbc:mysql://localhost:3306/xsl", "root", "xsl203457");
-                ps = con.prepareStatement("insert into teacher_salary (id,name,position,salary) values (?,?,?,?)");
-                ps.setDouble(1, Double.parseDouble(Id_Txfd.getText()));
-                ps.setString(2, Name_Txfd.getText());
-                ps.setString(3, Position_Txfd.getText());
-                ps.setInt(4, Integer.parseInt(Salary_Txfd.getText()));
-                int i = ps.executeUpdate();
-                System.out.println(i);
-            } catch (Exception ex) {
-                ex.getStackTrace();
-            }
+            Mysql_Input();
         });
     }
 
-    private void Bt_Reset_Method() {
-        Bt_Reset.setOnAction(e -> {
-            Input input = new Input();
-            try {
-                input.start(window);
-            } catch (Exception e1) {
-                // TODO 自动生成的 catch 块
-                e1.printStackTrace();
-            }
-        });
+    private void Mysql_Input(){
+        Connection con;
+        PreparedStatement ps;
+        try {
+            Class.forName("com.mysql.cj.jdbc.Driver");
+            con = DriverManager.getConnection("jdbc:mysql://localhost:3306/xsl", "root", "xsl203457");
+            ps = con.prepareStatement("insert into teacher_salary (id,name,position,salary) values (?,?,?,?)");
+            ps.setDouble(1, Double.parseDouble(Id_Txfd.getText()));
+            ps.setString(2, Name_Txfd.getText());
+            ps.setString(3, Position_Txfd.getText());
+            ps.setInt(4, Integer.parseInt(Salary_Txfd.getText()));
+            int i = ps.executeUpdate();
+            System.out.println(i);
+        } catch (Exception ex) {
+            ex.getStackTrace();
+        }
     }
 
 }

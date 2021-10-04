@@ -1,22 +1,29 @@
 package Teacher_Salary;
 
+import javafx.application.Application;
 import javafx.scene.Scene;
-import javafx.scene.layout.Pane;
+import javafx.scene.control.Button;
+import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 
-public class Delete extends Choice {
+public class Delete extends Application {
 
     @Override
     public void start(Stage stage) {
         // TODO 自动生成的方法存根
-        Pane pane = new Pane();
+        BorderPane borderPane=new BorderPane();
+        Button Bt_Return =new Button("Return");
 
-        Scene scene = new Scene(pane, 400, 400);
+        borderPane.setBottom(Bt_Return);
+        Bt_Return.setOnAction(e->new Choice().start(stage));
+
+        Scene scene = new Scene(borderPane, 400, 400);
         stage.setX(500);
         stage.setY(200);
         stage.setScene(scene);
-        stage.setTitle("Select");
+        stage.setTitle("Delete");
         stage.show();
     }
+
 
 }

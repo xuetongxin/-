@@ -15,14 +15,14 @@ import java.sql.*;
 public class Register extends Application {
     Stage window;
     Successful_SingUp Successful = new Successful_SingUp();
-    GridPane gridpane = new GridPane();
-    BorderPane borderpane = new BorderPane();
-    Button register = new Button("Register");
-    Button btreturn = new Button("Return");
-    Label lb1 = new Label("AccountName:");
-    Label lb2 = new Label("Passwd:");
-    TextField txfd1 = new TextField();
-    TextField txfd2 = new TextField();
+    private final GridPane gridpane = new GridPane();
+    private final BorderPane borderpane = new BorderPane();
+    private final Button register = new Button("Register");
+    private final Button btreturn = new Button("Return");
+    private final Label lb1 = new Label("AccountName:");
+    private final Label lb2 = new Label("Passwd:");
+    private final TextField txfd1 = new TextField();
+    private final TextField txfd2 = new TextField();
 
     @Override
     public void start(Stage stage) {
@@ -38,22 +38,8 @@ public class Register extends Application {
         borderpane.setCenter(gridpane);
         borderpane.setBottom(btreturn);
 
-        btreturn.setOnAction(e -> {
-            Login login = new Login();
-            try {
-                login.start(stage);
-            } catch (Exception e1) {
-                // TODO 自动生成的 catch 块
-                e1.printStackTrace();
-            }
-        });
-
-        register.setOnAction(e -> {
-
-            Register_Method(window);
-
-        });
-
+        btreturn.setOnAction(e -> new Login().start(stage));
+        register.setOnAction(e -> Register_Method(window));
     }
 
     static void Body(Button register, Label lb1, Label lb2, TextField txfd1, TextField txfd2, GridPane gridpane) {
@@ -67,7 +53,7 @@ public class Register extends Application {
         gridpane.setAlignment(Pos.CENTER);
     }
 
-    void Register_Method(Stage stage){
+    private void Register_Method(Stage stage){
         Statement stmt1 ;
         ResultSet rs1 = null;
         try {

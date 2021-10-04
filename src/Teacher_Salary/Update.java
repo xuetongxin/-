@@ -34,8 +34,8 @@ public class Update extends Choice {
         Input.Panel_Layout(gridpane, Id_Txfd, Name_Txfd, Position_Txfd, Salary_Txfd, Bt_Return, Bt_Update, Bt_Reset);
 
         Bt_Update_Method();
-        Bt_Reset_Method();
-        Bt_Return_Methond();
+        Bt_Reset.setOnAction(e -> new Update().start(window));
+        Bt_Return.setOnAction(e ->new Choice().start(window));
 
         Scene scene = new Scene(gridpane, 400, 400);
         stage.setX(500);
@@ -55,14 +55,12 @@ public class Update extends Choice {
                 con = DriverManager.getConnection("jdbc:mysql://localhost:3306/xsl", "root", "xsl203457");
 
                 ps = con.prepareStatement("update 'teacher_salary' set name=?,position=?,salary=? where id=?");
-                // ps1 = con.prepareStatement("select id from cource_salary where name=?");
-
                 ps.setDouble(4, Double.parseDouble(Id_Txfd.getText()));
                 ps.setString(1, Name_Txfd.getText());
                 ps.setString(2, Position_Txfd.getText());
                 ps.setInt(3, Integer.parseInt(Salary_Txfd.getText()));
 
-                Bt_Reset_Method();
+                Bt_Reset.setOnAction(event -> new Update().start(window));
                 int i = ps.executeUpdate();
                 System.out.println(i);
 
@@ -72,28 +70,5 @@ public class Update extends Choice {
         });
     }
 
-    private void Bt_Reset_Method() {
-        Bt_Reset.setOnAction(e -> {
-            Update update = new Update();
-            try {
-                update.start(window);
-            } catch (Exception e1) {
-                // TODO 自动生成的 catch 块
-                e1.printStackTrace();
-            }
-        });
-    }
-
-    private void Bt_Return_Methond() {
-        Bt_Return.setOnAction(e -> {
-            Choice choice = new Choice();
-            try {
-                choice.start(window);
-            } catch (Exception e1) {
-                // TODO 自动生成的 catch 块
-                e1.printStackTrace();
-            }
-        });
-    }
 
 }

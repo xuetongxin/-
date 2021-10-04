@@ -29,31 +29,48 @@ public class Choice extends Login {
     final Label Select_Label=new Label();
     final Label Delete_Label=new Label();
 
-
     final BorderPane borderpane = new BorderPane();
     final GridPane gridpane = new GridPane();
 
     public void start(Stage stage) {
 
+        Body();
+        Bt_Choice_Method(stage); // 按键选项
+
+        box.setAlignment(Pos.CENTER); //Box 在面板中的位置
+        box.setPadding(new Insets(0, 0, 10, 0)); // Box 节点距上，右，下，左 的距离
+        box.getChildren().addAll(Bt_Input,Bt_Update,Bt_Select,Bt_Delete,Bt_Close);
+
+        borderpane.setCenter(gridpane);
+        borderpane.setBottom(box);
+
+        Scene scene = new Scene(borderpane, 400, 400);
+        stage.setX(500);
+        stage.setY(200);
+        stage.setScene(scene);
+        stage.setTitle("choice");
+        stage.show();
+    }
+    private void Body(){
         //设置录入标签
         Input_Label.setText("1.录入信息");
         // 标签字体属性  字体类型、加粗、倾斜、大小
-        Input_Label.setFont(Font.font("Time New Roman", FontWeight.BOLD, FontPosture.ITALIC, 20));
+        Input_Label.setFont(Font.font("华文行楷", FontWeight.BOLD, FontPosture.ITALIC, 20));
         // 标签字体颜色
         Input_Label.setTextFill(Color.BLUE);
         // 设置更新标签
         Update_label.setText("2.更新信息");
         // 字体属性 “字体类型、字体粗细、字体倾斜、字体大小”
-        Update_label.setFont(Font.font("Time New Roman", FontWeight.BOLD, FontPosture.ITALIC, 20));
+        Update_label.setFont(Font.font("华文行楷", FontWeight.BOLD, FontPosture.ITALIC, 20));
         // 字体颜色
         Update_label.setTextFill(Color.BLUE);
         //设置查询标签
         Select_Label.setText("3.查询信息");
-        Select_Label.setFont(Font.font("Time New Roman", FontWeight.BOLD, FontPosture.ITALIC, 20));
+        Select_Label.setFont(Font.font("华文行楷", FontWeight.BOLD, FontPosture.ITALIC, 20));
         Select_Label.setTextFill(Color.BLUE);
         //设置删除标签
         Delete_Label.setText("4.删除信息");
-        Delete_Label.setFont(Font.font("Time New Roman", FontWeight.BOLD, FontPosture.ITALIC, 20));
+        Delete_Label.setFont(Font.font("华文行楷", FontWeight.BOLD, FontPosture.ITALIC, 20));
         Delete_Label.setTextFill(Color.RED);
 
         gridpane.setHgap(30);
@@ -70,59 +87,24 @@ public class Choice extends Login {
         Bt_Select.setStyle("-fx-background-color:DODGERBLUE;-fx-text-fill:white");
         Bt_Delete.setStyle("-fx-background-color:DODGERBLUE;-fx-text-fill:red");
         Bt_Close.setStyle("-fx-background-color:DODGERBLUE;-fx-text-fill:white");
-
-        box.setAlignment(Pos.CENTER); //Box 在面板中的位置
-        box.setPadding(new Insets(0, 0, 10, 0)); // Box 节点距上，右，下，左 的距离
-
-        box.getChildren().addAll(Bt_Input,Bt_Update,Bt_Select,Bt_Delete,Bt_Close);
-        borderpane.setCenter(gridpane);
-        borderpane.setBottom(box);
-
-        Bt_Choice_Method(stage); // 按键选项
-
-        Scene scene = new Scene(borderpane, 400, 400);
-        stage.setX(500);
-        stage.setY(200);
-        stage.setScene(scene);
-        stage.setTitle("choice");
-        stage.show();
     }
 
     private void Bt_Choice_Method(Stage stage) {
-        Input input = new Input();
+
         Bt_Input.setOnAction(e -> {
-            try {
-                input.start(stage);
-            } catch (Exception ex) {
-                ex.getStackTrace();
-            }
+            new Input().start(stage);
         });
 
         Bt_Update.setOnAction(e -> {
-            Update update = new Update();
-            try {
-                update.start(stage);
-            } catch (Exception ex) {
-                ex.getStackTrace();
-            }
+            new Update().start(stage);
         });
 
         Bt_Select.setOnAction(e -> {
-            Select select = new Select();
-            try {
-                select.start(stage);
-            } catch (Exception ex) {
-                ex.getStackTrace();
-            }
+            new Select().start(stage);
         });
 
         Bt_Delete.setOnAction(e -> {
-            Delete delect = new Delete();
-            try {
-                delect.start(stage);
-            } catch (Exception ex) {
-                ex.getStackTrace();
-            }
+             new Delete().start(stage);
         });
         //关闭界面
         Bt_Close.setOnAction(e -> {
