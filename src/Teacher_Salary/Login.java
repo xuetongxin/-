@@ -15,6 +15,9 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
 import java.sql.Statement;
 
 public class Login extends Application {
@@ -35,12 +38,10 @@ public class Login extends Application {
     private TextField txfd1 = null; // 设置用户名填充域
     private PasswordField txfd2 = null; // 设置密码填充域 密码不回显
 
-    // --注释掉检查 (2021/10/5 2:34):p// --注释掉检查 (2021/10/5 2:34):rivate Statement stmt1;
-    private Statement stmt2;
-// --注释掉检查 START (2021/10/5 2:34):
-//    // --注释掉检查 (2021/10/5 2:34):private ResultSet rs1 = null;
-//    private ResultSet rs2 = null;
-// --注释掉检查 STOP (2021/10/5 2:34)
+    Statement stmt1 = null;
+    Statement stmt2 = null;
+    ResultSet rs1 = null;
+    ResultSet rs2 = null;
 
     public void start(Stage stage) {
         window = stage;
@@ -49,9 +50,10 @@ public class Login extends Application {
 
         Txfd1_attribute(); // 设置用户名填充属性
         Txfd2_attribute(); // 设置密码填充属性
-        body();
-        Bt_Login.setOnAction(e->new Choice().start(window));
-        Bt_Singup.setOnAction(e->new Register().start(window));
+        Body();
+        //Bt_Login.setOnAction(e->Bt_Login_Method());
+        Bt_Login.setOnAction(e -> new Choice().start(window));
+        Bt_Singup.setOnAction(e -> new Register().start(window));
 
         hbox.getChildren().add(Bt_Singup);
         stackpane.getChildren().addAll(imageview, hbox, gridpane);
@@ -64,13 +66,52 @@ public class Login extends Application {
 
     }
 
-
-    private void body() {
+    private void Body() {
         imageview.setFitHeight(810);
         imageview.setFitWidth(1535); // 背景图片属性
         hbox.setAlignment(Pos.BOTTOM_LEFT); // 注册按钮位置设置在左下
         hbox.setPadding(new Insets(0, 0, 10, 10));
         Register.Body(Bt_Login, lb1, lb2, txfd1, txfd2, gridpane);
+    }
+
+
+    private void Bt_Login_Method(){
+        try {
+            Class.forName("com.mysql.cj.jdbc.Driver");
+            Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/xsl", "root", "xsl203457");
+            stmt1 = con.createStatement();
+            stmt2 = con.createStatement();
+            rs1 = stmt1.executeQuery("select account from passwd_date");
+            rs2 = stmt2.executeQuery("select passwd from passwd_date");
+
+        } catch (Exception ex) {
+            ex.getStackTrace();
+        }
+
+        try {
+            do{
+                rs1.next();
+
+                if (rs1.getString(1).matches(txfd1.getText())) {
+
+                    do{
+                        rs2.next();
+
+                        if (rs2.getString(1).matches(txfd2.getText())) {
+
+                            new Choice().start(window);
+
+                        }
+
+                    }while (rs2.next());
+                } else {
+                    System.out.print("用户不存在");
+                }
+
+            }while (rs1.next());
+        } catch (Exception ex) {
+                ex.getStackTrace();
+        }
     }
 
     public void Txfd1_attribute() {
