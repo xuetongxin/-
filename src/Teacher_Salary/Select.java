@@ -1,15 +1,17 @@
 package Teacher_Salary;
 
-import javafx.application.Application;
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
 
 import java.sql.Connection;
@@ -17,43 +19,60 @@ import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.Statement;
 
-public class Select extends Application {
+public class Select extends Choice {
     Select() {
     }
-
+    //创建表格
     TableView<Teacher> table = new TableView<>();
-    ObservableList<Teacher> data = FXCollections.observableArrayList();
+    BorderPane borderPane=new BorderPane();
+    HBox box = new HBox(5);
+    Button Bt_Return =new Button("Return");
 
     @SuppressWarnings({"rawtypes", "unchecked"})
     @Override
-    public void start(Stage stage) throws Exception {
-
+    public void start(Stage stage) {
+        //创建 ID NAME POSITION SALARY 列
         TableColumn Id_Column = new TableColumn("ID");
-        Id_Column.setMinWidth(100);
-        Id_Column.setCellValueFactory(new PropertyValueFactory<>("id"));
-
         TableColumn Name_Column = new TableColumn("NAME");
-        Name_Column.setMinWidth(100);
-        Name_Column.setCellValueFactory(new PropertyValueFactory<>("name"));
-
         TableColumn Position_Column = new TableColumn("Position");
-        Position_Column.setMinWidth(100);
-        Position_Column.setCellValueFactory(new PropertyValueFactory<>("position"));
-
         TableColumn Salary_Column = new TableColumn("Salary");
+
+        //数据绑定
+        Id_Column.setCellValueFactory(new PropertyValueFactory<>("Id"));
+        Name_Column.setCellValueFactory(new PropertyValueFactory<>("Name"));
+        Position_Column.setCellValueFactory(new PropertyValueFactory<>("Position"));
+        Salary_Column.setCellValueFactory(new PropertyValueFactory<>("Salary"));
+
+
+        //列宽
+        Id_Column.setMinWidth(100);
+        Name_Column.setMinWidth(100);
+        Position_Column.setMinWidth(100);
         Salary_Column.setMinWidth(100);
-        Salary_Column.setCellValueFactory(new PropertyValueFactory<>("salary"));
 
-        Mysql_Select();
-
+        //表格加入创建的Colmun
         table.getColumns().addAll(Id_Column, Name_Column, Position_Column, Salary_Column);
+
+        //从数据库导入数据到表格
+        Mysql_Select();
 
         // 设置可编辑（列需要同时设置才有用）
         table.setEditable(true);
+
         // （很有用）宽度绑定窗口的宽度（意思窗口大小改变，它也跟着改变，自适应效果）
         table.prefWidthProperty().bind(stage.widthProperty());
 
-        Scene scene = new Scene(table, 400, 300);
+        Bt_Return.setOnAction(e->{
+            Choice choice=new Choice();
+            choice.start(stage);
+        });
+
+        box.getChildren().add(Bt_Return);
+        borderpane.setCenter(table);
+        borderpane.setBottom(box);
+        Scene scene = new Scene(borderpane, 400, 400);
+        stage.setX(500);
+        stage.setY(200);
         stage.setScene(scene);
         stage.show();
 
@@ -61,59 +80,63 @@ public class Select extends Application {
 
     public static class Teacher {
 
-        private final SimpleIntegerProperty id;
-        private final SimpleStringProperty name;
-        private final SimpleStringProperty position;
-        private final SimpleDoubleProperty salary;
+        private final SimpleIntegerProperty Id;
+        private final SimpleStringProperty Name;
+        private final SimpleStringProperty Position;
+        private final SimpleDoubleProperty Salary;
 
         Teacher() {
-            id = null;
-            name = null;
-            position = null;
-            salary = null;
+            Id = null;
+            Name = null;
+            Position = null;
+            Salary = null;
         }
 
-        Teacher(int ssPid, String sspName, String ssPosition, double sSalary) {
-            this.id = new SimpleIntegerProperty(ssPid);
-            this.name = new SimpleStringProperty(sspName);
-            this.position = new SimpleStringProperty(ssPosition);
-            this.salary = new SimpleDoubleProperty(sSalary);
+        Teacher(int id, String name, String position, double salary) {
+            this.Id = new SimpleIntegerProperty(id);
+            this.Name = new SimpleStringProperty(name);
+            this.Position = new SimpleStringProperty(position);
+            this.Salary = new SimpleDoubleProperty(salary);
         }
 
         public int getId() {
-            return id.get();
+            return Id.get();
         }
 
-        public void setId(int ssPid) {
-            id.set(ssPid);
+        public void setId(int id) {
+            Id.set(id);
         }
 
         public String getName() {
-            return name.get();
+            return Name.get();
         }
 
-        public void setName(String sspName) {
-            name.set(sspName);
+        public void setName(String name) {
+            Name.set(name);
         }
 
         public String getPosition() {
-            return position.get();
+            return Position.get();
         }
 
-        public void setPosition(String ssPosition) {
-            position.set(ssPosition);
+        public void setPosition(String position) {
+            Position.set(position);
         }
 
         public double getSalary() {
-            return salary.get();
+            return Salary.get();
         }
 
-        public void setSalary(double sSalary) {
-            salary.set(sSalary);
+        public void setSalary(double salary) {
+            Salary.set(salary);
         }
+
+        
     }
 
     private void Mysql_Select() {
+        //表格显示数据
+        ObservableList<Teacher> data = FXCollections.observableArrayList();
         Teacher teacher = new Teacher();
         ResultSet rs1 = null;
         try {

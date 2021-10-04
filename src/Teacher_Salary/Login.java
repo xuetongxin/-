@@ -15,7 +15,6 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 
-import java.sql.ResultSet;
 import java.sql.Statement;
 
 public class Login extends Application {
@@ -35,15 +34,18 @@ public class Login extends Application {
     private final Label lb2 = new Label("passwd:"); // 设置密码标签
     private TextField txfd1 = null; // 设置用户名填充域
     private PasswordField txfd2 = null; // 设置密码填充域 密码不回显
-    private Statement stmt1;
-    private Statement stmt2;
-    private ResultSet rs1 = null;
-    private ResultSet rs2 = null;
 
-    public void start(Stage stage) throws Exception {
+    // --注释掉检查 (2021/10/5 2:34):p// --注释掉检查 (2021/10/5 2:34):rivate Statement stmt1;
+    private Statement stmt2;
+// --注释掉检查 START (2021/10/5 2:34):
+//    // --注释掉检查 (2021/10/5 2:34):private ResultSet rs1 = null;
+//    private ResultSet rs2 = null;
+// --注释掉检查 STOP (2021/10/5 2:34)
+
+    public void start(Stage stage) {
         window = stage;
-        Bt_Login.setStyle("-fx-background-color:DODGERBLUE ;-fx-text-fill: white");
-        Bt_Singup.setStyle("-fx-background-color:DODGERBLUE ;-fx-text-fill: white");
+        Bt_Login.setStyle("-fx-background-color:DODGERBLUE ;-fx-text-fill: white;-fx-border-color: white");
+        Bt_Singup.setStyle("-fx-background-color:DODGERBLUE ;-fx-text-fill: white;-fx-border-color: white");
 
         Txfd1_attribute(); // 设置用户名填充属性
         Txfd2_attribute(); // 设置密码填充属性
@@ -53,9 +55,9 @@ public class Login extends Application {
 
         hbox.getChildren().add(Bt_Singup);
         stackpane.getChildren().addAll(imageview, hbox, gridpane);
-        Scene scene = new Scene(stackpane, 300, 300);
+        Scene scene = new Scene(stackpane, 400, 400);
         window.setX(500);
-        window.setY(300);
+        window.setY(200);
         window.setScene(scene);
         window.setTitle("login");
         window.show();
@@ -138,14 +140,7 @@ public class Login extends Application {
         imageview.setFitWidth(1535); // 背景图片属性
         hbox.setAlignment(Pos.BOTTOM_LEFT); // 注册按钮位置设置在左下
         hbox.setPadding(new Insets(0, 0, 10, 10));
-        gridpane.setHgap(5); // 节点与页面上下边距
-        gridpane.setVgap(5); // 节点与页面左右距离
-        gridpane.add(lb1, 0, 0);
-        gridpane.add(txfd1, 1, 0);
-        gridpane.add(lb2, 0, 1);
-        gridpane.add(txfd2, 1, 1);
-        gridpane.add(Bt_Login, 1, 2);
-        gridpane.setAlignment(Pos.CENTER); //节点初始位置
+        Register.Body(Bt_Login, lb1, lb2, txfd1, txfd2, gridpane);
     }
 
     public void Txfd1_attribute() {

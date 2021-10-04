@@ -18,22 +18,22 @@ public class Choice extends Login {
     Choice() {
     }
 
-    HBox box = new HBox(10);
-    Button Bt_Input = new Button("input");
-    Button Bt_Update = new Button("update");
-    Button Bt_Select = new Button("select");
-    Button Bt_Delete = new Button("delete");
-    Button Bt_Close = new Button("close");
-    Label Input_Label=new Label();
-    Label Update_label=new Label();
-    Label Select_Label=new Label();
-    Label Delete_Label=new Label();
+    final HBox box = new HBox(10);
+    final Button Bt_Input = new Button("input");
+    final Button Bt_Update = new Button("update");
+    final Button Bt_Select = new Button("select");
+    final Button Bt_Delete = new Button("delete");
+    final Button Bt_Close = new Button("close");
+    final Label Input_Label=new Label();
+    final Label Update_label=new Label();
+    final Label Select_Label=new Label();
+    final Label Delete_Label=new Label();
 
 
-    BorderPane borderpane = new BorderPane();
-    GridPane gridpane = new GridPane();
+    final BorderPane borderpane = new BorderPane();
+    final GridPane gridpane = new GridPane();
 
-    public void start(Stage stage) throws Exception {
+    public void start(Stage stage) {
 
         //设置录入标签
         Input_Label.setText("1.录入信息");
@@ -80,7 +80,9 @@ public class Choice extends Login {
 
         Bt_Choice_Method(stage); // 按键选项
 
-        Scene scene = new Scene(borderpane, 400, 410);
+        Scene scene = new Scene(borderpane, 400, 400);
+        stage.setX(500);
+        stage.setY(200);
         stage.setScene(scene);
         stage.setTitle("choice");
         stage.show();

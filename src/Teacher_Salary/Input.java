@@ -27,7 +27,7 @@ public class Input extends Choice {
     private final TextField Salary_Txfd = new TextField();
     private Stage window;
 
-    public void start(Stage stage) throws Exception {
+    public void start(Stage stage) {
         // TODO 自动生成的方法存根
         window = stage;
 
@@ -38,7 +38,7 @@ public class Input extends Choice {
 
         Scene scene = new Scene(gridpane, 400, 400);
         window.setX(500);
-        window.setY(300);
+        window.setY(200);
         window.setScene(scene);
         window.setTitle("input");
         window.show();
