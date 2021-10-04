@@ -110,7 +110,6 @@ public class Register extends Application {
 
         stage.close();
     }
-
     void register_user_mysql() throws ClassNotFoundException, SQLException {
         Class.forName("com.mysql.cj.jdbc.Driver");
         Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/xsl", "root", "xsl203457");

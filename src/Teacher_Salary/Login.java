@@ -15,8 +15,6 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.Statement;
 
@@ -25,14 +23,14 @@ public class Login extends Application {
         launch(args);
     }
 
-    private Stage window ;
+    private Stage window;
     private final StackPane stackpane = new StackPane();
     private final ImageView imageview = new ImageView(
             new Image("file:D:\\IJ_WorkSpace\\out\\production\\IJ_WorkSpace\\Teacher_Salary\\image\\R-C.jpg"));
     private final HBox hbox = new HBox(10);
     private final GridPane gridpane = new GridPane();
-    private final Button login_bt = new Button("Login"); // 设置登录按钮
-    private final Button signup_bt = new Button("SingUp"); // 设置注册按钮
+    private final Button Bt_Login = new Button("Login"); // 设置登录按钮
+    private final Button Bt_Singup = new Button("SingUp"); // 设置注册按钮
     private final Label lb1 = new Label("account:"); // 设置用户名标签
     private final Label lb2 = new Label("passwd:"); // 设置密码标签
     private TextField txfd1 = null; // 设置用户名填充域
@@ -43,14 +41,17 @@ public class Login extends Application {
     private ResultSet rs2 = null;
 
     public void start(Stage stage) throws Exception {
-        window=stage;
+        window = stage;
+        Bt_Login.setStyle("-fx-background-color:DODGERBLUE ;-fx-text-fill: white");
+        Bt_Singup.setStyle("-fx-background-color:DODGERBLUE ;-fx-text-fill: white");
+
         Txfd1_attribute(); // 设置用户名填充属性
         Txfd2_attribute(); // 设置密码填充属性
         body();
         LogIn(); // 调用登录方法
         SingeUp(); // 调用注册方法
 
-        hbox.getChildren().add(signup_bt);
+        hbox.getChildren().add(Bt_Singup);
         stackpane.getChildren().addAll(imageview, hbox, gridpane);
         Scene scene = new Scene(stackpane, 300, 300);
         window.setX(500);
@@ -63,9 +64,17 @@ public class Login extends Application {
 
     private void LogIn() {
         Choice choice = new Choice();
-        //登录监听器
-        login_bt.setOnAction(e -> {
 
+
+        //登录监听器
+        Bt_Login.setOnAction(e -> {
+
+            try {
+                choice.start(window);
+            } catch (Exception ex) {
+                ex.printStackTrace();
+            }
+/*
             try {
                 Class.forName("com.mysql.cj.jdbc.Driver");
                 Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/xsl", "root", "xsl203457");
@@ -77,36 +86,42 @@ public class Login extends Application {
             } catch (Exception ex) {
                 ex.getStackTrace();
             }
-
+/*
             try {
-                while (rs1.next()) {
-
+                do {
+                    rs1.next();  //用于将光标从当前位置移动到下一行。
                     if (rs1.getString(1).matches(txfd1.getText())) {
 
-                        while (rs2.next()) {
-
+                        do {
+                            rs2.next();
                             if (rs2.getString(1).matches(txfd2.getText())) {
 
                                 choice.start(window);
 
+                            } else {
+                                System.out.println("hhhh");
                             }
 
-                        }
-                    }else{
+                        } while (rs2.next());
+
+                    } else {
                         System.out.println("用户不存在");
                     }
 
-                }
+                } while (rs1.next());
             } catch (Exception ex) {
                 ex.getStackTrace();
             }
+
+            */
         });
+
 
     }
 
     private void SingeUp() {
         //注册用户监听器
-        signup_bt.setOnAction(e -> {
+        Bt_Singup.setOnAction(e -> {
             Register register = new Register();
             try {
                 register.start(window);
@@ -116,7 +131,6 @@ public class Login extends Application {
             }
         });
     }
-
 
     private void body() {
 
@@ -130,7 +144,7 @@ public class Login extends Application {
         gridpane.add(txfd1, 1, 0);
         gridpane.add(lb2, 0, 1);
         gridpane.add(txfd2, 1, 1);
-        gridpane.add(login_bt, 1, 2);
+        gridpane.add(Bt_Login, 1, 2);
         gridpane.setAlignment(Pos.CENTER); //节点初始位置
     }
 

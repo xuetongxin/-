@@ -1,11 +1,10 @@
 package Teacher_Salary;
 
-import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
-public class Delete extends Application {
+public class Delete extends Choice {
 
     @Override
     public void start(Stage stage) throws Exception {

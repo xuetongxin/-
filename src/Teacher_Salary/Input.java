@@ -1,6 +1,5 @@
 package Teacher_Salary;
 
-import javafx.application.Application;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -13,83 +12,99 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 
-class Input extends Application {
+public class Input extends Choice {
 
     Input() {
     }
+    private final GridPane gridpane = new GridPane();
+    private final Button Bt_Ok = new Button("OK");
+    private final Button Bt_Return = new Button("Return");
+    private final Button Bt_Reset = new Button("Reset");
+
+    private final TextField Id_Txfd = new TextField();
+    private final TextField Name_Txfd = new TextField();
+    private final TextField Position_Txfd = new TextField();
+    private final TextField Salary_Txfd = new TextField();
+    private Stage window;
 
     public void start(Stage stage) throws Exception {
         // TODO 自动生成的方法存根
-        Button btok = new Button("OK");
-        Button btreturn = new Button("Return");
-        Button btreset = new Button("Reset");
-        GridPane gridpane = new GridPane();
+        window = stage;
 
-        TextField txfd1 = new TextField();
-        TextField txfd2 = new TextField();
-        TextField txfd3 = new TextField();
-        TextField txfd4 = new TextField();
+        Panel_Layout(gridpane, Id_Txfd, Name_Txfd, Position_Txfd, Salary_Txfd, Bt_Return, Bt_Ok, Bt_Reset);
+        Bt_Return_Method();
+        Bt_Ok_Method();
+        Bt_Reset_Method();
 
+        Scene scene = new Scene(gridpane, 400, 400);
+        window.setX(500);
+        window.setY(300);
+        window.setScene(scene);
+        window.setTitle("input");
+        window.show();
+
+    }
+
+    static void Panel_Layout(GridPane gridpane, TextField id_txfd, TextField name_txfd, TextField position_txfd, TextField salary_txfd, Button bt_return, Button bt_ok, Button bt_reset) {
         gridpane.setHgap(5);
         gridpane.setVgap(5);
         gridpane.setAlignment(Pos.CENTER);
         gridpane.add(new Label("id:"), 0, 0);
-        gridpane.add(txfd1, 1, 0);
+        gridpane.add(id_txfd, 1, 0);
         gridpane.add(new Label("name:"), 0, 1);
-        gridpane.add(txfd2, 1, 1);
+        gridpane.add(name_txfd, 1, 1);
         gridpane.add(new Label("position:"), 0, 2);
-        gridpane.add(txfd3, 1, 2);
+        gridpane.add(position_txfd, 1, 2);
         gridpane.add(new Label("salary:"), 0, 3);
-        gridpane.add(txfd4, 1, 3);
-        gridpane.add(btreturn, 0, 5);
-        gridpane.add(btok, 1, 5);
-        gridpane.add(btreset, 3, 5);
+        gridpane.add(salary_txfd, 1, 3);
+        gridpane.add(bt_return, 0, 5);
+        gridpane.add(bt_ok, 1, 5);
+        gridpane.add(bt_reset, 3, 5);
+    }
 
-        btreturn.setOnAction(e -> {
+
+    private void Bt_Return_Method() {
+        Bt_Return.setOnAction(e -> {
             Choice choice = new Choice();
             try {
-                choice.start(stage);
+                choice.start(window);
             } catch (Exception e1) {
-                // TODO 自动生成的 catch 块
                 e1.printStackTrace();
             }
         });
+    }
 
-        btok.setOnAction(e -> {
+    private void Bt_Ok_Method() {
+        Bt_Ok.setOnAction(e -> {
             Connection con;
             PreparedStatement ps;
             try {
                 Class.forName("com.mysql.cj.jdbc.Driver");
                 con = DriverManager.getConnection("jdbc:mysql://localhost:3306/xsl", "root", "xsl203457");
                 ps = con.prepareStatement("insert into teacher_salary (id,name,position,salary) values (?,?,?,?)");
-                ps.setDouble(1, Double.parseDouble(txfd1.getText()));
-                ps.setString(2, txfd2.getText());
-                ps.setString(3, txfd3.getText());
-                ps.setInt(4, Integer.parseInt(txfd4.getText()));
+                ps.setDouble(1, Double.parseDouble(Id_Txfd.getText()));
+                ps.setString(2, Name_Txfd.getText());
+                ps.setString(3, Position_Txfd.getText());
+                ps.setInt(4, Integer.parseInt(Salary_Txfd.getText()));
                 int i = ps.executeUpdate();
                 System.out.println(i);
             } catch (Exception ex) {
                 ex.getStackTrace();
             }
         });
+    }
 
-        btreset.setOnAction(e -> {
+    private void Bt_Reset_Method() {
+        Bt_Reset.setOnAction(e -> {
             Input input = new Input();
             try {
-                input.start(stage);
+                input.start(window);
             } catch (Exception e1) {
                 // TODO 自动生成的 catch 块
                 e1.printStackTrace();
             }
         });
-
-        Scene scene = new Scene(gridpane, 400, 400);
-        stage.setScene(scene);
-        stage.setTitle("input");
-        stage.show();
-
     }
-
 
 }
 
