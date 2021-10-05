@@ -55,9 +55,9 @@ public class Login extends Application {
         Register.Body(Bt_Login, lb1, lb2, txfd1, txfd2, gridpane);
         Bt_Login.setStyle("-fx-background-color:DODGERBLUE ;-fx-text-fill: white;-fx-font-family: '华文行楷';-fx-border-color: pink");
         Bt_SingUp.setStyle("-fx-background-color:DODGERBLUE ;-fx-text-fill: white;-fx-font-family:'华文行楷';-fx-border-color: pink");
-        Bt_Login.setOnAction(e->Bt_Login_Method());
+        //Bt_Login.setOnAction(e->Bt_Login_Method());
         Bt_Login.setOnAction(e -> new Choice().start(window));
-        //Bt_SingUp.setOnAction(e -> new Register().start(window));
+        Bt_SingUp.setOnAction(e -> new Register().start(window));
 
         hbox.getChildren().add(Bt_SingUp);
         stackpane.getChildren().addAll(imageview, hbox, gridpane);
@@ -66,7 +66,7 @@ public class Login extends Application {
         window.setY(200);
         window.setScene(scene);
         window.setTitle("login");
-        window.getIcons().add(new Image("file:D:\\IJ_WorkSpace\\out\\production\\IJ_WorkSpace\\Teacher_Salary\\image\\780.jpg"));
+        window.getIcons().add(new Image("file:D:\\IJ_WorkSpace\\out\\production\\IJ_WorkSpace\\Teacher_Salary\\image\\a.jpg"));
         window.show();
 
     }
@@ -83,31 +83,37 @@ public class Login extends Application {
         } catch (Exception ex) {
             ex.getStackTrace();
         }
+        if (!(txfd1.getText().matches("")||txfd2.getText().matches(""))) {
+            if (txfd1.getLength()>=8&&txfd1.getLength()<=15&&txfd2.getLength()>=8&&txfd2.getLength()<=15) {
 
-        try {
-            rs1.next();
-            rs2.next();
-            do {
-
-                if (rs1.getString(1).matches(txfd1.getText())) {
-
+                try {
+                    rs1.next();
+                    rs2.next();
                     do {
 
-                        if (rs2.getString(1).matches(txfd2.getText())) {
+                        if (rs1.getString(1).matches(txfd1.getText())) {
 
-                            new Choice().start(window);
+                            do {
 
+                                if (rs2.getString(1).matches(txfd2.getText())) {
+
+                                    new Choice().start(window);
+
+                                }
+
+                            } while (rs2.next());
+                        } else {
+                            System.out.print("用户不存在");
                         }
 
-                    } while (rs2.next());
-                } else {
-                    System.out.print("用户不存在");
+                    } while (rs1.next());
+                } catch (Exception ex) {
+                    ex.getStackTrace();
                 }
-
-            } while (rs1.next());
-        } catch (Exception ex) {
-            ex.getStackTrace();
-        }
+            }else
+                System.out.println("账户或者密码长度小于8|大于15");
+        }else
+            System.out.println("账户或者密码为空");
     }
 
     public void Txfd_attribute() {

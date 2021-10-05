@@ -41,7 +41,7 @@ public class Register extends Application {
         borderpane.setBottom(Bt_Return);
 
         Bt_Return.setOnAction(e -> new Login().start(stage));
-        Bt_Register.setOnAction(e -> Register_Method() );
+        Bt_Register.setOnAction(e -> Register_Method());
     }
 
     static void Body(Button register, Label lb1, Label lb2, TextField txfd1, TextField txfd2, GridPane gridpane) {
@@ -70,32 +70,46 @@ public class Register extends Application {
             ex.getStackTrace();
         }
 
+        //System.out.println(Account_TextField.getLength());
         try {
+            if (!(Account_TextField.getText().matches("")||Passwd_TextField.getText().matches(""))) {
 
-            while (rs1.next()){
+                if (Account_TextField.getLength()>=8&&Account_TextField.getLength()<=15&&Passwd_TextField.getLength()>=8&&Passwd_TextField.getLength()<=15) {
 
-                if (rs1.getString(1).matches(Account_TextField.getText())) {
-                    System.out.println("用户存在");
-                    prompt();
-                }else{
-                    System.out.println("用户不存在");
-                    Register_User();
-                }
-            }
+                    while (rs1.next()) {
+
+                        if (rs1.getString(1).matches(Account_TextField.getText())) {
+                            System.out.println("用户存在");
+                            prompt();
+                            System.out.println("!!!!");
+                        } else {
+                            System.out.println("用户不存在");
+                            Register_User();
+                            System.out.println("！！！");
+                            break;
+                        }
+                    }
+
+                }else
+                    System.out.println("账户或者密码长度小于8|大于15");
+
+            }else
+                System.out.println("账户或者密码为空");
 
         } catch (Exception ex) {
             ex.getStackTrace();
         }
     }
-    void prompt(){
-        Pane pane=new Pane();
-        Text text=new Text("用户存在");
-        text.setFont(Font.font("华文正楷",12));
+
+    void prompt() {
+        Pane pane = new Pane();
+        Text text = new Text("用户存在");
+        text.setFont(Font.font("华文行楷", 30));
         text.setX(100);
         text.setY(100);
         pane.getChildren().add(text);
-        Stage stage=new Stage();
-        stage.setScene(new Scene(pane,200,200));
+        Stage stage = new Stage();
+        stage.setScene(new Scene(pane, 200, 200));
         stage.show();
     }
 
@@ -104,20 +118,38 @@ public class Register extends Application {
             Class.forName("com.mysql.cj.jdbc.Driver");
             Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/xsl", "root",
                     "xsl203457");
-            PreparedStatement ps = con
+            PreparedStatement ps1 = con
                     .prepareStatement("insert into xsl.passwd_date (account,passwd) values (?,?)");
-            ps.setString(1, Account_TextField.getText());
-            ps.setString(2, Passwd_TextField.getText());
-            ps.executeUpdate();
+            ps1.setString(1, Account_TextField.getText());
+            ps1.setString(2, Passwd_TextField.getText());
+            ps1.executeUpdate();
+            ps1.close();
 
             Account_TextField.clear();
             Passwd_TextField.clear();
+
+            PreparedStatement ps2 = con
+                    .prepareStatement("delete from xsl.passwd_date where account=''");
+            ps2.executeUpdate();
+            ps2.close();
+
+            Register_Successful();
             System.out.println("注册成功");
-
-
         } catch (Exception ex) {
             ex.getStackTrace();
         }
+    }
+
+    private void Register_Successful(){
+        Pane pane = new Pane();
+        Text text = new Text("注册成功");
+        text.setFont(Font.font("华文行楷", 30));
+        text.setX(100);
+        text.setY(100);
+        pane.getChildren().add(text);
+        Stage stage = new Stage();
+        stage.setScene(new Scene(pane, 300, 200));
+        stage.show();
     }
 
 }
