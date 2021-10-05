@@ -1,6 +1,5 @@
 package Teacher_Salary;
 
-import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -9,18 +8,18 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
 
-public class Successful_SingUp extends Application {
-    private HBox hbox = new HBox(200);
-    private GridPane gridpane = new GridPane();
-    private BorderPane borderpane = new BorderPane();
-    private Button btok = new Button("确认");
-    private Button btcancle = new Button("取消");
+public class Successful_SingUp extends Register {
+    private final HBox hbox = new HBox(200);
+    private final GridPane gridpane = new GridPane();
+    private final BorderPane borderpane = new BorderPane();
+    private final Button Bt_Ok = new Button("确认");
+    private final Button Bt_Cancel = new Button("取消");
 
     @Override
     public void start(Stage stage) {
 
         gridpane.getChildren().add(new Label("注册成功!"));
-        hbox.getChildren().addAll(btok, btcancle);
+        hbox.getChildren().addAll(Bt_Ok, Bt_Cancel);
         borderpane.setCenter(gridpane);
         borderpane.setBottom(hbox);
 
@@ -30,8 +29,8 @@ public class Successful_SingUp extends Application {
         stage.setTitle("");
         stage.show();
 
-        btok.setOnAction(e -> new Login().start(stage));
-        btcancle.setOnAction(e -> new Register().start(stage));
+        Bt_Ok.setOnAction(e -> new Login().start(stage));
+        Bt_Cancel.setOnAction(e -> new Register().start(stage));
 
     }
 

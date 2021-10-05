@@ -5,33 +5,40 @@ import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.ResultSet;
-import java.sql.Statement;
+import java.sql.*;
 
-public class Select extends Choice {
-    Select() {
+public class Inquire extends Choice {
+    Inquire() {
     }
 
     //创建表格
     TableView<Teacher> table = new TableView<>();
-    BorderPane borderPane = new BorderPane();
-    HBox box = new HBox(5);
+    //BorderPane borderPane = new BorderPane();
+    HBox box = new HBox(80);
     Button Bt_Return = new Button("Return");
+    Button Bt_Ok=new Button("OK");
+    TextField Text_Field=new TextField();
+    Stage window =new Stage();
 
     @SuppressWarnings({"rawtypes", "unchecked"})
     @Override
     public void start(Stage stage) {
+
+        Text_Field.setPromptText("请输入你要删除的用户ID");
+        Text_Field.setPrefColumnCount(120);
+        Text_Field.setPrefWidth(150);
+
         //创建 ID NAME POSITION SALARY 列
         TableColumn Id_Column = new TableColumn("ID");
         TableColumn Name_Column = new TableColumn("NAME");
@@ -50,7 +57,7 @@ public class Select extends Choice {
         Position_Column.setMinWidth(100);
         Salary_Column.setMinWidth(100);
 
-        //表格加入创建的Colmun
+        //表格加入创建的Columns
         table.getColumns().addAll(Id_Column, Name_Column, Position_Column, Salary_Column);
 
         //从数据库导入数据到表格
@@ -60,17 +67,19 @@ public class Select extends Choice {
         table.setEditable(true);
 
         // （很有用）宽度绑定窗口的宽度（意思窗口大小改变，它也跟着改变，自适应效果）
-        table.prefWidthProperty().bind(stage.widthProperty());
+        //table.prefWidthProperty().bind(stage.widthProperty());
 
         Bt_Return.setOnAction(e -> new Choice().start(stage));
-
-        box.getChildren().add(Bt_Return);
+        Bt_Ok.setOnAction(e-> Delete_User(Text_Field,stage));
+        box.setAlignment(Pos.CENTER);
+        box.setPadding(new Insets(20,0,20,0));
+        box.getChildren().addAll(Bt_Return,Text_Field,Bt_Ok);
         borderpane.setCenter(table);
-        borderpane.setBottom(box);
-        Scene scene = new Scene(borderpane, 400, 400);
+        borderpane.setTop(box);
         stage.setX(500);
         stage.setY(200);
-        stage.setScene(scene);
+        stage.setTitle("Inquire");
+        stage.setScene(new Scene(borderpane, 400, 400));
         stage.show();
 
     }
@@ -152,5 +161,23 @@ public class Select extends Choice {
         }
 
     }
+
+    private void Delete_User(TextField Text_Field ,Stage stage){
+        try{
+            Class.forName("com.mysql.cj.jdbc.Driver");
+            Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/xsl", "root", "xsl203457");
+            PreparedStatement preparedStatement = connection.prepareStatement("delete from xsl.teacher_salary where id=?");
+            preparedStatement.setInt(1, Integer.parseInt(Text_Field.getText()));
+            preparedStatement.execute();
+            new Inquire().start(stage);
+            System.out.println("删除成功");
+            Text_Field.clear();
+        }catch  (Exception e) {
+            e.printStackTrace();
+        }
+
+
+    }
+
 
 }

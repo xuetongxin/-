@@ -31,7 +31,7 @@ public class Input extends Choice {
     public void start(Stage stage) {
         // TODO 自动生成的方法存根
         window = stage;
-
+        Text_Field_Attribute();
         Panel_Layout(gridpane, Id_Txfd, Name_Txfd, Position_Txfd, Salary_Txfd, Bt_Return, Bt_Ok, Bt_Reset);
         Bt_Return.setOnAction(e -> new Choice().start(window));
         Bt_Reset.setOnAction(e -> new Input().start(window));
@@ -64,9 +64,7 @@ public class Input extends Choice {
     }
 
     private void Bt_Ok_Method() {
-        Bt_Ok.setOnAction(e -> {
-            Mysql_Input();
-        });
+        Bt_Ok.setOnAction(e -> Mysql_Input());
     }
 
     private void Mysql_Input() {
@@ -75,17 +73,42 @@ public class Input extends Choice {
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");
             con = DriverManager.getConnection("jdbc:mysql://localhost:3306/xsl", "root", "xsl203457");
-            ps = con.prepareStatement("insert into teacher_salary (id,name,position,salary) values (?,?,?,?)");
+            ps = con.prepareStatement("insert into xsl.teacher_salary (id,name,position,salary) values (?,?,?,?) ;");
             ps.setDouble(1, Double.parseDouble(Id_Txfd.getText()));
             ps.setString(2, Name_Txfd.getText());
             ps.setString(3, Position_Txfd.getText());
             ps.setInt(4, Integer.parseInt(Salary_Txfd.getText()));
-            int i = ps.executeUpdate();
-            System.out.println(i);
+            ps.executeUpdate();
+
+            Clear_TextField();
+            System.out.println("录入成功");
+
         } catch (Exception ex) {
             ex.getStackTrace();
         }
     }
 
+    public void Clear_TextField(){
+        Id_Txfd.clear();
+        Name_Txfd.clear();
+        Position_Txfd.clear();
+        Salary_Txfd.clear();
+    }
+    private void Text_Field_Attribute(){
+        Id_Txfd.setPromptText("！必须为数字");
+        Name_Txfd.setPromptText("输入数字、字母、汉字");
+        Position_Txfd.setPromptText("输入数字、字母、汉字");
+
+        Id_Txfd.setPrefColumnCount(150);
+        //Name_Txfd.setPrefColumnCount(100);
+        //Position_Txfd.setPrefColumnCount(100);
+        //Salary_Txfd.setPrefColumnCount(100);
+        Id_Txfd.setPrefWidth(150);
+        //Name_Txfd.setPrefWidth(100);
+        //Position_Txfd.setPrefWidth(100);
+        //Salary_Txfd.setPrefWidth(100);
+
+
+    }
 }
 

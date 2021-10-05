@@ -1,6 +1,5 @@
 package Teacher_Salary;
 
-import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
@@ -27,10 +26,8 @@ public class Update extends Choice {
     public void start(Stage stage) {
         // TODO 自动生成的方法存根
         window = stage;
+        Text_Field_Attribute();
 
-        gridpane.setHgap(5);
-        gridpane.setVgap(5);
-        gridpane.setAlignment(Pos.CENTER);
         Input.Panel_Layout(gridpane, Id_Txfd, Name_Txfd, Position_Txfd, Salary_Txfd, Bt_Return, Bt_Update, Bt_Reset);
 
         Bt_Update_Method();
@@ -47,27 +44,33 @@ public class Update extends Choice {
 
     private void Bt_Update_Method() {
         Bt_Update.setOnAction(e -> {
-            Connection con = null;
-            PreparedStatement ps = null;
+            Connection con;
+            PreparedStatement ps;
             //PreparedStatement ps1 = null;
             try {
                 Class.forName("com.mysql.cj.jdbc.Driver");
                 con = DriverManager.getConnection("jdbc:mysql://localhost:3306/xsl", "root", "xsl203457");
 
-                ps = con.prepareStatement("update 'teacher_salary' set name=?,position=?,salary=? where id=?");
+                ps = con.prepareStatement("update xsl.teacher_salary set name=?,position=?,salary=? where id=?");
                 ps.setDouble(4, Double.parseDouble(Id_Txfd.getText()));
                 ps.setString(1, Name_Txfd.getText());
                 ps.setString(2, Position_Txfd.getText());
                 ps.setInt(3, Integer.parseInt(Salary_Txfd.getText()));
 
-                Bt_Reset.setOnAction(event -> new Update().start(window));
-                int i = ps.executeUpdate();
-                System.out.println(i);
+                new Input().Clear_TextField();
+                ps.executeUpdate();
+                System.out.println("修改成功");
 
             } catch (Exception ex) {
                 ex.getStackTrace();
             }
         });
+    }
+
+    private void Text_Field_Attribute(){
+        Id_Txfd.setPromptText("ID必须正确");
+        Name_Txfd.setPromptText("输入数字、字母、汉字");
+        Position_Txfd.setPromptText("输入数字、字母、汉字");
     }
 
 

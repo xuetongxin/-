@@ -19,8 +19,8 @@ public class Register extends Application {
     Stage window;
     private final GridPane gridpane = new GridPane();
     private final BorderPane borderpane = new BorderPane();
-    private final Button register = new Button("Register");
-    private final Button btreturn = new Button("Return");
+    private final Button Bt_Register = new Button("Register");
+    private final Button Bt_Return = new Button("Return");
     private final Label lb1 = new Label("AccountName:");
     private final Label lb2 = new Label("Passwd:");
     private final TextField Account_TextField = new TextField();
@@ -35,13 +35,13 @@ public class Register extends Application {
         stage.setTitle("Sing Up");
         stage.show();
 
-        Body(register, lb1, lb2, Account_TextField, Passwd_TextField, gridpane);
+        Body(Bt_Register, lb1, lb2, Account_TextField, Passwd_TextField, gridpane);
 
         borderpane.setCenter(gridpane);
-        borderpane.setBottom(btreturn);
+        borderpane.setBottom(Bt_Return);
 
-        btreturn.setOnAction(e -> new Login().start(stage));
-        register.setOnAction(e -> Register_Method() );
+        Bt_Return.setOnAction(e -> new Login().start(stage));
+        Bt_Register.setOnAction(e -> Register_Method() );
     }
 
     static void Body(Button register, Label lb1, Label lb2, TextField txfd1, TextField txfd2, GridPane gridpane) {
@@ -105,14 +105,15 @@ public class Register extends Application {
             Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/xsl", "root",
                     "xsl203457");
             PreparedStatement ps = con
-                    .prepareStatement("insert into passwd_date (account,passwd) values (?,?)");
+                    .prepareStatement("insert into xsl.passwd_date (account,passwd) values (?,?)");
             ps.setString(1, Account_TextField.getText());
             ps.setString(2, Passwd_TextField.getText());
             ps.executeUpdate();
 
-
+            Account_TextField.clear();
+            Passwd_TextField.clear();
             System.out.println("注册成功");
-            new Successful_SingUp().start(new Stage());
+
 
         } catch (Exception ex) {
             ex.getStackTrace();
