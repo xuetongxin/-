@@ -19,6 +19,7 @@ import java.sql.*;
 
 public class Register extends Application {
     Stage window;
+    private final HBox box = new HBox();
     private final GridPane gridpane = new GridPane();
     private final BorderPane borderpane = new BorderPane();
     private final Button Bt_Register = new Button("确认");
@@ -32,7 +33,7 @@ public class Register extends Application {
     public void start(Stage stage) {
         // TODO 自动生成的方法存根
         window = stage;
-        HBox box = new HBox();
+
         box.setPadding(new Insets(20,0,0,20));
         box.getChildren().add(Bt_Return);
         Account_TextField.setPromptText("8~15数字、字母 不能存在符号");
@@ -65,49 +66,51 @@ public class Register extends Application {
 
     private void Register_Method() {
 
-        Statement stmt1;
-        ResultSet rs1 = null;
-        try {
-            Class.forName("com.mysql.cj.jdbc.Driver");
-            Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/xsl", "root", "xsl203457");
-            stmt1 = con.createStatement();
-            rs1 = stmt1.executeQuery("select account from passwd_date");
-
-        } catch (Exception ex) {
-            ex.getStackTrace();
-        }
-
         //System.out.println(Account_TextField.getLength());
-        try {
             if (!(Account_TextField.getText().matches("")||Passwd_TextField.getText().matches(""))) {
 
                 if (Account_TextField.getLength()>=8&&Account_TextField.getLength()<=15&&Passwd_TextField.getLength()>=8&&Passwd_TextField.getLength()<=15) {
 
-                    try {
-                        rs1.next();
-                        do {
-
-                            if (rs1.getString(1).matches(Account_TextField.getText())) {
-                                System.out.println("用户存在");
-                                prompt();
-                                System.out.println("!!!!");
-                            } else {
-                                System.out.println("用户不存在");
-                                Register_User();
-                                System.out.println("！！！");
-                                break;
-                            }
-                        } while (rs1.next());
-                    }catch (Exception ex){ex.getStackTrace();}
+                    Judgement();
                 }else
                     System.out.println("账户或者密码长度小于8|大于15");
 
             }else
                 System.out.println("账户或者密码为空");
 
+    }
+    private void Judgement(){
+        Statement stmt1;
+        ResultSet rs1 = null;
+        try {
+            System.out.println("连接数据库");
+
+            Class.forName("com.mysql.cj.jdbc.Driver");
+            Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/xsl", "root", "xsl203457");
+            stmt1 = con.createStatement();
+            rs1 = stmt1.executeQuery("select account from passwd_date");
+
+            System.out.println("连接成功");
         } catch (Exception ex) {
             ex.getStackTrace();
         }
+
+        try {
+            rs1.next();
+            do {
+
+                if (rs1.getString(1).matches(Account_TextField.getText())) {
+                    System.out.println("用户存在");
+                    prompt();
+                    System.out.println("!!!!");
+                } else {
+                    System.out.println("用户不存在");
+                    Register_User();
+                    System.out.println("！！！");
+                    break;
+                }
+            } while (rs1.next());
+        }catch (Exception ex){ex.getStackTrace();}
     }
 
     void prompt() {

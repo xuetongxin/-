@@ -38,11 +38,23 @@ public class Input extends Choice {
         box2.setAlignment(Pos.CENTER);
         box2.setPadding(new Insets(0,0,20,0));
 
-        Text_Field_Attribute();
+        Id_Txfd.setPromptText("！必须为数字");
+        Name_Txfd.setPromptText("输入数字、字母、汉字");
+        Position_Txfd.setPromptText("输入数字、字母、汉字");
+        Id_Txfd.setPrefColumnCount(150);
+        //Name_Txfd.setPrefColumnCount(100);
+        //Position_Txfd.setPrefColumnCount(100);
+        //Salary_Txfd.setPrefColumnCount(100);
+        Id_Txfd.setPrefWidth(150);
+        //Name_Txfd.setPrefWidth(100);
+        //Position_Txfd.setPrefWidth(100);
+        //Salary_Txfd.setPrefWidth(100);
+
         Panel_Layout(gridpane, Id_Txfd, Name_Txfd, Position_Txfd, Salary_Txfd, Bt_Ok);
+
         Bt_Return.setOnAction(e -> new Choice().start(stage));
         Bt_Reset.setOnAction(e -> new Input().start(stage));
-        Bt_Ok.setOnAction(e -> JudgeMent_LogIN());
+        Bt_Ok.setOnAction(e -> JudgeMent_Input());
         Bt_Inquire.setOnAction(e->new Inquire().start(stage));
         borderPane.setBackground(new Background(new BackgroundImage(new Image("file:D:\\IJ_WorkSpace\\out\\production\\IJ_WorkSpace\\Teacher_Salary\\image\\d.jpg"), BackgroundRepeat.REPEAT,BackgroundRepeat.REPEAT, BackgroundPosition.CENTER,BackgroundSize.DEFAULT)));
 
@@ -77,7 +89,7 @@ public class Input extends Choice {
         gridpane.add(bt_ok, 0, 5);
 
     }
-    private void JudgeMent_LogIN(){
+    private void JudgeMent_Input(){
         if (Id_Txfd.getLength()==0||Name_Txfd.getLength()==0||Position_Txfd.getLength()==0||Salary_Txfd.getLength()==0){
             System.out.println("不能为空");
         }else if(Id_Txfd.getLength()>10||Salary_Txfd.getLength()>10){
@@ -89,8 +101,10 @@ public class Input extends Choice {
         Connection con;
         PreparedStatement ps;
         try {
+            System.out.println("连接数据库");
             Class.forName("com.mysql.cj.jdbc.Driver");
             con = DriverManager.getConnection("jdbc:mysql://localhost:3306/xsl", "root", "xsl203457");
+            System.out.println("连接成功");
             ps = con.prepareStatement("insert into xsl.teacher_salary (id,name,position,salary) values (?,?,?,?) ;");
             ps.setDouble(1, Double.parseDouble(Id_Txfd.getText()));
             ps.setString(2, Name_Txfd.getText());
@@ -127,20 +141,6 @@ public class Input extends Choice {
         Position_Txfd.clear();
         Salary_Txfd.clear();
     }
-    private void Text_Field_Attribute(){
-        Id_Txfd.setPromptText("！必须为数字");
-        Name_Txfd.setPromptText("输入数字、字母、汉字");
-        Position_Txfd.setPromptText("输入数字、字母、汉字");
 
-        Id_Txfd.setPrefColumnCount(150);
-        //Name_Txfd.setPrefColumnCount(100);
-        //Position_Txfd.setPrefColumnCount(100);
-        //Salary_Txfd.setPrefColumnCount(100);
-        Id_Txfd.setPrefWidth(150);
-        //Name_Txfd.setPrefWidth(100);
-        //Position_Txfd.setPrefWidth(100);
-        //Salary_Txfd.setPrefWidth(100);
-
-    }
 }
 

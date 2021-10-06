@@ -21,7 +21,7 @@ import java.sql.Statement;
 
 public class Login extends Application {
     private final StackPane stackpane = new StackPane();
-    private final BorderPane borderPane=new BorderPane();
+    private final BorderPane borderPane = new BorderPane();
     private final ImageView imageview = new ImageView(
             new Image("file:D:\\IJ_WorkSpace\\out\\production\\IJ_WorkSpace\\Teacher_Salary\\image\\d.jpg"));
     private final HBox hbox = new HBox(10);
@@ -30,13 +30,13 @@ public class Login extends Application {
     private final Button Bt_SingUp = new Button("注册"); // 设置注册按钮
     private final Label lb1 = new Label("账户:"); // 设置用户名标签
     private final Label lb2 = new Label("密码:"); // 设置密码标签
+    private final TextField Account_TextField = new TextField(); // 设置用户名填充域
+    private final PasswordField Passwd_TextField = new PasswordField(); // 设置密码填充域 密码不回显
     Statement stmt1 = null;
     Statement stmt2 = null;
     ResultSet rs1 = null;
     ResultSet rs2 = null;
     private Stage window;
-    private final TextField Account_TextField = new TextField(); // 设置用户名填充域
-    private final PasswordField Passwd_TextField = new PasswordField(); // 设置密码填充域 密码不回显
 
     public static void main(String[] args) {
         launch(args);
@@ -61,13 +61,16 @@ public class Login extends Application {
 
         //Bt_Login.setOnAction(e->Bt_Login_Method());
 
-        Bt_Login.setOnAction(e -> {new Choice().start(window);LogIn_Successful();});
+        Bt_Login.setOnAction(e -> {
+            new Choice().start(window);
+            LogIn_Successful();
+        });
         Bt_SingUp.setOnAction(e -> new Register().start(window));
 
         hbox.getChildren().add(Bt_SingUp);
         borderPane.setTop(hbox);
         borderPane.setCenter(gridpane);
-        stackpane.getChildren().addAll(imageview,borderPane);
+        stackpane.getChildren().addAll(imageview, borderPane);
 
         window.setX(500);
         window.setY(200);
@@ -92,9 +95,9 @@ public class Login extends Application {
         Inquire_LogIN();
     }
 
-    private void Inquire_LogIN(){
-        if (!(Account_TextField.getText().matches("")||Passwd_TextField.getText().matches(""))) {
-            if (Account_TextField.getLength()>=8&&Account_TextField.getLength()<=15&&Passwd_TextField.getLength()>=8&&Passwd_TextField.getLength()<=15) {
+    private void Inquire_LogIN() {
+        if (!(Account_TextField.getText().matches("") || Passwd_TextField.getText().matches(""))) {
+            if (Account_TextField.getLength() >= 8 && Account_TextField.getLength() <= 15 && Passwd_TextField.getLength() >= 8 && Passwd_TextField.getLength() <= 15) {
 
                 try {
                     rs1.next();
@@ -122,21 +125,21 @@ public class Login extends Application {
                 } catch (Exception ex) {
                     ex.getStackTrace();
                 }
-            }else
+            } else
                 System.out.println("账户或者密码长度小于8|大于15");
-        }else
+        } else
             System.out.println("账户或者密码为空");
     }
 
-    private void LogIn_Successful(){
-        Stage window1=new Stage();
-        Pane pane=new Pane();
-        Text text=new Text("登陆成功");
+    private void LogIn_Successful() {
+        Stage window1 = new Stage();
+        Pane pane = new Pane();
+        Text text = new Text("登陆成功");
         text.setStyle("-fx-font-family: '华文行楷';-fx-font-size: 20");
         text.setX(120);
         text.setY(100);
         pane.getChildren().add(text);
-        window1.setScene(new Scene(pane,300,200));
+        window1.setScene(new Scene(pane, 300, 200));
         window1.setX(550);
         window1.setY(300);
         window1.showAndWait();

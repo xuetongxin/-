@@ -23,10 +23,8 @@ import java.sql.*;
 public class Inquire extends Choice {
     Inquire() {
     }
-
     //创建表格
     TableView<Teacher> table = new TableView<>();
-    //BorderPane borderPane = new BorderPane();
     HBox box = new HBox(80);
     Button Bt_Return = new Button("返回");
     Button Bt_Delete=new Button("删除");
@@ -64,19 +62,18 @@ public class Inquire extends Choice {
 
         //从数据库导入数据到表格
         Mysql_Select();
-
-        //box.setBackground(new Background(new BackgroundFill(Color.YELLOWGREEN,CornerRadii.EMPTY,Insets.EMPTY)));
+        //设置背景
         box.setBackground(new Background(new BackgroundImage(new Image("file:D:\\IJ_WorkSpace\\out\\production\\IJ_WorkSpace\\Teacher_Salary\\image\\d.jpg"), BackgroundRepeat.REPEAT,BackgroundRepeat.REPEAT, BackgroundPosition.CENTER,BackgroundSize.DEFAULT)));
+        box.setAlignment(Pos.CENTER);
+        box.setPadding(new Insets(20,0,20,0));
+        box.getChildren().addAll(Bt_Return,Text_Field,Bt_Delete);
 
-        // （很有用）宽度绑定窗口的宽度（意思窗口大小改变，它也跟着改变，自适应效果）
+        // 宽度绑定窗口的宽度（意思窗口大小改变，它也跟着改变，自适应效果）
         table.prefWidthProperty().bind(stage.widthProperty());
         table.prefHeightProperty().bind(stage.heightProperty());
 
         Bt_Return.setOnAction(e -> new Choice().start(stage));
         Bt_Delete.setOnAction(e-> Delete_User(Text_Field,stage));
-        box.setAlignment(Pos.CENTER);
-        box.setPadding(new Insets(20,0,20,0));
-        box.getChildren().addAll(Bt_Return,Text_Field,Bt_Delete);
 
         borderpane.setCenter(table);
         borderpane.setTop(box);
@@ -180,8 +177,6 @@ public class Inquire extends Choice {
         }catch  (Exception e) {
             e.printStackTrace();
         }
-
-
     }
 
     private void Delete_Successful(){
@@ -197,5 +192,4 @@ public class Inquire extends Choice {
         window1.setY(300);
         window1.showAndWait();
     }
-
 }

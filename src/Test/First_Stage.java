@@ -35,7 +35,7 @@ public class First_Stage extends Application {
             Second_Stage();
         });
 
-        Text txfd = new Text("hello java");
+        Text txfd = new Text("hellojava");
         txfd.setFont(Font.font("Times New Roman", FontWeight.EXTRA_LIGHT, FontPosture.ITALIC, 30));
 
 

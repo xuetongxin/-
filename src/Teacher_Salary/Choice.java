@@ -17,7 +17,7 @@ public class Choice extends Login {
     Choice() {
     }
 
-    final HBox box = new HBox(10);
+    final HBox box = new HBox(50);
     final Button Bt_Input = new Button("录入");
     final Button Bt_Update = new Button("修改");
     final Button Bt_Select = new Button("查询");
@@ -33,8 +33,8 @@ public class Choice extends Login {
 
         Body();
         Bt_Choice_Method(stage); // 按键选项
-        box.setAlignment(Pos.CENTER); //Box 在面板中的位置
-        box.setPadding(new Insets(0, 0, 10, 0)); // Box 节点距上，右，下，左 的距离
+        box.setAlignment(Pos.TOP_CENTER); //Box 在面板中的位置
+        box.setPadding(new Insets(0, 0, 100, 0)); // Box 节点距上，右，下，左 的距离
         box.getChildren().addAll(Bt_Input, Bt_Update, Bt_Select ,Bt_Close);
 
         borderpane.setBackground(new Background(new BackgroundImage(new Image("file:D:\\IJ_WorkSpace\\out\\production\\IJ_WorkSpace\\Teacher_Salary\\image\\d.jpg"), BackgroundRepeat.REPEAT,BackgroundRepeat.REPEAT, BackgroundPosition.CENTER,BackgroundSize.DEFAULT)));
@@ -94,7 +94,6 @@ public class Choice extends Login {
         Bt_Update.setOnAction(e -> new Update().start(stage));
 
         Bt_Select.setOnAction(e -> new Inquire().start(stage));
-
         //关闭界面
         Bt_Close.setOnAction(e -> {stage.close();System.out.println("关闭窗体");});
     }

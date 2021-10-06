@@ -74,6 +74,7 @@ public class Update extends Choice {
             System.out.println("查询用户");
             while(resultSet.next()){
                 if (Id_Txfd.getText().matches(String.valueOf(resultSet.getInt(1)))){
+                   System.out.println("用户存在");
                     Judgement_Update();
                     break;
                 }else
@@ -106,9 +107,9 @@ public class Update extends Choice {
                 ps.setString(1, Name_Txfd.getText());
                 ps.setString(2, Position_Txfd.getText());
                 ps.setInt(3, Integer.parseInt(Salary_Txfd.getText()));
+                ps.executeUpdate();
 
                 Clear_TextField();
-                ps.executeUpdate();
                 Update_Successful();
                 System.out.println("修改成功");
 
