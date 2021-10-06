@@ -13,7 +13,9 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.layout.HBox;
+import javafx.scene.image.Image;
+import javafx.scene.layout.*;
+import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
 import java.sql.*;
@@ -26,8 +28,8 @@ public class Inquire extends Choice {
     TableView<Teacher> table = new TableView<>();
     //BorderPane borderPane = new BorderPane();
     HBox box = new HBox(80);
-    Button Bt_Return = new Button("Return");
-    Button Bt_Ok=new Button("OK");
+    Button Bt_Return = new Button("返回");
+    Button Bt_Delete=new Button("删除");
     TextField Text_Field=new TextField();
     Stage window =new Stage();
 
@@ -63,22 +65,24 @@ public class Inquire extends Choice {
         //从数据库导入数据到表格
         Mysql_Select();
 
-        // 设置可编辑（列需要同时设置才有用）
-        table.setEditable(true);
+        //box.setBackground(new Background(new BackgroundFill(Color.YELLOWGREEN,CornerRadii.EMPTY,Insets.EMPTY)));
+        box.setBackground(new Background(new BackgroundImage(new Image("file:D:\\IJ_WorkSpace\\out\\production\\IJ_WorkSpace\\Teacher_Salary\\image\\d.jpg"), BackgroundRepeat.REPEAT,BackgroundRepeat.REPEAT, BackgroundPosition.CENTER,BackgroundSize.DEFAULT)));
 
         // （很有用）宽度绑定窗口的宽度（意思窗口大小改变，它也跟着改变，自适应效果）
-        //table.prefWidthProperty().bind(stage.widthProperty());
+        table.prefWidthProperty().bind(stage.widthProperty());
+        table.prefHeightProperty().bind(stage.heightProperty());
 
         Bt_Return.setOnAction(e -> new Choice().start(stage));
-        Bt_Ok.setOnAction(e-> Delete_User(Text_Field,stage));
+        Bt_Delete.setOnAction(e-> Delete_User(Text_Field,stage));
         box.setAlignment(Pos.CENTER);
         box.setPadding(new Insets(20,0,20,0));
-        box.getChildren().addAll(Bt_Return,Text_Field,Bt_Ok);
+        box.getChildren().addAll(Bt_Return,Text_Field,Bt_Delete);
+
         borderpane.setCenter(table);
         borderpane.setTop(box);
         stage.setX(500);
         stage.setY(200);
-        stage.setTitle("Inquire");
+        stage.setTitle("查询");
         stage.setScene(new Scene(borderpane, 400, 400));
         stage.show();
 
@@ -143,7 +147,7 @@ public class Inquire extends Choice {
         //表格显示数据
         ObservableList<Teacher> data = FXCollections.observableArrayList();
         Teacher teacher = new Teacher();
-        ResultSet rs1 = null;
+        ResultSet rs1 ;
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");
             Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/xsl", "root", "xsl203457");
@@ -170,6 +174,7 @@ public class Inquire extends Choice {
             preparedStatement.setInt(1, Integer.parseInt(Text_Field.getText()));
             preparedStatement.execute();
             new Inquire().start(stage);
+            Delete_Successful();
             System.out.println("删除成功");
             Text_Field.clear();
         }catch  (Exception e) {
@@ -179,5 +184,18 @@ public class Inquire extends Choice {
 
     }
 
+    private void Delete_Successful(){
+        Stage window1=new Stage();
+        Pane pane=new Pane();
+        Text text=new Text("删除成功");
+        text.setStyle("-fx-font-family: '华文行楷';-fx-font:20;-fx-text-fill: 'red'");
+        text.setX(120);
+        text.setY(100);
+        pane.getChildren().add(text);
+        window1.setScene(new Scene(pane,300,200));
+        window1.setX(550);
+        window1.setY(300);
+        window1.showAndWait();
+    }
 
 }

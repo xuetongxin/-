@@ -1,6 +1,7 @@
 package Teacher_Salary;
 
 import javafx.application.Application;
+import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -8,6 +9,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
@@ -19,10 +21,10 @@ public class Register extends Application {
     Stage window;
     private final GridPane gridpane = new GridPane();
     private final BorderPane borderpane = new BorderPane();
-    private final Button Bt_Register = new Button("Register");
-    private final Button Bt_Return = new Button("Return");
-    private final Label lb1 = new Label("AccountName:");
-    private final Label lb2 = new Label("Passwd:");
+    private final Button Bt_Register = new Button("确认");
+    private final Button Bt_Return = new Button("返回");
+    private final Label lb1 = new Label("账户");
+    private final Label lb2 = new Label("密码:");
     private final TextField Account_TextField = new TextField();
     private final TextField Passwd_TextField = new TextField();
 
@@ -30,21 +32,26 @@ public class Register extends Application {
     public void start(Stage stage) {
         // TODO 自动生成的方法存根
         window = stage;
-        Scene scene = new Scene(borderpane, 400, 400);
-        stage.setScene(scene);
-        stage.setTitle("Sing Up");
-        stage.show();
-
-        Body(Bt_Register, lb1, lb2, Account_TextField, Passwd_TextField, gridpane);
+        HBox box = new HBox();
+        box.setPadding(new Insets(20,0,0,20));
+        box.getChildren().add(Bt_Return);
+        Account_TextField.setPromptText("8~15数字、字母 不能存在符号");
+        Passwd_TextField.setPromptText("8~15数字、字母 能存在符号");   //文本域提示语
+        Panel_Layout(Bt_Register, lb1, lb2, Account_TextField, Passwd_TextField, gridpane);
 
         borderpane.setCenter(gridpane);
-        borderpane.setBottom(Bt_Return);
+        borderpane.setTop(box);
 
         Bt_Return.setOnAction(e -> new Login().start(stage));
         Bt_Register.setOnAction(e -> Register_Method());
+
+        Scene scene = new Scene(borderpane, 400, 400);
+        stage.setScene(scene);
+        stage.setTitle("注册");
+        stage.show();
     }
 
-    static void Body(Button register, Label lb1, Label lb2, TextField txfd1, TextField txfd2, GridPane gridpane) {
+    static void Panel_Layout(Button register, Label lb1, Label lb2, TextField txfd1, TextField txfd2, GridPane gridpane) {
         gridpane.setHgap(5);
         gridpane.setVgap(5);
         gridpane.add(lb1, 0, 0);
@@ -76,20 +83,22 @@ public class Register extends Application {
 
                 if (Account_TextField.getLength()>=8&&Account_TextField.getLength()<=15&&Passwd_TextField.getLength()>=8&&Passwd_TextField.getLength()<=15) {
 
-                    while (rs1.next()) {
+                    try {
+                        rs1.next();
+                        do {
 
-                        if (rs1.getString(1).matches(Account_TextField.getText())) {
-                            System.out.println("用户存在");
-                            prompt();
-                            System.out.println("!!!!");
-                        } else {
-                            System.out.println("用户不存在");
-                            Register_User();
-                            System.out.println("！！！");
-                            break;
-                        }
-                    }
-
+                            if (rs1.getString(1).matches(Account_TextField.getText())) {
+                                System.out.println("用户存在");
+                                prompt();
+                                System.out.println("!!!!");
+                            } else {
+                                System.out.println("用户不存在");
+                                Register_User();
+                                System.out.println("！！！");
+                                break;
+                            }
+                        } while (rs1.next());
+                    }catch (Exception ex){ex.getStackTrace();}
                 }else
                     System.out.println("账户或者密码长度小于8|大于15");
 
@@ -104,7 +113,7 @@ public class Register extends Application {
     void prompt() {
         Pane pane = new Pane();
         Text text = new Text("用户存在");
-        text.setFont(Font.font("华文行楷", 30));
+        text.setFont(Font.font("华文行楷", 20));
         text.setX(100);
         text.setY(100);
         pane.getChildren().add(text);
@@ -141,15 +150,15 @@ public class Register extends Application {
     }
 
     private void Register_Successful(){
+        Stage window1=new Stage();
         Pane pane = new Pane();
         Text text = new Text("注册成功");
         text.setFont(Font.font("华文行楷", 30));
         text.setX(100);
         text.setY(100);
         pane.getChildren().add(text);
-        Stage stage = new Stage();
-        stage.setScene(new Scene(pane, 300, 200));
-        stage.show();
+        window1.setScene(new Scene(pane, 300, 200));
+        window1.showAndWait();
     }
 
 }

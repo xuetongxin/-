@@ -5,9 +5,8 @@ import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.GridPane;
-import javafx.scene.layout.HBox;
+import javafx.scene.image.Image;
+import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontPosture;
@@ -19,14 +18,13 @@ public class Choice extends Login {
     }
 
     final HBox box = new HBox(10);
-    final Button Bt_Input = new Button("Input");
-    final Button Bt_Update = new Button("Update");
-    final Button Bt_Select = new Button("Inquire");
-    final Button Bt_Close = new Button("Close");
+    final Button Bt_Input = new Button("录入");
+    final Button Bt_Update = new Button("修改");
+    final Button Bt_Select = new Button("查询");
+    final Button Bt_Close = new Button("关闭");
     final Label Input_Label = new Label();
     final Label Update_label = new Label();
     final Label Select_Label = new Label();
-    final Label Delete_Label = new Label();
     final Label Close_Label=new Label();
     final BorderPane borderpane = new BorderPane();
     final GridPane gridpane = new GridPane();
@@ -39,6 +37,8 @@ public class Choice extends Login {
         box.setPadding(new Insets(0, 0, 10, 0)); // Box 节点距上，右，下，左 的距离
         box.getChildren().addAll(Bt_Input, Bt_Update, Bt_Select ,Bt_Close);
 
+        borderpane.setBackground(new Background(new BackgroundImage(new Image("file:D:\\IJ_WorkSpace\\out\\production\\IJ_WorkSpace\\Teacher_Salary\\image\\d.jpg"), BackgroundRepeat.REPEAT,BackgroundRepeat.REPEAT, BackgroundPosition.CENTER,BackgroundSize.DEFAULT)));
+
         borderpane.setCenter(gridpane);
         borderpane.setBottom(box);
 
@@ -46,7 +46,8 @@ public class Choice extends Login {
         stage.setX(500);
         stage.setY(200);
         stage.setScene(scene);
-        stage.setTitle("choice");
+        stage.setTitle("");
+
         stage.show();
     }
 

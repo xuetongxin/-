@@ -1,11 +1,14 @@
 package Teacher_Salary;
 
+import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
-import javafx.scene.layout.GridPane;
+import javafx.scene.image.Image;
+import javafx.scene.layout.*;
+import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
 import java.sql.Connection;
@@ -13,60 +16,75 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 
 public class Input extends Choice {
-
     Input() {
     }
-
     private final GridPane gridpane = new GridPane();
-    private final Button Bt_Ok = new Button("OK");
-    private final Button Bt_Return = new Button("Return");
-    private final Button Bt_Reset = new Button("Reset");
+    BorderPane borderPane=new BorderPane();
+    HBox box1=new HBox();
+    HBox box2=new HBox(200);
+    private final Button Bt_Ok = new Button("确认");
+    private final Button Bt_Return = new Button("返回");
+    private final Button Bt_Reset = new Button("重置");
+    private final Button Bt_Inquire=new Button("查询");
 
     private final TextField Id_Txfd = new TextField();
     private final TextField Name_Txfd = new TextField();
     private final TextField Position_Txfd = new TextField();
     private final TextField Salary_Txfd = new TextField();
-    private Stage window;
-
+    Stage window =new Stage();
     public void start(Stage stage) {
         // TODO 自动生成的方法存根
-        window = stage;
+        box1.setPadding(new Insets(20,0,0,20));
+        box2.setAlignment(Pos.CENTER);
+        box2.setPadding(new Insets(0,0,20,0));
+
         Text_Field_Attribute();
-        Panel_Layout(gridpane, Id_Txfd, Name_Txfd, Position_Txfd, Salary_Txfd, Bt_Return, Bt_Ok, Bt_Reset);
-        Bt_Return.setOnAction(e -> new Choice().start(window));
-        Bt_Reset.setOnAction(e -> new Input().start(window));
-        Bt_Ok_Method();
+        Panel_Layout(gridpane, Id_Txfd, Name_Txfd, Position_Txfd, Salary_Txfd, Bt_Ok);
+        Bt_Return.setOnAction(e -> new Choice().start(stage));
+        Bt_Reset.setOnAction(e -> new Input().start(stage));
+        Bt_Ok.setOnAction(e -> JudgeMent_LogIN());
+        Bt_Inquire.setOnAction(e->new Inquire().start(stage));
+        borderPane.setBackground(new Background(new BackgroundImage(new Image("file:D:\\IJ_WorkSpace\\out\\production\\IJ_WorkSpace\\Teacher_Salary\\image\\d.jpg"), BackgroundRepeat.REPEAT,BackgroundRepeat.REPEAT, BackgroundPosition.CENTER,BackgroundSize.DEFAULT)));
 
-        Scene scene = new Scene(gridpane, 400, 400);
-        window.setX(500);
-        window.setY(200);
-        window.setScene(scene);
-        window.setTitle("input");
-        window.show();
+        box1.getChildren().add(Bt_Return);
+        box2.getChildren().addAll(Bt_Reset,Bt_Inquire);
 
+        borderPane.setTop(box1);
+        borderPane.setCenter(gridpane);
+        borderPane.setBottom(box2);
+
+        stage.setX(500);
+        stage.setY(200);
+        stage.setScene(new Scene(borderPane, 400, 400));
+        stage.setTitle("录入");
+        stage.show();
     }
 
-    static void Panel_Layout(GridPane gridpane, TextField id_txfd, TextField name_txfd, TextField position_txfd, TextField salary_txfd, Button bt_return, Button bt_ok, Button bt_reset) {
+    static void Panel_Layout(GridPane gridpane, TextField id_txfd, TextField name_txfd, TextField position_txfd, TextField salary_txfd, Button bt_ok) {
+        Label Salary_Label=new Label("薪水");
+        Salary_Label.setStyle("-fx-text-fill:'white'");
         gridpane.setHgap(5);
         gridpane.setVgap(5);
         gridpane.setAlignment(Pos.CENTER);
-        gridpane.add(new Label("id:"), 0, 0);
+        gridpane.add(new Label("序号:"), 0, 0);
         gridpane.add(id_txfd, 1, 0);
-        gridpane.add(new Label("name:"), 0, 1);
+        gridpane.add(new Label("名字:"), 0, 1);
         gridpane.add(name_txfd, 1, 1);
-        gridpane.add(new Label("position:"), 0, 2);
+        gridpane.add(new Label("职位:"), 0, 2);
         gridpane.add(position_txfd, 1, 2);
-        gridpane.add(new Label("salary:"), 0, 3);
+        gridpane.add(Salary_Label, 0, 3);
         gridpane.add(salary_txfd, 1, 3);
-        gridpane.add(bt_return, 0, 5);
-        gridpane.add(bt_ok, 1, 5);
-        gridpane.add(bt_reset, 3, 5);
-    }
+        gridpane.add(bt_ok, 0, 5);
 
-    private void Bt_Ok_Method() {
-        Bt_Ok.setOnAction(e -> Mysql_Input());
     }
-
+    private void JudgeMent_LogIN(){
+        if (Id_Txfd.getLength()==0||Name_Txfd.getLength()==0||Position_Txfd.getLength()==0||Salary_Txfd.getLength()==0){
+            System.out.println("不能为空");
+        }else if(Id_Txfd.getLength()>10||Salary_Txfd.getLength()>10){
+            System.out.println("ID||Salary 长度大于10");
+        }else
+            Mysql_Input();
+    }
     private void Mysql_Input() {
         Connection con;
         PreparedStatement ps;
@@ -81,11 +99,26 @@ public class Input extends Choice {
             ps.executeUpdate();
 
             Clear_TextField();
+            Input_Successful();
             System.out.println("录入成功");
 
         } catch (Exception ex) {
             ex.getStackTrace();
         }
+    }
+
+    private void Input_Successful(){
+        Stage window1=new Stage();
+        Pane pane=new Pane();
+        Text text=new Text("录入成功");
+        text.setStyle("-fx-font-family:'华文行楷' ;-fx-font-size: 20");
+        text.setX(120);
+        text.setY(100);
+        pane.getChildren().add(text);
+        window1.setScene(new Scene(pane,300,200));
+        window1.setX(550);
+        window1.setY(300);
+        window1.showAndWait();
     }
 
     public void Clear_TextField(){
@@ -107,7 +140,6 @@ public class Input extends Choice {
         //Name_Txfd.setPrefWidth(100);
         //Position_Txfd.setPrefWidth(100);
         //Salary_Txfd.setPrefWidth(100);
-
 
     }
 }
