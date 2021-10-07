@@ -15,6 +15,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.scene.layout.*;
+import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
@@ -29,15 +30,18 @@ public class Inquire extends Choice {
     Button Bt_Return = new Button("返回");
     Button Bt_Delete=new Button("删除");
     TextField Text_Field=new TextField();
-    Stage window =new Stage();
+
 
     @SuppressWarnings({"rawtypes", "unchecked"})
     @Override
     public void start(Stage stage) {
 
+       // Text_Field.setOnDragEntered(e->Delete_User(Text_Field,stage));
         Text_Field.setPromptText("请输入你要删除的用户ID");
         Text_Field.setPrefColumnCount(120);
         Text_Field.setPrefWidth(150);
+
+        Text_Field.setOnAction(e->Delete_User(Text_Field,stage));
 
         //创建 ID NAME POSITION SALARY 列
         TableColumn Id_Column = new TableColumn("ID");
@@ -63,7 +67,7 @@ public class Inquire extends Choice {
         //从数据库导入数据到表格
         Mysql_Select();
         //设置背景
-        box.setBackground(new Background(new BackgroundImage(new Image("file:D:\\IJ_WorkSpace\\out\\production\\IJ_WorkSpace\\Teacher_Salary\\image\\d.jpg"), BackgroundRepeat.REPEAT,BackgroundRepeat.REPEAT, BackgroundPosition.CENTER,BackgroundSize.DEFAULT)));
+        box.setBackground(new Background(new BackgroundImage(new Image("file:D:\\IJ_WorkSpace\\out\\production\\IJ_WorkSpace\\Teacher_Salary\\image\\b.jpg"), BackgroundRepeat.REPEAT,BackgroundRepeat.REPEAT, BackgroundPosition.CENTER,BackgroundSize.DEFAULT)));
         box.setAlignment(Pos.CENTER);
         box.setPadding(new Insets(20,0,20,0));
         box.getChildren().addAll(Bt_Return,Text_Field,Bt_Delete);
@@ -183,7 +187,8 @@ public class Inquire extends Choice {
         Stage window1=new Stage();
         Pane pane=new Pane();
         Text text=new Text("删除成功");
-        text.setStyle("-fx-font-family: '华文行楷';-fx-font:20;-fx-text-fill: 'red'");
+        text.setStyle("-fx-font-family: '华文行楷';-fx-font-size:20");
+        text.setFill(Color.RED);
         text.setX(120);
         text.setY(100);
         pane.getChildren().add(text);

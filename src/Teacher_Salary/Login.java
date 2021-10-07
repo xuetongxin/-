@@ -23,19 +23,16 @@ public class Login extends Application {
     private final StackPane stackpane = new StackPane();
     private final BorderPane borderPane = new BorderPane();
     private final ImageView imageview = new ImageView(
-            new Image("file:D:\\IJ_WorkSpace\\out\\production\\IJ_WorkSpace\\Teacher_Salary\\image\\d.jpg"));
+            new Image("file:D:\\IJ_WorkSpace\\out\\production\\IJ_WorkSpace\\Teacher_Salary\\image\\b.jpg"));
     private final HBox hbox = new HBox(10);
     private final GridPane gridpane = new GridPane();
     private final Button Bt_Login = new Button("登录"); // 设置登录按钮
     private final Button Bt_SingUp = new Button("注册"); // 设置注册按钮
-    private final Label lb1 = new Label("账户:"); // 设置用户名标签
-    private final Label lb2 = new Label("密码:"); // 设置密码标签
+    private final Label Account_Label = new Label("账户:"); // 设置用户名标签
+    private final Label Passwd_Label = new Label("密码:"); // 设置密码标签
     private final TextField Account_TextField = new TextField(); // 设置用户名填充域
     private final PasswordField Passwd_TextField = new PasswordField(); // 设置密码填充域 密码不回显
-    Statement stmt1 = null;
-    Statement stmt2 = null;
-    ResultSet rs1 = null;
-    ResultSet rs2 = null;
+
     private Stage window;
 
     public static void main(String[] args) {
@@ -48,23 +45,21 @@ public class Login extends Application {
         Account_TextField.setPromptText("8~15数字、字母 不能存在符号");
         Passwd_TextField.setPromptText("8~15数字、字母 能存在符号");   //文本域提示语
         Passwd_TextField.setPrefColumnCount(13);    // 首文本长度
-        lb1.setStyle("-fx-font-family: '华文行楷' ;-fx-font-size: 20");
-        lb2.setStyle("-fx-font-family: '华文行楷' ;-fx-font-size: 20");
+        Account_Label.setStyle("-fx-font-family: '华文行楷' ;-fx-font-size: 20");
+        Passwd_Label.setStyle("-fx-font-family: '华文行楷' ;-fx-font-size: 20");
 
         imageview.setFitHeight(810);
         imageview.setFitWidth(1535); // 背景图片属性
         hbox.setAlignment(Pos.TOP_LEFT);
         hbox.setPadding(new Insets(20, 0, 0, 20));
-        Register.Panel_Layout(Bt_Login, lb1, lb2, Account_TextField, Passwd_TextField, gridpane);
+        Register.Panel_Layout(Bt_Login, Account_Label, Passwd_Label, Account_TextField, Passwd_TextField, gridpane);
         Bt_Login.setStyle("-fx-background-color:DODGERBLUE ;-fx-text-fill: white;-fx-font-family: '华文行楷';-fx-border-color: pink");
         Bt_SingUp.setStyle("-fx-background-color:DODGERBLUE ;-fx-text-fill: white;-fx-font-family:'华文行楷';-fx-border-color: pink");
 
-        //Bt_Login.setOnAction(e->Bt_Login_Method());
+        Passwd_TextField.setOnAction(e->{new Choice().start(window);LogIn_Successful();});
+        Bt_Login.setOnAction(e->Bt_Login_Method());
 
-        Bt_Login.setOnAction(e -> {
-            new Choice().start(window);
-            LogIn_Successful();
-        });
+       // Bt_Login.setOnAction(e -> {new Choice().start(window);LogIn_Successful();});
         Bt_SingUp.setOnAction(e -> new Register().start(window));
 
         hbox.getChildren().add(Bt_SingUp);
@@ -76,11 +71,15 @@ public class Login extends Application {
         window.setY(200);
         window.setScene(new Scene(stackpane, 400, 400));
         window.setTitle("登录");
-        window.getIcons().add(new Image("file:D:\\IJ_WorkSpace\\out\\production\\IJ_WorkSpace\\Teacher_Salary\\image\\c.png"));
+        window.getIcons().add(new Image("file:D:\\IJ_WorkSpace\\out\\production\\IJ_WorkSpace\\Teacher_Salary\\image\\t.png"));
         window.show();
     }
 
     private void Bt_Login_Method() {
+        Statement stmt1 = null;
+        Statement stmt2 = null;
+        ResultSet rs1 = null;
+        ResultSet rs2 = null;
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");
             Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/xsl", "root", "xsl203457");
@@ -92,10 +91,10 @@ public class Login extends Application {
         } catch (Exception ex) {
             ex.getStackTrace();
         }
-        Inquire_LogIN();
+        Inquire_LogIN(rs1,rs2);
     }
 
-    private void Inquire_LogIN() {
+    private void Inquire_LogIN(ResultSet rs1,ResultSet rs2) {
         if (!(Account_TextField.getText().matches("") || Passwd_TextField.getText().matches(""))) {
             if (Account_TextField.getLength() >= 8 && Account_TextField.getLength() <= 15 && Passwd_TextField.getLength() >= 8 && Passwd_TextField.getLength() <= 15) {
 
@@ -118,7 +117,7 @@ public class Login extends Application {
 
                             } while (rs2.next());
                         } else {
-                            System.out.print("用户不存在");
+                            System.out.println("用户不存在");
                         }
 
                     } while (rs1.next());

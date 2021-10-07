@@ -56,7 +56,7 @@ public class Input extends Choice {
         Bt_Reset.setOnAction(e -> new Input().start(stage));
         Bt_Ok.setOnAction(e -> JudgeMent_Input());
         Bt_Inquire.setOnAction(e->new Inquire().start(stage));
-        borderPane.setBackground(new Background(new BackgroundImage(new Image("file:D:\\IJ_WorkSpace\\out\\production\\IJ_WorkSpace\\Teacher_Salary\\image\\d.jpg"), BackgroundRepeat.REPEAT,BackgroundRepeat.REPEAT, BackgroundPosition.CENTER,BackgroundSize.DEFAULT)));
+        borderPane.setBackground(new Background(new BackgroundImage(new Image("file:D:\\IJ_WorkSpace\\out\\production\\IJ_WorkSpace\\Teacher_Salary\\image\\b.jpg"), BackgroundRepeat.REPEAT,BackgroundRepeat.REPEAT, BackgroundPosition.CENTER,BackgroundSize.DEFAULT)));
 
         box1.getChildren().add(Bt_Return);
         box2.getChildren().addAll(Bt_Reset,Bt_Inquire);
@@ -72,7 +72,7 @@ public class Input extends Choice {
         stage.show();
     }
 
-    static void Panel_Layout(GridPane gridpane, TextField id_txfd, TextField name_txfd, TextField position_txfd, TextField salary_txfd, Button bt_ok) {
+    private static void Panel_Layout(GridPane gridpane, TextField id_txfd, TextField name_txfd, TextField position_txfd, TextField salary_txfd, Button bt_ok) {
         Label Salary_Label=new Label("薪水");
         Salary_Label.setStyle("-fx-text-fill:'white'");
         gridpane.setHgap(5);

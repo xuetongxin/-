@@ -45,6 +45,7 @@ public class Register extends Application {
 
         Bt_Return.setOnAction(e -> new Login().start(stage));
         Bt_Register.setOnAction(e -> Register_Method());
+        Passwd_TextField.setOnAction(e->Register_Method());
 
         Scene scene = new Scene(borderpane, 400, 400);
         stage.setScene(scene);
@@ -103,11 +104,13 @@ public class Register extends Application {
                     System.out.println("用户存在");
                     prompt();
                     System.out.println("!!!!");
+                    break;
+
                 } else {
                     System.out.println("用户不存在");
                     Register_User();
                     System.out.println("！！！");
-                    break;
+
                 }
             } while (rs1.next());
         }catch (Exception ex){ex.getStackTrace();}

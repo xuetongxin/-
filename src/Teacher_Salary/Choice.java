@@ -30,14 +30,14 @@ public class Choice extends Login {
     final GridPane gridpane = new GridPane();
 
     public void start(Stage stage) {
-
         Body();
-        Bt_Choice_Method(stage); // 按键选项
+
+        Label_Choice_Method(stage); // 按键选项
         box.setAlignment(Pos.TOP_CENTER); //Box 在面板中的位置
         box.setPadding(new Insets(0, 0, 100, 0)); // Box 节点距上，右，下，左 的距离
         box.getChildren().addAll(Bt_Input, Bt_Update, Bt_Select ,Bt_Close);
 
-        borderpane.setBackground(new Background(new BackgroundImage(new Image("file:D:\\IJ_WorkSpace\\out\\production\\IJ_WorkSpace\\Teacher_Salary\\image\\d.jpg"), BackgroundRepeat.REPEAT,BackgroundRepeat.REPEAT, BackgroundPosition.CENTER,BackgroundSize.DEFAULT)));
+        borderpane.setBackground(new Background(new BackgroundImage(new Image("file:D:\\IJ_WorkSpace\\out\\production\\IJ_WorkSpace\\Teacher_Salary\\image\\b.jpg"), BackgroundRepeat.REPEAT,BackgroundRepeat.REPEAT, BackgroundPosition.CENTER,BackgroundSize.DEFAULT)));
 
         borderpane.setCenter(gridpane);
         borderpane.setBottom(box);
@@ -87,7 +87,7 @@ public class Choice extends Login {
         Bt_Close.setStyle("-fx-background-color:DODGERBLUE;-fx-text-fill:white");
     }
 
-    private void Bt_Choice_Method(Stage stage) {
+    private void Label_Choice_Method(Stage stage) {
 
         Bt_Input.setOnAction(e -> new Input().start(stage));
 
@@ -96,6 +96,14 @@ public class Choice extends Login {
         Bt_Select.setOnAction(e -> new Inquire().start(stage));
         //关闭界面
         Bt_Close.setOnAction(e -> {stage.close();System.out.println("关闭窗体");});
+
+        Input_Label.setOnMouseClicked(e -> new Input().start(stage));
+
+        Update_label.setOnMouseClicked(e -> new Update().start(stage));
+
+        Select_Label.setOnMouseClicked(e -> new Inquire().start(stage));
+        //关闭界面
+        Close_Label.setOnMouseClicked(e -> {stage.close();System.out.println("关闭窗体");});
     }
 
 }
