@@ -25,11 +25,11 @@ public class Inquire extends Choice {
     Inquire() {
     }
     //创建表格
-    TableView<Teacher> table = new TableView<>();
-    HBox box = new HBox(80);
-    Button Bt_Return = new Button("返回");
-    Button Bt_Delete=new Button("删除");
-    TextField Text_Field=new TextField();
+    final TableView<Teacher> table = new TableView<>();
+    final HBox box = new HBox(200);
+    final Button Bt_Return = new Button("返回");
+    final  Button Bt_Delete=new Button("删除");
+    public final TextField Text_Field=new TextField();
 
 
     @SuppressWarnings({"rawtypes", "unchecked"})
@@ -67,7 +67,7 @@ public class Inquire extends Choice {
         //从数据库导入数据到表格
         Mysql_Select();
         //设置背景
-        box.setBackground(new Background(new BackgroundImage(new Image("file:D:\\IJ_WorkSpace\\out\\production\\IJ_WorkSpace\\Teacher_Salary\\image\\b.jpg"), BackgroundRepeat.REPEAT,BackgroundRepeat.REPEAT, BackgroundPosition.CENTER,BackgroundSize.DEFAULT)));
+        box.setBackground(new Background(new BackgroundImage(new Image("file:D:\\IJ_WorkSpace\\out\\production\\IJ_WorkSpace\\Teacher_Salary\\image\\bg.jpg"), BackgroundRepeat.REPEAT,BackgroundRepeat.REPEAT, BackgroundPosition.CENTER,BackgroundSize.DEFAULT)));
         box.setAlignment(Pos.CENTER);
         box.setPadding(new Insets(20,0,20,0));
         box.getChildren().addAll(Bt_Return,Text_Field,Bt_Delete);
@@ -81,10 +81,10 @@ public class Inquire extends Choice {
 
         borderpane.setCenter(table);
         borderpane.setTop(box);
-        stage.setX(500);
-        stage.setY(200);
+        //stage.setX(500);
+        //stage.setY(200);
         stage.setTitle("查询");
-        stage.setScene(new Scene(borderpane, 400, 400));
+        stage.setScene(new Scene(borderpane));
         stage.show();
 
     }

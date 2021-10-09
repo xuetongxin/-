@@ -6,7 +6,10 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
-import javafx.scene.layout.*;
+import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.GridPane;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontPosture;
@@ -16,7 +19,6 @@ import javafx.stage.Stage;
 public class Choice extends Login {
     Choice() {
     }
-
     final HBox box = new HBox(50);
     final Button Bt_Input = new Button("录入");
     final Button Bt_Update = new Button("修改");
@@ -26,25 +28,31 @@ public class Choice extends Login {
     final Label Update_label = new Label();
     final Label Select_Label = new Label();
     final Label Close_Label=new Label();
+    final StackPane stackPane=new StackPane();
     final BorderPane borderpane = new BorderPane();
     final GridPane gridpane = new GridPane();
 
     public void start(Stage stage) {
         Body();
 
-        Label_Choice_Method(stage); // 按键选项
+        Label_Button_Choice_Method(stage); // 按键选项
+
+        imageview.setFitHeight(810);
+        imageview.setFitWidth(1535); // 背景图片属性
+        imageview.setImage(new Image("file:D:\\IJ_WorkSpace\\out\\production\\IJ_WorkSpace\\Teacher_Salary\\image\\bg.jpg"));
+
         box.setAlignment(Pos.TOP_CENTER); //Box 在面板中的位置
         box.setPadding(new Insets(0, 0, 100, 0)); // Box 节点距上，右，下，左 的距离
         box.getChildren().addAll(Bt_Input, Bt_Update, Bt_Select ,Bt_Close);
 
-        borderpane.setBackground(new Background(new BackgroundImage(new Image("file:D:\\IJ_WorkSpace\\out\\production\\IJ_WorkSpace\\Teacher_Salary\\image\\b.jpg"), BackgroundRepeat.REPEAT,BackgroundRepeat.REPEAT, BackgroundPosition.CENTER,BackgroundSize.DEFAULT)));
+        //borderpane.setBackground(new Background(new BackgroundImage(new Image("file:D:\\IJ_WorkSpace\\out\\production\\IJ_WorkSpace\\Teacher_Salary\\image\\bg6.jpg"), BackgroundRepeat.REPEAT,BackgroundRepeat.REPEAT, BackgroundPosition.DEFAULT,BackgroundSize.DEFAULT)));
 
         borderpane.setCenter(gridpane);
         borderpane.setBottom(box);
-
-        Scene scene = new Scene(borderpane, 400, 400);
-        stage.setX(500);
-        stage.setY(200);
+        stackPane.getChildren().addAll(imageview,borderpane);
+        Scene scene = new Scene(stackPane);
+        stage.setX(0);
+        stage.setY(0);
         stage.setScene(scene);
         stage.setTitle("");
 
@@ -87,7 +95,7 @@ public class Choice extends Login {
         Bt_Close.setStyle("-fx-background-color:DODGERBLUE;-fx-text-fill:white");
     }
 
-    private void Label_Choice_Method(Stage stage) {
+    private void Label_Button_Choice_Method(Stage stage) {
 
         Bt_Input.setOnAction(e -> new Input().start(stage));
 
