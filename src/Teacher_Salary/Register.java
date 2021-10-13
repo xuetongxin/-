@@ -34,6 +34,8 @@ public class Register extends Application {
 
     @Override
     public void start(Stage stage) {
+
+
         // TODO 自动生成的方法存根
         window = stage;
 
@@ -51,8 +53,10 @@ public class Register extends Application {
         borderpane.setTop(box);
 
         Bt_Return.setOnAction(e -> new Login().start(stage));
-        Bt_Register.setOnAction(e -> Register_Method());
-        Passwd_TextField.setOnAction(e->Register_Method());
+        Bt_Register.setOnAction(e -> Register_Method(Account_TextField));
+        Passwd_TextField.setOnAction(e->Register_Method(Account_TextField));
+
+
 
         stackPane.getChildren().addAll(imageView,borderpane);
         Scene scene = new Scene(stackPane);
@@ -73,12 +77,13 @@ public class Register extends Application {
     }
 
 
-    private void Register_Method() {
+    private void Register_Method(TextField account_TextField) {
+
 
             if (!(Account_TextField.getText().matches("")||Passwd_TextField.getText().matches(""))) {
 
                 if (Account_TextField.getLength()>=8&&Account_TextField.getLength()<=15&&Passwd_TextField.getLength()>=8&&Passwd_TextField.getLength()<=15) {
-                    Judgement();
+                    Judgement(account_TextField);
                 }else{
                     Alert alert=new Alert(Alert.AlertType.WARNING,"账户或者密码长度小于8|大于15");
                     alert.showAndWait();
@@ -90,7 +95,7 @@ public class Register extends Application {
             }
 
     }
-    private void Judgement(){
+    private void Judgement(TextField account_TextField){
         Statement stmt1;
         ResultSet rs1 = null;
         try {
@@ -120,29 +125,29 @@ public class Register extends Application {
                 alert.showAndWait();
             }else{
                 System.out.println("用户不存在");
-                Register_User();
+                Register_User(account_TextField);
             }
 
         }catch (Exception ex){ex.getStackTrace();}
     }
 
-    void Register_User() {
+    void Register_User(TextField account_TextField) {
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");
             Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/xsl", "root",
                     "xsl203457");
-            PreparedStatement ps1 = con
-                    .prepareStatement("insert into xsl.passwd_date (account,passwd) values (?,?)");
+            PreparedStatement ps1 = con.prepareStatement("insert into xsl.passwd_date (account,passwd) values (?,?)");
             ps1.setString(1, Account_TextField.getText());
             ps1.setString(2, Passwd_TextField.getText());
             ps1.executeUpdate();
             ps1.close();
 
-            Account_TextField.clear();
-            Passwd_TextField.clear();
             Alert alert=new Alert(Alert.AlertType.INFORMATION,"注册成功");
             alert.showAndWait();
             System.out.println("注册成功");
+
+            Account_TextField.clear();
+            Passwd_TextField.clear();
         } catch (Exception ex) {
             ex.getStackTrace();
         }

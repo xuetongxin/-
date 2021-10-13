@@ -1,29 +1,23 @@
 package Teacher_Salary;
 
-import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
-import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.GridPane;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.StackPane;
+import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontPosture;
 import javafx.scene.text.FontWeight;
+import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
 public class Choice extends Login {
     Choice() {
     }
     final HBox box = new HBox(50);
-    final Button Bt_Input = new Button("录入");
-    final Button Bt_Update = new Button("修改");
-    final Button Bt_Select = new Button("查询");
-    final Button Bt_Close = new Button("关闭");
     final Label Input_Label = new Label();
     final Label Update_label = new Label();
     final Label Select_Label = new Label();
@@ -34,28 +28,16 @@ public class Choice extends Login {
 
     public void start(Stage stage) {
         Body();
-
         Label_Button_Choice_Method(stage); // 按键选项
-
-        imageview.setFitHeight(810);
-        imageview.setFitWidth(1535); // 背景图片属性
+        imageview.setFitHeight(1080);
+        imageview.setFitWidth(1985); // 背景图片属性
         imageview.setImage(new Image("file:D:\\IJ_WorkSpace\\out\\production\\IJ_WorkSpace\\Teacher_Salary\\image\\bg.jpg"));
-
-        box.setAlignment(Pos.TOP_CENTER); //Box 在面板中的位置
-        box.setPadding(new Insets(0, 0, 100, 0)); // Box 节点距上，右，下，左 的距离
-        box.getChildren().addAll(Bt_Input, Bt_Update, Bt_Select ,Bt_Close);
-
         //borderpane.setBackground(new Background(new BackgroundImage(new Image("file:D:\\IJ_WorkSpace\\out\\production\\IJ_WorkSpace\\Teacher_Salary\\image\\bg6.jpg"), BackgroundRepeat.REPEAT,BackgroundRepeat.REPEAT, BackgroundPosition.DEFAULT,BackgroundSize.DEFAULT)));
 
         borderpane.setCenter(gridpane);
-        borderpane.setBottom(box);
         stackPane.getChildren().addAll(imageview,borderpane);
         Scene scene = new Scene(stackPane);
-        stage.setX(0);
-        stage.setY(0);
         stage.setScene(scene);
-        stage.setTitle("");
-
         stage.show();
     }
 
@@ -88,30 +70,49 @@ public class Choice extends Login {
         gridpane.add(Close_Label, 0, 3);
         gridpane.setAlignment(Pos.CENTER);
 
-        //按钮填充颜色
-        Bt_Input.setStyle("-fx-background-color:DODGERBLUE;-fx-text-fill:white");
-        Bt_Update.setStyle("-fx-background-color:DODGERBLUE;-fx-text-fill:white");
-        Bt_Select.setStyle("-fx-background-color:DODGERBLUE;-fx-text-fill:white");
-        Bt_Close.setStyle("-fx-background-color:DODGERBLUE;-fx-text-fill:white");
     }
 
     private void Label_Button_Choice_Method(Stage stage) {
-
-        Bt_Input.setOnAction(e -> new Input().start(stage));
-
-        Bt_Update.setOnAction(e -> new Update().start(stage));
-
-        Bt_Select.setOnAction(e -> new Inquire().start(stage));
-        //关闭界面
-        Bt_Close.setOnAction(e -> {stage.close();System.out.println("关闭窗体");});
-
         Input_Label.setOnMouseClicked(e -> new Input().start(stage));
 
         Update_label.setOnMouseClicked(e -> new Update().start(stage));
 
-        Select_Label.setOnMouseClicked(e -> new Inquire().start(stage));
+        Select_Label.setOnMouseClicked(e -> Choice_Inquire_Method(stage));
         //关闭界面
-        Close_Label.setOnMouseClicked(e -> {stage.close();System.out.println("关闭窗体");});
+        Close_Label.setOnMouseClicked(e -> {
+            Alert alert=new Alert(Alert.AlertType.CONFIRMATION,"Exit?");
+            alert.showAndWait();
+            if(alert.getResult().getButtonData().isDefaultButton()){stage.close(); System.out.println("关闭窗体");}
+        });
+    }
+
+    void Choice_Inquire_Method(Stage stage){
+        Button Bt_Return=new Button("返回");
+        Text Teacher_Salary=new Text("教师工资查询");
+        Text Information_Inquire=new Text("教师信息查询");
+        Teacher_Salary.setStyle("-fx-font-family: '华文行楷';-fx-font-size: 30");
+        Information_Inquire.setStyle("-fx-font-family: '华文行楷';-fx-font-size: 30");
+
+        Teacher_Salary.setOnMouseClicked(e->{
+            try {
+                new Salary_Inquire().start(stage);
+            } catch (Exception ex) {
+                ex.printStackTrace();
+            }
+        });
+
+        Information_Inquire.setOnMouseClicked(e->{
+            new Inquire().start(stage);
+        });
+        Bt_Return.setOnAction(e->new Choice().start(stage));
+
+        VBox box = new VBox(10);
+        box.setAlignment(Pos.CENTER);
+        box.getChildren().addAll(Teacher_Salary,Information_Inquire,Bt_Return);
+
+        stage.setScene(new Scene(box));
+        stage.show();
+
     }
 
 }

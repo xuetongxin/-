@@ -1,6 +1,8 @@
 package Teacher_Salary;
 
 import javafx.application.Application;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -13,10 +15,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.ResultSet;
-import java.sql.Statement;
+import java.sql.*;
 
 public class Login extends Application {
     private final StackPane stackpane = new StackPane();
@@ -56,19 +55,27 @@ public class Login extends Application {
 
         Bt_Login.setStyle("-fx-background-color:DODGERBLUE ;-fx-text-fill: white;-fx-font-family: '华文行楷';-fx-border-color: pink");
         Bt_SingUp.setStyle("-fx-background-color:DODGERBLUE ;-fx-text-fill: white;-fx-font-family:'华文行楷';-fx-border-color: pink");
-        Bt_Login.setOnAction(e->Bt_Login_Method());
-        //Bt_Login.setOnAction(e -> {new Choice().start(window);});
+        //Bt_Login.setOnAction(e->Bt_Login_Method());
+        Bt_Login.setOnAction(e -> {new Choice().start(window);});
         Bt_SingUp.setOnAction(e -> new Register().start(window));
-        Passwd_TextField.setOnAction(e->{new Choice().start(window);});
+        Passwd_TextField.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent e) {
+                Bt_Login_Method();
+            }
+        });
 
         hbox.getChildren().add(Bt_SingUp);
         borderPane.setTop(hbox);
         borderPane.setCenter(gridpane);
         stackpane.getChildren().addAll(imageview, borderPane);
 
-        //window.setX(500);
-        //window.setY(200);
+        window.setX(500);
+        window.setY(200);
         window.setScene(new Scene(stackpane,300,300));
+        window.setHeight(500);
+        window.setWidth(500);
+
         window.setTitle("登录");
         window.getIcons().add(new Image("file:D:\\IJ_WorkSpace\\out\\production\\IJ_WorkSpace\\Teacher_Salary\\image\\t.png"));
         window.show();
@@ -76,16 +83,18 @@ public class Login extends Application {
 
     private void Bt_Login_Method() {
         Statement stmt1;
-        Statement stmt2;
+        PreparedStatement preparedStatement;
         ResultSet rs1 = null;
         ResultSet rs2 = null;
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");
             Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/xsl", "root", "xsl203457");
             stmt1 = con.createStatement();
-            stmt2 = con.createStatement();
+            preparedStatement=con.prepareStatement("select passwd from xsl.passwd_date where account=?");
+            preparedStatement.setString(1,Account_TextField.getText());
+            rs2= preparedStatement.executeQuery();
+
             rs1 = stmt1.executeQuery("select account from passwd_date");
-            rs2 = stmt2.executeQuery("select passwd from passwd_date");
 
         } catch (Exception ex) {
             ex.getStackTrace();
