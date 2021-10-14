@@ -20,12 +20,11 @@ public class Inquire extends Choice {
     public final TextField Text_Field = new TextField();
     //创建表格
     final TableView<Teacher> table = new TableView<>();
-    ObservableList<Teacher> data = FXCollections.observableArrayList();
     final HBox box = new HBox(50);
-    final Button Bt_Inquire=new Button("查询");
+    final Button Bt_Inquire = new Button("查询");
     final Button Bt_Return = new Button("返回");
     final Button Bt_Delete = new Button("删除");
-
+    ObservableList<Teacher> data = FXCollections.observableArrayList();
 
     @SuppressWarnings({"rawtypes", "unchecked"})
     @Override
@@ -47,7 +46,7 @@ public class Inquire extends Choice {
         TableColumn Address_Column = new TableColumn("ADDRESS");
         TableColumn Position_Column = new TableColumn("POSITION");
         TableColumn TootleSalary_Column = new TableColumn("TOOTLE_SALARY");
-        TableColumn AverageSalary_Column=new TableColumn("AVERAGE_SALARY");
+        TableColumn AverageSalary_Column = new TableColumn("AVERAGE_SALARY");
 
         //数据绑定
         Id_Column.setCellValueFactory(new PropertyValueFactory<>("Id"));
@@ -76,7 +75,7 @@ public class Inquire extends Choice {
 
 
         //表格加入创建的Columns
-        table.getColumns().addAll(Id_Column, Name_Column, Sex_Column, Birth_Column, Age_Column, Marriage_Status_Column, Address_Column, Position_Column, TootleSalary_Column,AverageSalary_Column);
+        table.getColumns().addAll(Id_Column, Name_Column, Sex_Column, Birth_Column, Age_Column, Marriage_Status_Column, Address_Column, Position_Column, TootleSalary_Column, AverageSalary_Column);
 
         /*
         table.setEditable(true);
@@ -91,11 +90,10 @@ public class Inquire extends Choice {
         */
 
 
-
         box.setBackground(new Background(new BackgroundImage(new Image("file:D:\\IJ_WorkSpace\\out\\production\\IJ_WorkSpace\\Teacher_Salary\\image\\bg.jpg"), BackgroundRepeat.REPEAT, BackgroundRepeat.REPEAT, BackgroundPosition.CENTER, BackgroundSize.DEFAULT)));
         box.setAlignment(Pos.CENTER);
         box.setPadding(new Insets(30, 0, 30, 0));
-        box.getChildren().addAll( Text_Field, Bt_Delete,Bt_Inquire,Bt_Return);
+        box.getChildren().addAll(Text_Field, Bt_Delete, Bt_Inquire, Bt_Return);
 
         // 宽度绑定窗口的宽度（意思窗口大小改变，它也跟着改变，自适应效果）
         table.prefWidthProperty().bind(stage.widthProperty());
@@ -103,31 +101,30 @@ public class Inquire extends Choice {
 
         Bt_Return.setOnAction(e -> new Choice().Choice_Inquire_Method(stage));
         Bt_Delete.setOnAction(e -> Delete_User(Text_Field, stage));
-        Bt_Inquire.setOnAction(e->{
+        Bt_Inquire.setOnAction(e -> {
 
-            if(Text_Field.getLength()>0){
-                int row=table.getItems().size();
+            if (Text_Field.getLength() > 0) {
+                int row = table.getItems().size();
 
-                if(table.getItems().size()>0){
-                    for (int i=0;i<row;i++){
+                if (table.getItems().size() > 0) {
+                    for (int i = 0; i < row; i++) {
                         table.getItems().remove(0);
                         System.out.println(table.getItems().size());
                     }
 
                     Position_Inquire();
-                }else
+                } else
                     Position_Inquire();
 
-            }
-            else{
-                if(table.getItems().size()>0){
-                    int row=table.getItems().size();
-                    for (int i=0;i<row;i++){
+            } else {
+                if (table.getItems().size() > 0) {
+                    int row = table.getItems().size();
+                    for (int i = 0; i < row; i++) {
                         table.getItems().remove(0);
                         System.out.println(table.getItems().size());
                     }
                     Mysql_Select();
-                }else
+                } else
                     Mysql_Select();
             }
 
@@ -138,28 +135,32 @@ public class Inquire extends Choice {
         //stage.setX(500);
         //stage.setY(200);
         stage.setTitle("查询");
-        stage.setScene(new Scene(borderpane));
+        stage.setScene(new Scene(borderpane,500,500));
+        stage.setMinHeight(500);
+        stage.setMinWidth(500);
         stage.show();
     }
 
     private void Position_Inquire() {
-        try{
+        try {
             System.out.println("连接数据库");
             Class.forName("com.mysql.cj.jdbc.Driver");
-            Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/xsl?","root","xsl203457");
-            PreparedStatement preparedStatement= connection.prepareStatement("select * from xsl.teacher_salary where position=?");
+            Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/xsl?", "root", "xsl203457");
+            PreparedStatement preparedStatement = connection.prepareStatement("select * from xsl.teacher_salary where position=?");
             preparedStatement.setString(1, Text_Field.getText());
             ResultSet rs1 = preparedStatement.executeQuery();
-            while(rs1.next()){
-               data.add(new Teacher(rs1.getInt(1), rs1.getString(2), rs1.getString(3), rs1.getInt(4), rs1.getInt(5), rs1.getString(6), rs1.getString(7), rs1.getString(8), rs1.getDouble(9), rs1.getDouble(10)));
-               table.setItems(data);
+            while (rs1.next()) {
+                data.add(new Teacher(rs1.getInt(1), rs1.getString(2), rs1.getString(3), rs1.getInt(4), rs1.getInt(5), rs1.getString(6), rs1.getString(7), rs1.getString(8), rs1.getDouble(9), rs1.getDouble(10)));
+                table.setItems(data);
 
             }
             System.out.println("查询成功");
 
-           // new Inquire().start(window);
+            // new Inquire().start(window);
 
-        }catch(Exception exception){exception.getStackTrace();}
+        } catch (Exception exception) {
+            exception.getStackTrace();
+        }
     }
 
     private void Mysql_Select() {
@@ -193,7 +194,7 @@ public class Inquire extends Choice {
             preparedStatement.execute();
             new Inquire().start(stage);
 
-            Alert alert=new Alert(Alert.AlertType.INFORMATION,"删除成功");
+            Alert alert = new Alert(Alert.AlertType.INFORMATION, "删除成功");
             alert.showAndWait();
 
             System.out.println("删除成功");
@@ -216,7 +217,7 @@ public class Inquire extends Choice {
         private final SimpleDoubleProperty TootleSalary;
         private final SimpleDoubleProperty AverageSalary;
 
-        Teacher(int id, String name, String sex, int birth, int age, String marriage_status, String address, String position, double tootle_salary,double average_salary) {
+        Teacher(int id, String name, String sex, int birth, int age, String marriage_status, String address, String position, double tootle_salary, double average_salary) {
             this.Id = new SimpleIntegerProperty(id);
             this.Name = new SimpleStringProperty(name);
             this.Sex = new SimpleStringProperty(sex);
@@ -226,7 +227,7 @@ public class Inquire extends Choice {
             this.Address = new SimpleStringProperty(address);
             this.Position = new SimpleStringProperty(position);
             this.TootleSalary = new SimpleDoubleProperty(tootle_salary);
-            this.AverageSalary=new SimpleDoubleProperty(average_salary);
+            this.AverageSalary = new SimpleDoubleProperty(average_salary);
         }
 
         public int getId() {
@@ -297,14 +298,16 @@ public class Inquire extends Choice {
             return TootleSalary.get();
         }
 
-        public void setTootleSalary(double tootle_salary) {TootleSalary.set(tootle_salary);}
-
-        public void setAverageSalary(double average_salary) {
-            AverageSalary.set(average_salary);
+        public void setTootleSalary(double tootle_salary) {
+            TootleSalary.set(tootle_salary);
         }
 
         public double getAverageSalary() {
             return AverageSalary.get();
+        }
+
+        public void setAverageSalary(double average_salary) {
+            AverageSalary.set(average_salary);
         }
 
     }

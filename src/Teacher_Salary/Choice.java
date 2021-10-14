@@ -15,16 +15,16 @@ import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
 public class Choice extends Login {
-    Choice() {
-    }
     final HBox box = new HBox(50);
     final Label Input_Label = new Label();
     final Label Update_label = new Label();
     final Label Select_Label = new Label();
-    final Label Close_Label=new Label();
-    final StackPane stackPane=new StackPane();
+    final Label Close_Label = new Label();
+    final StackPane stackPane = new StackPane();
     final BorderPane borderpane = new BorderPane();
     final GridPane gridpane = new GridPane();
+    Choice() {
+    }
 
     public void start(Stage stage) {
         Body();
@@ -35,9 +35,10 @@ public class Choice extends Login {
         //borderpane.setBackground(new Background(new BackgroundImage(new Image("file:D:\\IJ_WorkSpace\\out\\production\\IJ_WorkSpace\\Teacher_Salary\\image\\bg6.jpg"), BackgroundRepeat.REPEAT,BackgroundRepeat.REPEAT, BackgroundPosition.DEFAULT,BackgroundSize.DEFAULT)));
 
         borderpane.setCenter(gridpane);
-        stackPane.getChildren().addAll(imageview,borderpane);
-        Scene scene = new Scene(stackPane);
-        stage.setScene(scene);
+        stackPane.getChildren().addAll(imageview, borderpane);
+        stage.setScene(new Scene(stackPane, 500, 500));
+        stage.setMinHeight(500);
+        stage.setMinWidth(500);
         stage.show();
     }
 
@@ -80,20 +81,23 @@ public class Choice extends Login {
         Select_Label.setOnMouseClicked(e -> Choice_Inquire_Method(stage));
         //关闭界面
         Close_Label.setOnMouseClicked(e -> {
-            Alert alert=new Alert(Alert.AlertType.CONFIRMATION,"Exit?");
+            Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "Exit?");
             alert.showAndWait();
-            if(alert.getResult().getButtonData().isDefaultButton()){stage.close(); System.out.println("关闭窗体");}
+            if (alert.getResult().getButtonData().isDefaultButton()) {
+                stage.close();
+                System.out.println("关闭窗体");
+            }
         });
     }
 
-    void Choice_Inquire_Method(Stage stage){
-        Button Bt_Return=new Button("返回");
-        Text Teacher_Salary=new Text("教师工资查询");
-        Text Information_Inquire=new Text("教师信息查询");
+    void Choice_Inquire_Method(Stage stage) {
+        Button Bt_Return = new Button("返回");
+        Text Teacher_Salary = new Text("教师工资查询");
+        Text Information_Inquire = new Text("教师信息查询");
         Teacher_Salary.setStyle("-fx-font-family: '华文行楷';-fx-font-size: 30");
         Information_Inquire.setStyle("-fx-font-family: '华文行楷';-fx-font-size: 30");
 
-        Teacher_Salary.setOnMouseClicked(e->{
+        Teacher_Salary.setOnMouseClicked(e -> {
             try {
                 new Salary_Inquire().start(stage);
             } catch (Exception ex) {
@@ -101,16 +105,21 @@ public class Choice extends Login {
             }
         });
 
-        Information_Inquire.setOnMouseClicked(e->{
+        Information_Inquire.setOnMouseClicked(e -> {
             new Inquire().start(stage);
         });
-        Bt_Return.setOnAction(e->new Choice().start(stage));
+        Bt_Return.setOnAction(e -> new Choice().start(stage));
 
         VBox box = new VBox(10);
         box.setAlignment(Pos.CENTER);
-        box.getChildren().addAll(Teacher_Salary,Information_Inquire,Bt_Return);
+        box.getChildren().addAll(Teacher_Salary, Information_Inquire, Bt_Return);
 
-        stage.setScene(new Scene(box));
+
+        //stage.setX(500);
+        //stage.setY(300);
+        stage.setScene(new Scene(box, 500, 500));
+        stage.setMinWidth(500);
+        stage.setMinHeight(500);
         stage.show();
 
     }

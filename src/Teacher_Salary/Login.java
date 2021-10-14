@@ -18,16 +18,16 @@ import javafx.stage.Stage;
 import java.sql.*;
 
 public class Login extends Application {
-    private final StackPane stackpane = new StackPane();
-    private final BorderPane borderPane = new BorderPane();
     final ImageView imageview = new ImageView(
             new Image("file:D:\\IJ_WorkSpace\\out\\production\\IJ_WorkSpace\\Teacher_Salary\\image\\bg.jpg"));
+    final Label Account_Label = new Label("账户:"); // 设置用户名标签
+    final Label Passwd_Label = new Label("密码:"); // 设置密码标签
+    private final StackPane stackpane = new StackPane();
+    private final BorderPane borderPane = new BorderPane();
     private final HBox hbox = new HBox(10);
     private final GridPane gridpane = new GridPane();
     private final Button Bt_Login = new Button("登录"); // 设置登录按钮
     private final Button Bt_SingUp = new Button("注册"); // 设置注册按钮
-    final Label Account_Label = new Label("账户:"); // 设置用户名标签
-    final Label Passwd_Label = new Label("密码:"); // 设置密码标签
     private final TextField Account_TextField = new TextField(); // 设置用户名填充域
     private final PasswordField Passwd_TextField = new PasswordField(); // 设置密码填充域 密码不回显
 
@@ -56,7 +56,9 @@ public class Login extends Application {
         Bt_Login.setStyle("-fx-background-color:DODGERBLUE ;-fx-text-fill: white;-fx-font-family: '华文行楷';-fx-border-color: pink");
         Bt_SingUp.setStyle("-fx-background-color:DODGERBLUE ;-fx-text-fill: white;-fx-font-family:'华文行楷';-fx-border-color: pink");
         //Bt_Login.setOnAction(e->Bt_Login_Method());
-        Bt_Login.setOnAction(e -> {new Choice().start(window);});
+        Bt_Login.setOnAction(e -> {
+            new Choice().start(window);
+        });
         Bt_SingUp.setOnAction(e -> new Register().start(window));
         Passwd_TextField.setOnAction(new EventHandler<ActionEvent>() {
             @Override
@@ -70,11 +72,11 @@ public class Login extends Application {
         borderPane.setCenter(gridpane);
         stackpane.getChildren().addAll(imageview, borderPane);
 
-        window.setX(500);
-        window.setY(200);
-        window.setScene(new Scene(stackpane,300,300));
-        window.setHeight(500);
-        window.setWidth(500);
+        //window.setX(500);
+        //window.setY(100);
+        window.setScene(new Scene(stackpane,500,500));
+        window.setMinHeight(500);
+        window.setMinWidth(500);
 
         window.setTitle("登录");
         window.getIcons().add(new Image("file:D:\\IJ_WorkSpace\\out\\production\\IJ_WorkSpace\\Teacher_Salary\\image\\t.png"));
@@ -90,72 +92,74 @@ public class Login extends Application {
             Class.forName("com.mysql.cj.jdbc.Driver");
             Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/xsl", "root", "xsl203457");
             stmt1 = con.createStatement();
-            preparedStatement=con.prepareStatement("select passwd from xsl.passwd_date where account=?");
-            preparedStatement.setString(1,Account_TextField.getText());
-            rs2= preparedStatement.executeQuery();
+            preparedStatement = con.prepareStatement("select passwd from xsl.passwd_date where account=?");
+            preparedStatement.setString(1, Account_TextField.getText());
+            rs2 = preparedStatement.executeQuery();
 
             rs1 = stmt1.executeQuery("select account from passwd_date");
 
         } catch (Exception ex) {
             ex.getStackTrace();
         }
-        Judgement(rs1,rs2);
+        Judgement(rs1, rs2);
     }
 
-    private void Judgement(ResultSet rs1,ResultSet rs2) {
+    private void Judgement(ResultSet rs1, ResultSet rs2) {
 
         if ((Account_TextField.getText().matches("") || Passwd_TextField.getText().matches(""))) {
-            Alert alert=new Alert(Alert.AlertType.WARNING,"账户或者密码为空");
+            Alert alert = new Alert(Alert.AlertType.WARNING, "账户或者密码为空");
             alert.showAndWait();
             System.out.println("账户或者密码为空");
         } else if (!(Account_TextField.getLength() >= 8 && Account_TextField.getLength() <= 15 && Passwd_TextField.getLength() >= 8 && Passwd_TextField.getLength() <= 15)) {
-            Alert alert=new Alert(Alert.AlertType.WARNING,"账户或者密码长度小于8|大于15");
+            Alert alert = new Alert(Alert.AlertType.WARNING, "账户或者密码长度小于8|大于15");
             alert.showAndWait();
-                System.out.println("账户或者密码长度小于8|大于15");
+            System.out.println("账户或者密码长度小于8|大于15");
 
-        } else{
-            Inquire_User(rs1,rs2);
+        } else {
+            Inquire_User(rs1, rs2);
         }
     }
 
-    private void Inquire_User(ResultSet rs1,ResultSet rs2){
-        boolean User_UnExit=false;
-        boolean User_Exit=false;
-        boolean Passwd_True=false;
+    private void Inquire_User(ResultSet rs1, ResultSet rs2) {
+        boolean User_UnExit = false;
+        boolean User_Exit = false;
+        boolean Passwd_True = false;
 
         try {
-            while (rs1.next()){
+            while (rs1.next()) {
                 if (rs1.getString(1).matches(Account_TextField.getText())) {
-                    User_Exit=true;
-                    try{
+                    User_Exit = true;
+                    try {
                         while (rs2.next()) {
                             if (rs2.getString(1).matches(Passwd_TextField.getText())) {
-                                Passwd_True=true;
+                                Passwd_True = true;
                                 System.out.println("登录成功");
                                 break;
                             }
                         }
-                    }catch(Exception ex){ex.getStackTrace();}
+                    } catch (Exception ex) {
+                        ex.getStackTrace();
+                    }
 
                 } else {
-                    User_UnExit=true;
+                    User_UnExit = true;
                     System.out.println("用户不存在");
                 }
             }
 
-            if(User_Exit){
-                if (Passwd_True){
-                    Alert alert=new Alert(Alert.AlertType.INFORMATION,"欢迎进入教师工资管理系统");
+            if (User_Exit) {
+                if (Passwd_True) {
+                    Alert alert = new Alert(Alert.AlertType.INFORMATION, "欢迎进入教师工资管理系统");
                     alert.setHeaderText("你好");
                     alert.showAndWait();
                     new Choice().start(window);
-                }else{
-                    Alert alert=new Alert(Alert.AlertType.ERROR,"密码错误");
+                } else {
+                    Alert alert = new Alert(Alert.AlertType.ERROR, "密码错误");
                     alert.showAndWait();
                 }
 
-            }else if(User_UnExit){
-                Alert alert=new Alert(Alert.AlertType.ERROR,"用户不存在");
+            } else if (User_UnExit) {
+                Alert alert = new Alert(Alert.AlertType.ERROR, "用户不存在");
                 alert.showAndWait();
             }
 
