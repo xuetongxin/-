@@ -20,7 +20,9 @@ public class Inquire extends Choice {
     public final TextField Text_Field = new TextField();
     //创建表格
     final TableView<Teacher> table = new TableView<>();
+
     final HBox box = new HBox(50);
+
     final Button Bt_Inquire = new Button("查询");
     final Button Bt_Return = new Button("返回");
     final Button Bt_Delete = new Button("删除");
@@ -77,19 +79,6 @@ public class Inquire extends Choice {
         //表格加入创建的Columns
         table.getColumns().addAll(Id_Column, Name_Column, Sex_Column, Birth_Column, Age_Column, Marriage_Status_Column, Address_Column, Position_Column, TootleSalary_Column, AverageSalary_Column);
 
-        /*
-        table.setEditable(true);
-        Name_Column.setCellFactory(TextFieldTableCell.forTableColumn());
-        Name_Column.setOnEditCommit( new EventHandler<TableColumn.CellEditEvent<Teacher, String>>() {
-            public void handle(TableColumn.CellEditEvent<Teacher, String> t) {
-                ( (Teacher)t.getTableView().getItems().get(
-                        t.getTablePosition().getRow())
-                ).setName(t.getNewValue());
-            }
-        });
-        */
-
-
         box.setBackground(new Background(new BackgroundImage(new Image("file:D:\\IJ_WorkSpace\\out\\production\\IJ_WorkSpace\\Teacher_Salary\\image\\bg.jpg"), BackgroundRepeat.REPEAT, BackgroundRepeat.REPEAT, BackgroundPosition.CENTER, BackgroundSize.DEFAULT)));
         box.setAlignment(Pos.CENTER);
         box.setPadding(new Insets(30, 0, 30, 0));
@@ -134,8 +123,8 @@ public class Inquire extends Choice {
         borderpane.setTop(box);
         //stage.setX(500);
         //stage.setY(200);
-        stage.setTitle("查询");
-        stage.setScene(new Scene(borderpane,500,500));
+        stage.setTitle("教师信息查询");
+        stage.setScene(new Scene(borderpane, 500, 500));
         stage.setMinHeight(500);
         stage.setMinWidth(500);
         stage.show();
@@ -145,7 +134,7 @@ public class Inquire extends Choice {
         try {
             System.out.println("连接数据库");
             Class.forName("com.mysql.cj.jdbc.Driver");
-            Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/xsl?", "root", "xsl203457");
+            Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/xsl?", "root", "xsl203457XSL@");
             PreparedStatement preparedStatement = connection.prepareStatement("select * from xsl.teacher_salary where position=?");
             preparedStatement.setString(1, Text_Field.getText());
             ResultSet rs1 = preparedStatement.executeQuery();
@@ -155,8 +144,6 @@ public class Inquire extends Choice {
 
             }
             System.out.println("查询成功");
-
-            // new Inquire().start(window);
 
         } catch (Exception exception) {
             exception.getStackTrace();
@@ -169,7 +156,7 @@ public class Inquire extends Choice {
         ResultSet rs1;
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");
-            Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/xsl", "root", "xsl203457");
+            Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/xsl", "root", "xsl203457XSL@");
             Statement stmt = con.createStatement();
             rs1 = stmt.executeQuery("select * from teacher_salary");
 
@@ -188,7 +175,7 @@ public class Inquire extends Choice {
     private void Delete_User(TextField Text_Field, Stage stage) {
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");
-            Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/xsl", "root", "xsl203457");
+            Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/xsl", "root", "xsl203457XSL@");
             PreparedStatement preparedStatement = connection.prepareStatement("delete from xsl.teacher_salary where id=?");
             preparedStatement.setInt(1, Integer.parseInt(Text_Field.getText()));
             preparedStatement.execute();

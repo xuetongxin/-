@@ -12,42 +12,25 @@ import javafx.stage.Stage;
 
 import java.sql.*;
 
-public class Update extends Choice {
-
-    final BorderPane borderPane = new BorderPane();
-    final StackPane stackPane = new StackPane();
-    final HBox box1 = new HBox();
-    final HBox box2 = new HBox(200);
+public class Update extends Input {
 
     final Button Bt_Update = new Button("确认");
-    final Button Bt_Return = new Button("返回");
-    final Button Bt_Reset = new Button("重置");
     final Button Bt_Inquire = new Button("查询");
-
-    final TextField Id_Txfd = new TextField();
-    final TextField Name_Txfd = new TextField();
-    final TextField Position_Txfd = new TextField();
     final CheckBox Name_Box = new CheckBox();
     final CheckBox Position_Box = new CheckBox();
-    //final CheckBox Salary_Box=new CheckBox();
     final CheckBox Age_Box = new CheckBox();
     final CheckBox Marriage_Box = new CheckBox();
     final CheckBox Birth_Box = new CheckBox();
-    //final TextField Salary_Txfd = new TextField();
     final CheckBox Sex_Box = new CheckBox();
     final CheckBox Address_Box = new CheckBox();
-    private final TextField Sex_Txfd = new TextField();
-    private final TextField Birth_Txfd = new TextField();
-    private final TextField Age_Txfd = new TextField();
-    private final TextField Marriage_Status_txfd = new TextField();
-    private final TextField Address_Txfd = new TextField();
 
     @Override
+
     public void start(Stage stage) {
         // TODO 自动生成的方法存根
-        imageview.setFitHeight(1080);
-        imageview.setFitWidth(1980); // 背景图片属性
-        imageview.setImage(new Image("file:D:\\IJ_WorkSpace\\out\\production\\IJ_WorkSpace\\Teacher_Salary\\image\\bg.jpg"));
+        imageView.setFitHeight(1080);
+        imageView.setFitWidth(1980); // 背景图片属性
+        imageView.setImage(new Image("file:/home/ximeng/IdeaProjects/IJ_WorkSpace/out/production/IJ_WorkSpace/Teacher_Salary/image/bg.jpg"));
 
         Id_Txfd.setPromptText("ID必须正确");
         Name_Txfd.setPromptText("输入数字、字母、汉字");
@@ -61,8 +44,7 @@ public class Update extends Choice {
         Label Marriage_status_label = new Label("婚姻状态");
         Label Address_Label = new Label("家庭地址");
         Label Position_Label = new Label("职位");
-        //Label Salary_Label=new Label("薪水");
-        //Salary_Label.setStyle("-fx-text-fill:'white'");
+
         Id_Label.setStyle("-fx-text-fill:'white'");
         Name_label.setStyle("-fx-text-fill:'white'");
         Position_Label.setStyle("-fx-text-fill:'white'");
@@ -71,6 +53,7 @@ public class Update extends Choice {
         Marriage_status_label.setStyle("-fx-text-fill: 'white'");
         Address_Label.setStyle("-fx-text-fill: 'white'");
         Birth_Label.setStyle("-fx-text-fill:'white'");
+
         gridpane.setHgap(5);
         gridpane.setVgap(5);
         gridpane.setAlignment(Pos.CENTER);
@@ -105,12 +88,7 @@ public class Update extends Choice {
         gridpane.add(Address_Txfd, 1, 7);
         gridpane.add(Address_Box, 2, 7);
 
-        //gridpane.add(Salary_Label, 0, 8);
-        //gridpane.add(Salary_Txfd, 1, 8);
-        //gridpane.add(Salary_Box,2,8);
-
         gridpane.add(Bt_Update, 0, 9);
-        //Panel_Layout(gridpane, Id_Txfd, Name_Txfd, Position_Txfd, Salary_Txfd, Bt_Update,Name_Box,Position_Box,Salary_Box);
 
         box1.getChildren().add(Bt_Return);
         box2.getChildren().addAll(Bt_Reset, Bt_Inquire);
@@ -127,15 +105,18 @@ public class Update extends Choice {
         borderPane.setCenter(gridpane);
         borderPane.setBottom(box2);
 
-        stackPane.getChildren().addAll(imageview, borderPane);
+        stackPane.getChildren().addAll(imageView, borderPane);
 
-        stage.setScene(new Scene(stackPane,500,500));
+        stage.setScene(new Scene(stackPane, 500, 500));
         stage.setTitle("修改");
         stage.setMinWidth(500);
         stage.setMinHeight(500);
         stage.show();
     }
 
+    void user_exist() {
+
+    }
 
     private void Inquire_User() {
         Connection con;
@@ -143,7 +124,7 @@ public class Update extends Choice {
         ResultSet resultSet;
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");
-            con = DriverManager.getConnection("jdbc:mysql://localhost:3306/xsl", "root", "xsl203457");
+            con = DriverManager.getConnection("jdbc:mysql://localhost:3306/xsl", "root", "xsl203457XSL@");
             stmt = con.createStatement();
             resultSet = stmt.executeQuery("select id from xsl.teacher_salary");
             System.out.println("查询用户");
@@ -192,6 +173,7 @@ public class Update extends Choice {
             choice = 7;
         else
             choice = 8;
+
         switch (choice) {
             case 0: {
                 if (Name_Txfd.getLength() > 0 && Position_Txfd.getLength() > 0 && Sex_Txfd.getLength() > 0 && Age_Txfd.getLength() > 0 && Birth_Txfd.getLength() > 0 && Marriage_Status_txfd.getLength() > 0 && Address_Txfd.getLength() > 0)
@@ -201,7 +183,7 @@ public class Update extends Choice {
             }
             case 1: {
                 if (Name_Txfd.getLength() > 0)
-                    Name_Update();
+                    Name_Update(Name_Txfd);
                 else
                     Null_Tips();
                 break;
@@ -271,7 +253,7 @@ public class Update extends Choice {
         try {
             System.out.println("连接数据库");
             Class.forName("com.mysql.cj.jdbc.Driver");
-            con = DriverManager.getConnection("jdbc:mysql://localhost:3306/xsl", "root", "xsl203457");
+            con = DriverManager.getConnection("jdbc:mysql://localhost:3306/xsl", "root", "xsl203457XSL@");
 
             ps = con.prepareStatement("update xsl.teacher_salary set name=?,position=? where id=?");
             ps.setDouble(3, Double.parseDouble(Id_Txfd.getText()));
@@ -280,17 +262,14 @@ public class Update extends Choice {
             ps.executeUpdate();
             System.out.println("连接成功");
 
-            //格式化文本域
-            Id_Txfd.clear();
-            Name_Txfd.clear();
-            Position_Txfd.clear();
-
-            Name_Box.setSelected(false);
-            Position_Box.setSelected(false);
-
             Alert alert = new Alert(Alert.AlertType.INFORMATION, "修改成功");
             alert.showAndWait();
             System.out.println("修改成功");
+
+            //格式化文本域
+            Clear_TextField();
+            Name_Box.setSelected(false);
+            Position_Box.setSelected(false);
 
         } catch (Exception ex) {
             ex.getStackTrace();
@@ -298,35 +277,35 @@ public class Update extends Choice {
     }
 
 
-    private void Name_Update() {
+    private void Name_Update(TextField name_Txfd) {
         try {
             System.out.println("连接数据库");
             Class.forName("com.mysql.cj.jdbc.Driver");
-            Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/xsl", "root", "xsl203457");
+            Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/xsl", "root", "xsl203457XSL@");
 
             PreparedStatement ps = con.prepareStatement("update xsl.teacher_salary set name=? where id=?");
             ps.setDouble(2, Double.parseDouble(Id_Txfd.getText()));
-            ps.setString(1, Name_Txfd.getText());
+            ps.setString(1, name_Txfd.getText());
             ps.executeUpdate();
             System.out.println("连接成功");
 
         } catch (Exception ex) {
             ex.getStackTrace();
         }
-        //格式化文本域
-        Id_Txfd.clear();
-        Name_Txfd.clear();
-        Name_Box.setSelected(false);
+
         Alert alert = new Alert(Alert.AlertType.INFORMATION, "名字修改成功");
         alert.showAndWait();
         System.out.println("名字修改成功");
+        //格式化文本域
+        Clear_TextField();
+        Name_Box.setSelected(false);
     }
 
     private void Position_Update() {
         try {
             System.out.println("连接数据库");
             Class.forName("com.mysql.cj.jdbc.Driver");
-            Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/xsl", "root", "xsl203457");
+            Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/xsl", "root", "xsl203457XSL@");
 
             PreparedStatement ps = con.prepareStatement("update xsl.teacher_salary set position=? where id=?");
             ps.setDouble(2, Double.parseDouble(Id_Txfd.getText()));
@@ -351,7 +330,7 @@ public class Update extends Choice {
         try {
             System.out.println("连接数据库");
             Class.forName("com.mysql.cj.jdbc.Driver");
-            Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/xsl", "root", "xsl203457");
+            Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/xsl", "root", "xsl203457XSL@");
             PreparedStatement ps = con.prepareStatement("update xsl.teacher_salary set sex=? where id=?");
             ps.setDouble(2, Double.parseDouble(Id_Txfd.getText()));
             ps.setString(1, Sex_Txfd.getText());
@@ -374,7 +353,7 @@ public class Update extends Choice {
         try {
             System.out.println("连接数据库");
             Class.forName("com.mysql.cj.jdbc.Driver");
-            Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/xsl", "root", "xsl203457");
+            Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/xsl", "root", "xsl203457XSL@");
             PreparedStatement ps = con.prepareStatement("update xsl.teacher_salary set address=? where id=?");
             ps.setDouble(2, Double.parseDouble(Id_Txfd.getText()));
             ps.setString(1, Address_Txfd.getText());
@@ -398,7 +377,7 @@ public class Update extends Choice {
         try {
             System.out.println("连接数据库");
             Class.forName("com.mysql.cj.jdbc.Driver");
-            Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/xsl", "root", "xsl203457");
+            Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/xsl", "root", "xsl203457XSL@");
 
             PreparedStatement ps = con.prepareStatement("update xsl.teacher_salary set age=? where id=?");
             ps.setDouble(2, Double.parseDouble(Name_Txfd.getText()));
@@ -422,7 +401,7 @@ public class Update extends Choice {
         try {
             System.out.println("连接数据库");
             Class.forName("com.mysql.cj.jdbc.Driver");
-            Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/xsl", "root", "xsl203457");
+            Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/xsl", "root", "xsl203457XSL@");
 
             PreparedStatement ps = con.prepareStatement("update xsl.teacher_salary set birth=? where id=?");
             ps.setDouble(2, Double.parseDouble(Id_Txfd.getText()));
@@ -447,7 +426,7 @@ public class Update extends Choice {
         try {
             System.out.println("连接数据库");
             Class.forName("com.mysql.cj.jdbc.Driver");
-            Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/xsl", "root", "xsl203457");
+            Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/xsl", "root", "xsl203457XSL@");
 
             PreparedStatement ps = con.prepareStatement("update xsl.teacher_salary set marriage_status=? where id=?");
             ps.setDouble(2, Double.parseDouble(Id_Txfd.getText()));

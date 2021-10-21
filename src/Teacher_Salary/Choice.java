@@ -23,22 +23,19 @@ public class Choice extends Login {
     final StackPane stackPane = new StackPane();
     final BorderPane borderpane = new BorderPane();
     final GridPane gridpane = new GridPane();
-    Choice() {
-    }
 
     public void start(Stage stage) {
         Body();
         Label_Button_Choice_Method(stage); // 按键选项
-        imageview.setFitHeight(1080);
-        imageview.setFitWidth(1985); // 背景图片属性
-        imageview.setImage(new Image("file:D:\\IJ_WorkSpace\\out\\production\\IJ_WorkSpace\\Teacher_Salary\\image\\bg.jpg"));
-        //borderpane.setBackground(new Background(new BackgroundImage(new Image("file:D:\\IJ_WorkSpace\\out\\production\\IJ_WorkSpace\\Teacher_Salary\\image\\bg6.jpg"), BackgroundRepeat.REPEAT,BackgroundRepeat.REPEAT, BackgroundPosition.DEFAULT,BackgroundSize.DEFAULT)));
-
+        imageView.setFitHeight(1080);
+        imageView.setFitWidth(1985); // 背景图片属性
+        imageView.setImage(new Image("file:/home/ximeng/IdeaProjects/IJ_WorkSpace/out/production/IJ_WorkSpace/Teacher_Salary/image/bg.jpg"));
         borderpane.setCenter(gridpane);
-        stackPane.getChildren().addAll(imageview, borderpane);
+        stackPane.getChildren().addAll(imageView, borderpane);
         stage.setScene(new Scene(stackPane, 500, 500));
         stage.setMinHeight(500);
         stage.setMinWidth(500);
+        stage.setTitle("");
         stage.show();
     }
 
@@ -114,12 +111,10 @@ public class Choice extends Login {
         box.setAlignment(Pos.CENTER);
         box.getChildren().addAll(Teacher_Salary, Information_Inquire, Bt_Return);
 
-
-        //stage.setX(500);
-        //stage.setY(300);
         stage.setScene(new Scene(box, 500, 500));
         stage.setMinWidth(500);
         stage.setMinHeight(500);
+        stage.setTitle("选择查询类型");
         stage.show();
 
     }
