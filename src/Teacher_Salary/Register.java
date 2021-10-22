@@ -55,7 +55,7 @@ public class Register extends Login {
         borderPane.setCenter(gridpane);
         borderPane.setTop(box);
         stackPane.getChildren().addAll(imageView, borderPane);
-        Scene scene = new Scene(stackPane,500,500);
+        Scene scene = new Scene(stackPane, 500, 500);
         stage.setScene(scene);
         stage.setTitle("注册");
         stage.setMinHeight(500);

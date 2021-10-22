@@ -1,10 +1,7 @@
 package Teacher_Salary;
 
 import javafx.application.Application;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
-import javafx.geometry.Insets;
-import javafx.geometry.Pos;
+import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
@@ -13,6 +10,7 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
+import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
 import java.sql.*;
@@ -32,12 +30,27 @@ public class Login extends Application {
     private final Button Bt_SingUp = new Button("注册"); // 设置注册按钮
     private Stage window;
 
+
     public static void main(String[] args) {
         launch(args);
     }
 
     public void start(Stage stage) {
         window = stage;
+        MenuBar menuBar = new MenuBar();
+        menuBar.setId("nsda");
+        Menu menu = new Menu("help");
+        MenuItem menuItem_SignUp = new MenuItem("Sign Up");
+        MenuItem menuItem_About = new MenuItem("About");
+        MenuItem menuItem_Exit = new MenuItem("Exit");
+        menuItem_SignUp.setOnAction(e -> new Register().start(window));
+        menuItem_About.setOnAction(e -> {
+            About_Menu();
+        });
+        menuItem_Exit.setOnAction(e -> stage.close());
+        menu.getItems().addAll(menuItem_SignUp, menuItem_About, menuItem_Exit);
+        menuBar.getMenus().add(menu);
+
 
         Account_TextField.setPromptText("8~15数字、字母 不能存在符号");
         Passwd_TextField.setPromptText("8~15数字、字母 能存在符号");   //文本域提示语
@@ -49,8 +62,6 @@ public class Login extends Application {
         imageView.setFitHeight(1080);
         imageView.setFitWidth(1980); // 背景图片属性
 
-        hbox.setAlignment(Pos.TOP_LEFT);
-        hbox.setPadding(new Insets(20, 0, 0, 20));
         Register.Panel_Layout(Bt_Login, Account_Label, Passwd_Label, Account_TextField, Passwd_TextField, gridpane);
 
         Bt_Login.setStyle("-fx-background-color:DODGERBLUE ;-fx-text-fill: white;-fx-font-family: '华文行楷';-fx-border-color: #ffc0c0");
@@ -58,10 +69,8 @@ public class Login extends Application {
 
         Bt_Login.setOnAction(e -> new Choice().start(window));
         //Bt_Login.setOnAction(e-> Judgement(stage));
-        Bt_SingUp.setOnAction(e -> new Register().start(window));
 
-        hbox.getChildren().add(Bt_SingUp);
-        borderPane.setTop(hbox);
+        borderPane.setTop(menuBar);
         borderPane.setCenter(gridpane);
         stackpane.getChildren().addAll(imageView, borderPane);
 
@@ -99,4 +108,22 @@ public class Login extends Application {
             ex.printStackTrace();
         }
     }
+
+    private void About_Menu() {
+        Group group = new Group();
+        Stage stage = new Stage();
+        Text text = new Text();
+        text.setX(5);
+        text.setY(20);
+        text.setText("教师工资管理系统: \n" +
+                "系统版本\t1.0\n" +
+                "源码可从如下网站获取\n" +
+                "https://github.com/xuetongxin/IJ_WorkSpace.git");
+        //Hyperlink hyperlink=new Hyperlink("https://github.com/xuetongxin/IJ_WorkSpace.git");
+        group.getChildren().addAll(text);
+        stage.setScene(new Scene(group, 400, 100));
+        stage.setResizable(false);
+        stage.showAndWait();
+    }
+
 }

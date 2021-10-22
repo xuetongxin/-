@@ -45,20 +45,20 @@ public class Choice extends Login {
         // 标签字体属性  字体类型、加粗、倾斜、大小
         Input_Label.setFont(Font.font("华文行楷", FontWeight.BOLD, FontPosture.ITALIC, 20));
         // 标签字体颜色
-        Input_Label.setTextFill(Color.BLUE);
+        Input_Label.setTextFill(Color.WHITE);
         // 设置更新标签
         Update_label.setText("2.更新信息");
         // 字体属性 “字体类型、字体粗细、字体倾斜、字体大小”
         Update_label.setFont(Font.font("华文行楷", FontWeight.BOLD, FontPosture.ITALIC, 20));
         // 字体颜色
-        Update_label.setTextFill(Color.BLUE);
+        Update_label.setTextFill(Color.WHITE);
         //设置查询标签
         Select_Label.setText("3.查询信息");
         Select_Label.setFont(Font.font("华文行楷", FontWeight.BOLD, FontPosture.ITALIC, 20));
-        Select_Label.setTextFill(Color.BLUE);
+        Select_Label.setTextFill(Color.WHITE);
         Close_Label.setText("4.退出");
         Close_Label.setFont(Font.font("华文行楷", FontWeight.BOLD, FontPosture.ITALIC, 20));
-        Close_Label.setTextFill(Color.BLUE);
+        Close_Label.setTextFill(Color.WHITE);
 
         gridpane.setHgap(30);
         gridpane.setVgap(30);
@@ -110,7 +110,6 @@ public class Choice extends Login {
         VBox box = new VBox(10);
         box.setAlignment(Pos.CENTER);
         box.getChildren().addAll(Teacher_Salary, Information_Inquire, Bt_Return);
-
         stage.setScene(new Scene(box, 500, 500));
         stage.setMinWidth(500);
         stage.setMinHeight(500);

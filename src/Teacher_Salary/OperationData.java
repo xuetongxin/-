@@ -3,8 +3,6 @@ package Teacher_Salary;
 import javafx.scene.control.Alert;
 import javafx.scene.control.TextField;
 
-import javax.swing.*;
-import java.net.UnknownHostException;
 import java.sql.*;
 
 public class OperationData {

@@ -90,34 +90,7 @@ public class Inquire extends Choice {
 
         Bt_Return.setOnAction(e -> new Choice().Choice_Inquire_Method(stage));
         Bt_Delete.setOnAction(e -> Delete_User(Text_Field, stage));
-        Bt_Inquire.setOnAction(e -> {
-
-            if (Text_Field.getLength() > 0) {
-                int row = table.getItems().size();
-
-                if (table.getItems().size() > 0) {
-                    for (int i = 0; i < row; i++) {
-                        table.getItems().remove(0);
-                        System.out.println(table.getItems().size());
-                    }
-
-                    Position_Inquire();
-                } else
-                    Position_Inquire();
-
-            } else {
-                if (table.getItems().size() > 0) {
-                    int row = table.getItems().size();
-                    for (int i = 0; i < row; i++) {
-                        table.getItems().remove(0);
-                        System.out.println(table.getItems().size());
-                    }
-                    Mysql_Select();
-                } else
-                    Mysql_Select();
-            }
-
-        });
+        Bt_Inquire.setOnAction(e -> Refresh_Table());
 
         borderpane.setCenter(table);
         borderpane.setTop(box);
@@ -152,20 +125,17 @@ public class Inquire extends Choice {
 
     private void Mysql_Select() {
         //表格显示数据
-
         ResultSet rs1;
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");
             Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/xsl", "root", "xsl203457XSL@");
             Statement stmt = con.createStatement();
             rs1 = stmt.executeQuery("select * from teacher_salary");
-
             while (rs1.next()) {
                 // 将数据存入数据列表
                 data.add(new Teacher(rs1.getInt(1), rs1.getString(2), rs1.getString(3), rs1.getInt(4), rs1.getInt(5), rs1.getString(6), rs1.getString(7), rs1.getString(8), rs1.getDouble(9), rs1.getDouble(10)));
                 table.setItems(data);
             }
-
         } catch (Exception ex) {
             ex.getStackTrace();
         }
@@ -188,6 +158,30 @@ public class Inquire extends Choice {
             Text_Field.clear();
         } catch (Exception e) {
             e.printStackTrace();
+        }
+    }
+
+    void Refresh_Table() {
+        if (Text_Field.getLength() > 0) {
+            int row = table.getItems().size();
+            if (table.getItems().size() > 0) {
+                for (int i = 0; i < row; i++) {
+                    table.getItems().remove(0);
+                    System.out.println(table.getItems().size());
+                }
+                Position_Inquire();
+            } else
+                Position_Inquire();
+        } else {
+            if (table.getItems().size() > 0) {
+                int row = table.getItems().size();
+                for (int i = 0; i < row; i++) {
+                    table.getItems().remove(0);
+                    System.out.println(table.getItems().size());
+                }
+                Mysql_Select();
+            } else
+                Mysql_Select();
         }
     }
 
