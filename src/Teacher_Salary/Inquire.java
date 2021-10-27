@@ -14,43 +14,41 @@ import javafx.scene.image.Image;
 import javafx.scene.layout.*;
 import javafx.stage.Stage;
 
+import java.io.IOException;
 import java.sql.*;
 
 public class Inquire extends Choice {
     public final TextField Text_Field = new TextField();
-    //ÂàõÂª∫Ë°®Ê†º
+    //¥¥Ω®±Ì∏Ò
     final TableView<Teacher> table = new TableView<>();
-
     final HBox box = new HBox(50);
-
-    final Button Bt_Inquire = new Button("Êü•ËØ¢");
-    final Button Bt_Return = new Button("ËøîÂõû");
-    final Button Bt_Delete = new Button("Âà†Èô§");
+    final Button Bt_Inquire = new Button("≤È—Ø");
+    final Button Bt_Return = new Button("∑µªÿ");
+    final Button Bt_Delete = new Button("…æ≥˝");
+    final Button Bt_Print=new Button("¥Ú”°");
     ObservableList<Teacher> data = FXCollections.observableArrayList();
 
     @SuppressWarnings({"rawtypes", "unchecked"})
     @Override
     public void start(Stage stage) {
 
-        // Text_Field.setOnDragEntered(e->Delete_User(Text_Field,stage));
-        Text_Field.setPromptText("ËØ∑ËæìÂÖ•‰Ω†Ë¶ÅÂà†Èô§ÁöÑÁî®Êà∑ID");
+        //Text_Field.setPromptText("«Î ‰»Îƒ„“™…æ≥˝µƒ”√ªßID");
         Text_Field.setPrefColumnCount(120);
         Text_Field.setPrefWidth(150);
-        //Text_Field.setOnAction(e -> Delete_User(Text_Field, stage));
 
-        //ÂàõÂª∫ ID NAME POSITION SALARY Âàó
+        //¥¥Ω® ID NAME POSITION SALARY ¡–
         TableColumn Id_Column = new TableColumn("ID");
         TableColumn Name_Column = new TableColumn("NAME");
         TableColumn Sex_Column = new TableColumn("SEX");
         TableColumn Birth_Column = new TableColumn("BIRTH");
         TableColumn Age_Column = new TableColumn("AGE");
-        TableColumn Marriage_Status_Column = new TableColumn("MARRAGE_STATUS");
+        TableColumn Marriage_Status_Column = new TableColumn("MARRIAGE_STATUS");
         TableColumn Address_Column = new TableColumn("ADDRESS");
         TableColumn Position_Column = new TableColumn("POSITION");
         TableColumn TootleSalary_Column = new TableColumn("TOOTLE_SALARY");
         TableColumn AverageSalary_Column = new TableColumn("AVERAGE_SALARY");
 
-        //Êï∞ÊçÆÁªëÂÆö
+        // ˝æ›∞Û∂®
         Id_Column.setCellValueFactory(new PropertyValueFactory<>("Id"));
         Name_Column.setCellValueFactory(new PropertyValueFactory<>("Name"));
         Sex_Column.setCellValueFactory(new PropertyValueFactory<>("Sex"));
@@ -62,8 +60,7 @@ public class Inquire extends Choice {
         TootleSalary_Column.setCellValueFactory(new PropertyValueFactory<>("TootleSalary"));
         AverageSalary_Column.setCellValueFactory(new PropertyValueFactory<>("AverageSalary"));
 
-
-        //ÂàóÂÆΩA
+        //¡–øÌA
         Id_Column.setMinWidth(100);
         Name_Column.setMinWidth(100);
         Sex_Column.setMinWidth(50);
@@ -76,89 +73,37 @@ public class Inquire extends Choice {
         AverageSalary_Column.setMinWidth(200);
 
 
-        //Ë°®Ê†ºÂä†ÂÖ•ÂàõÂª∫ÁöÑColumns
+        //±Ì∏Òº”»Î¥¥Ω®µƒColumns
         table.getColumns().addAll(Id_Column, Name_Column, Sex_Column, Birth_Column, Age_Column, Marriage_Status_Column, Address_Column, Position_Column, TootleSalary_Column, AverageSalary_Column);
 
         box.setBackground(new Background(new BackgroundImage(new Image("file:D:\\IJ_WorkSpace\\out\\production\\IJ_WorkSpace\\Teacher_Salary\\image\\bg.jpg"), BackgroundRepeat.REPEAT, BackgroundRepeat.REPEAT, BackgroundPosition.CENTER, BackgroundSize.DEFAULT)));
         box.setAlignment(Pos.CENTER);
         box.setPadding(new Insets(30, 0, 30, 0));
-        box.getChildren().addAll(Text_Field, Bt_Delete, Bt_Inquire, Bt_Return);
+        box.getChildren().addAll(Text_Field, Bt_Inquire,Bt_Print,Bt_Delete ,Bt_Return);
 
-        // ÂÆΩÂ∫¶ÁªëÂÆöÁ™óÂè£ÁöÑÂÆΩÂ∫¶ÔºàÊÑèÊÄùÁ™óÂè£Â§ßÂ∞èÊîπÂèòÔºåÂÆÉ‰πüË∑üÁùÄÊîπÂèòÔºåËá™ÈÄÇÂ∫îÊïàÊûúÔºâ
-        table.prefWidthProperty().bind(stage.widthProperty());
-        table.prefHeightProperty().bind(stage.heightProperty());
+        // øÌ∂»∞Û∂®¥∞ø⁄µƒøÌ∂»£®“‚Àº¥∞ø⁄¥Û–°∏ƒ±‰£¨À¸“≤∏˙◊≈∏ƒ±‰£¨◊‘  ”¶–ßπ˚£©
+        //table.prefWidthProperty().bind(stage.widthProperty());
+        //table.prefHeightProperty().bind(stage.heightProperty());
 
         Bt_Return.setOnAction(e -> new Choice().Choice_Inquire_Method(stage));
         Bt_Delete.setOnAction(e -> Delete_User(Text_Field, stage));
         Bt_Inquire.setOnAction(e -> Refresh_Table());
+        Bt_Print.setOnAction(e->{
+            try {
+                new OperationData().Print_Data();
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            }
+        });
 
         borderpane.setCenter(table);
         borderpane.setTop(box);
-        //stage.setX(500);
-        //stage.setY(200);
-        stage.setTitle("ÊïôÂ∏à‰ø°ÊÅØÊü•ËØ¢");
-        stage.setScene(new Scene(borderpane, 500, 500));
+
+        stage.setTitle("ΩÃ ¶–≈œ¢≤È—Ø");
+        stage.setScene(new Scene(borderpane, 550, 500));
         stage.setMinHeight(500);
-        stage.setMinWidth(500);
+        stage.setMinWidth(550);
         stage.show();
-    }
-
-    private void Position_Inquire() {
-        try {
-            System.out.println("ËøûÊé•Êï∞ÊçÆÂ∫ì");
-            Class.forName("com.mysql.cj.jdbc.Driver");
-            Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/xsl?", "root", "xsl203457XSL@");
-            PreparedStatement preparedStatement = connection.prepareStatement("select * from xsl.teacher_salary where position=?");
-            preparedStatement.setString(1, Text_Field.getText());
-            ResultSet rs1 = preparedStatement.executeQuery();
-            while (rs1.next()) {
-                data.add(new Teacher(rs1.getInt(1), rs1.getString(2), rs1.getString(3), rs1.getInt(4), rs1.getInt(5), rs1.getString(6), rs1.getString(7), rs1.getString(8), rs1.getDouble(9), rs1.getDouble(10)));
-                table.setItems(data);
-
-            }
-            System.out.println("Êü•ËØ¢ÊàêÂäü");
-
-        } catch (Exception exception) {
-            exception.getStackTrace();
-        }
-    }
-
-    private void Mysql_Select() {
-        //Ë°®Ê†ºÊòæÁ§∫Êï∞ÊçÆ
-        ResultSet rs1;
-        try {
-            Class.forName("com.mysql.cj.jdbc.Driver");
-            Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/xsl", "root", "xsl203457XSL@");
-            Statement stmt = con.createStatement();
-            rs1 = stmt.executeQuery("select * from teacher_salary");
-            while (rs1.next()) {
-                // Â∞ÜÊï∞ÊçÆÂ≠òÂÖ•Êï∞ÊçÆÂàóË°®
-                data.add(new Teacher(rs1.getInt(1), rs1.getString(2), rs1.getString(3), rs1.getInt(4), rs1.getInt(5), rs1.getString(6), rs1.getString(7), rs1.getString(8), rs1.getDouble(9), rs1.getDouble(10)));
-                table.setItems(data);
-            }
-        } catch (Exception ex) {
-            ex.getStackTrace();
-        }
-
-    }
-
-    private void Delete_User(TextField Text_Field, Stage stage) {
-        try {
-            Class.forName("com.mysql.cj.jdbc.Driver");
-            Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/xsl", "root", "xsl203457XSL@");
-            PreparedStatement preparedStatement = connection.prepareStatement("delete from xsl.teacher_salary where id=?");
-            preparedStatement.setInt(1, Integer.parseInt(Text_Field.getText()));
-            preparedStatement.execute();
-            new Inquire().start(stage);
-
-            Alert alert = new Alert(Alert.AlertType.INFORMATION, "Âà†Èô§ÊàêÂäü");
-            alert.showAndWait();
-
-            System.out.println("Âà†Èô§ÊàêÂäü");
-            Text_Field.clear();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
     }
 
     void Refresh_Table() {
@@ -169,9 +114,8 @@ public class Inquire extends Choice {
                     table.getItems().remove(0);
                     System.out.println(table.getItems().size());
                 }
-                Position_Inquire();
-            } else
-                Position_Inquire();
+            }
+            Position_Inquire();
         } else {
             if (table.getItems().size() > 0) {
                 int row = table.getItems().size();
@@ -179,11 +123,77 @@ public class Inquire extends Choice {
                     table.getItems().remove(0);
                     System.out.println(table.getItems().size());
                 }
-                Mysql_Select();
-            } else
-                Mysql_Select();
+            }
+            Mysql_Select();
         }
     }
+
+    private void Position_Inquire() {
+        try {
+            System.out.println("¡¨Ω” ˝æ›ø‚");
+            Class.forName("com.mysql.cj.jdbc.Driver");
+            Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/xsl?", "root", "xsl203457");
+            PreparedStatement preparedStatement = connection.prepareStatement("select * from xsl.teacher_salary where position=?");
+            preparedStatement.setString(1, Text_Field.getText());
+            ResultSet rs1 = preparedStatement.executeQuery();
+            Insert(rs1);
+            System.out.println("≤È—Ø≥…π¶");
+
+        } catch (Exception exception) {
+            exception.getStackTrace();
+        }
+    }
+
+    private void Mysql_Select() {
+        //±Ì∏Òœ‘ æ ˝æ›
+        ResultSet rs1;
+        try {
+            Class.forName("com.mysql.cj.jdbc.Driver");
+            Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/xsl", "root", "xsl203457");
+            Statement stmt = con.createStatement();
+            rs1 = stmt.executeQuery("select * from teacher_salary");
+            Insert(rs1);
+        } catch (Exception ex) {
+            ex.getStackTrace();
+        }
+
+    }
+
+    private void Insert(ResultSet rs1) throws SQLException {
+        while (rs1.next()) {
+            // Ω´ ˝æ›¥Ê»Î ˝æ›¡–±Ì
+            data.add(new Teacher(rs1.getInt(1), rs1.getString(2), rs1.getString(3), rs1.getInt(4), rs1.getInt(5), rs1.getString(6), rs1.getString(7), rs1.getString(8), rs1.getDouble(9), rs1.getDouble(10)));
+            table.setItems(data);
+        }
+    }
+
+    private void Delete_User(TextField Text_Field, Stage stage) {
+        if (Text_Field.getLength()<=0){
+            Alert alert=new Alert(Alert.AlertType.ERROR,"Delete information is null");
+            alert.showAndWait();
+        }else{
+            try {
+                Class.forName("com.mysql.cj.jdbc.Driver");
+                Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/xsl", "root", "xsl203457");
+                PreparedStatement preparedStatement = connection.prepareStatement("delete from xsl.teacher_salary where id=?");
+                preparedStatement.setInt(1, Integer.parseInt(Text_Field.getText()));
+                preparedStatement.execute();
+                new Inquire().start(stage);
+
+                Alert alert = new Alert(Alert.AlertType.INFORMATION, "…æ≥˝≥…π¶");
+                alert.showAndWait();
+
+                Text_Field.clear();
+                System.out.println("…æ≥˝≥…π¶");
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+        Refresh_Table();
+
+    }
+
+
 
     public static class Teacher {
 

@@ -1,97 +1,82 @@
 package Teacher_Salary;
 
-import javafx.application.Application;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
-import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
-import java.sql.*;
+import java.sql.SQLException;
 
-public class Login extends Application {
-    ImageView imageView = new ImageView(
-            new Image("file:/home/ximeng/IdeaProjects/IJ_WorkSpace/out/production/IJ_WorkSpace/Teacher_Salary/image/bg.jpg"));
-    Label Account_Label = new Label("è´¦æˆ·:"); // è®¾ç½®ç”¨æˆ·åæ ‡ç­¾
-    Label Passwd_Label = new Label("å¯†ç :"); // è®¾ç½®å¯†ç æ ‡ç­¾
-    TextField Account_TextField = new TextField(); // è®¾ç½®ç”¨æˆ·åå¡«å……åŸŸ
-    PasswordField Passwd_TextField = new PasswordField(); // è®¾ç½®å¯†ç å¡«å……åŸŸ å¯†ç ä¸å›žæ˜¾
+public class Login extends OperationData {
+    Label Account_Label = new Label("ÕË»§:"); // ÉèÖÃÓÃ»§Ãû±êÇ©
+    Label Passwd_Label = new Label("ÃÜÂë:"); // ÉèÖÃÃÜÂë±êÇ©
+    TextField Account_TextField = new TextField(); // ÉèÖÃÓÃ»§ÃûÌî³äÓò
+    PasswordField Passwd_TextField = new PasswordField(); // ÉèÖÃÃÜÂëÌî³äÓò ÃÜÂë²»»ØÏÔ
     final BorderPane borderPane = new BorderPane();
     final GridPane gridpane = new GridPane();
-    private final StackPane stackpane = new StackPane();
-    private final HBox hbox = new HBox(10);
-    private final Button Bt_Login = new Button("ç™»å½•"); // è®¾ç½®ç™»å½•æŒ‰é’®
-    private final Button Bt_SingUp = new Button("æ³¨å†Œ"); // è®¾ç½®æ³¨å†ŒæŒ‰é’®
+    private final MenuBar menuBar = new MenuBar();
     private Stage window;
-
-
-    public static void main(String[] args) {
-        launch(args);
-    }
+    private final StackPane stackpane = new StackPane();
+    private final Button Bt_Login = new Button("µÇÂ¼"); // ÉèÖÃµÇÂ¼°´Å¥
+    private final Button Bt_SingUp = new Button("×¢²á"); // ÉèÖÃ×¢²á°´Å¥
 
     public void start(Stage stage) {
         window = stage;
-        MenuBar menuBar = new MenuBar();
-        menuBar.setId("nsda");
         Menu menu = new Menu("help");
         MenuItem menuItem_SignUp = new MenuItem("Sign Up");
         MenuItem menuItem_About = new MenuItem("About");
         MenuItem menuItem_Exit = new MenuItem("Exit");
-        menuItem_SignUp.setOnAction(e -> new Register().start(window));
-        menuItem_About.setOnAction(e -> {
-            About_Menu();
-        });
-        menuItem_Exit.setOnAction(e -> stage.close());
         menu.getItems().addAll(menuItem_SignUp, menuItem_About, menuItem_Exit);
         menuBar.getMenus().add(menu);
-
-
-        Account_TextField.setPromptText("8~15æ•°å­—ã€å­—æ¯ ä¸èƒ½å­˜åœ¨ç¬¦å·");
-        Passwd_TextField.setPromptText("8~15æ•°å­—ã€å­—æ¯ èƒ½å­˜åœ¨ç¬¦å·");   //æ–‡æœ¬åŸŸæç¤ºè¯­
-        Passwd_TextField.setPrefColumnCount(20);    // é¦–æ–‡æœ¬é•¿åº¦
-
-        Account_Label.setStyle("-fx-font-family: 'åŽæ–‡è¡Œæ¥·' ;-fx-font-size: 20;-fx-text-fill: 'white'");
-        Passwd_Label.setStyle("-fx-font-family: 'åŽæ–‡è¡Œæ¥·' ;-fx-font-size: 20;-fx-text-fill: 'white'");
-
+        menuItem_SignUp.setOnAction(e -> new Register().start(window));
+        menuItem_About.setOnAction(e -> About_Menu());
+        menuItem_Exit.setOnAction(e -> {
+            Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "Do you want to exit system?");
+            alert.showAndWait();
+            if (alert.getResult().getButtonData().isDefaultButton())
+                stage.close();
+        });
         imageView.setFitHeight(1080);
-        imageView.setFitWidth(1980); // èƒŒæ™¯å›¾ç‰‡å±žæ€§
-
+        imageView.setFitWidth(1980); // ±³¾°Í¼Æ¬ÊôÐÔ
+        Account_TextField.setPromptText("8~15Êý×Ö¡¢×ÖÄ¸ ²»ÄÜ´æÔÚ·ûºÅ");
+        Passwd_TextField.setPromptText("8~15Êý×Ö¡¢×ÖÄ¸ ÄÜ´æÔÚ·ûºÅ");   //ÎÄ±¾ÓòÌáÊ¾Óï
+        Passwd_TextField.setPrefColumnCount(20);    // Ê×ÎÄ±¾³¤¶È
+        Account_Label.setStyle("-fx-font-family: '»ªÎÄÐÐ¿¬' ;-fx-font-size: 20;-fx-text-fill: 'white'");
+        Passwd_Label.setStyle("-fx-font-family: '»ªÎÄÐÐ¿¬' ;-fx-font-size: 20;-fx-text-fill: 'white'");
+        Bt_Login.setStyle("-fx-background-color:DODGERBLUE ;-fx-text-fill: white;-fx-font-family: '»ªÎÄÐÐ¿¬';-fx-border-color: #ffc0c0");
+        Bt_SingUp.setStyle("-fx-background-color:DODGERBLUE ;-fx-text-fill: white;-fx-font-family:'»ªÎÄÐÐ¿¬';-fx-border-color: pink");
         Register.Panel_Layout(Bt_Login, Account_Label, Passwd_Label, Account_TextField, Passwd_TextField, gridpane);
 
-        Bt_Login.setStyle("-fx-background-color:DODGERBLUE ;-fx-text-fill: white;-fx-font-family: 'åŽæ–‡è¡Œæ¥·';-fx-border-color: #ffc0c0");
-        Bt_SingUp.setStyle("-fx-background-color:DODGERBLUE ;-fx-text-fill: white;-fx-font-family:'åŽæ–‡è¡Œæ¥·';-fx-border-color: pink");
-
         Bt_Login.setOnAction(e -> new Choice().start(window));
-        //Bt_Login.setOnAction(e-> Judgement(stage));
+        //Bt_Login.setOnAction(e -> Judgement(stage));
 
         borderPane.setTop(menuBar);
         borderPane.setCenter(gridpane);
         stackpane.getChildren().addAll(imageView, borderPane);
 
-        window.setScene(new Scene(stackpane, 500, 500));
+        window.setScene(new Scene(stackpane, 550, 500));
         window.setMinHeight(500);
         window.setMinWidth(500);
-        window.setTitle("ç™»å½•");
-        window.getIcons().add(new Image("file:/home/ximeng/IdeaProjects/IJ_WorkSpace/out/production/IJ_WorkSpace/Teacher_Salary/image/t.png"));
+        window.setTitle("µÇÂ¼");
+        window.getIcons().add(new Image("file:D:\\IJ_WorkSpace\\out\\production\\IJ_WorkSpace\\Teacher_Salary\\image\\t.png"));
         window.show();
     }
 
     void Judgement(Stage stage) {
 
         if ((Account_TextField.getText().matches("") || Passwd_TextField.getText().matches(""))) {
-            Alert alert = new Alert(Alert.AlertType.WARNING, "è´¦æˆ·æˆ–è€…å¯†ç ä¸ºç©º");
+            Alert alert = new Alert(Alert.AlertType.WARNING, "ÕË»§»òÕßÃÜÂëÎª¿Õ");
             alert.showAndWait();
-            System.out.println("è´¦æˆ·æˆ–è€…å¯†ç ä¸ºç©º");
+            System.out.println("ÕË»§»òÕßÃÜÂëÎª¿Õ");
         } else if (!(Account_TextField.getLength() >= 8 && Account_TextField.getLength() <= 15 && Passwd_TextField.getLength() >= 8 && Passwd_TextField.getLength() <= 15)) {
-            Alert alert = new Alert(Alert.AlertType.WARNING, "è´¦æˆ·æˆ–è€…å¯†ç é•¿åº¦å°äºŽ8|å¤§äºŽ15");
+            Alert alert = new Alert(Alert.AlertType.WARNING, "ÕË»§»òÕßÃÜÂë³¤¶ÈÐ¡ÓÚ8|´óÓÚ15");
             alert.showAndWait();
-            System.out.println("è´¦æˆ·æˆ–è€…å¯†ç é•¿åº¦å°äºŽ8|å¤§äºŽ15");
+            System.out.println("ÕË»§»òÕßÃÜÂë³¤¶ÈÐ¡ÓÚ8|´óÓÚ15");
         } else
             Login_System(stage);
     }
@@ -103,6 +88,7 @@ public class Login extends Application {
                 Alert alert = new Alert(Alert.AlertType.INFORMATION, "Welcome to Teacher Salary Management System ");
                 alert.showAndWait();
                 new Choice().start(stage);
+                super.Login_Log(Account_TextField.getText());
             }
         } catch (SQLException ex) {
             ex.printStackTrace();
@@ -115,11 +101,11 @@ public class Login extends Application {
         Text text = new Text();
         text.setX(5);
         text.setY(20);
-        text.setText("æ•™å¸ˆå·¥èµ„ç®¡ç†ç³»ç»Ÿ: \n" +
-                "ç³»ç»Ÿç‰ˆæœ¬\t1.0\n" +
-                "æºç å¯ä»Žå¦‚ä¸‹ç½‘ç«™èŽ·å–\n" +
-                "https://github.com/xuetongxin/IJ_WorkSpace.git");
-        //Hyperlink hyperlink=new Hyperlink("https://github.com/xuetongxin/IJ_WorkSpace.git");
+        text.setText("""
+                ½ÌÊ¦¹¤×Ê¹ÜÀíÏµÍ³:\s
+                ÏµÍ³°æ±¾\t1.0
+                Ô´Âë¿É´ÓÈçÏÂÍøÕ¾»ñÈ¡
+                https://github.com/xuetongxin/IJ_WorkSpace.git""");
         group.getChildren().addAll(text);
         stage.setScene(new Scene(group, 400, 100));
         stage.setResizable(false);

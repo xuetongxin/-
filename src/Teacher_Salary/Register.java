@@ -3,26 +3,21 @@ package Teacher_Salary;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
-
-import javax.swing.*;
-import java.sql.*;
+import java.sql.SQLException;
 
 public class Register extends Login {
     final StackPane stackPane = new StackPane();
     private final HBox box = new HBox();
-    private final Button Bt_Register = new Button("ç¡®è®¤");
-    private final Button Bt_Return = new Button("è¿”å›ž");
-    Stage window;
-    Connection con;
+    private final Button Bt_Register = new Button("È·ÈÏ");
+    private final Button Bt_Return = new Button("·µ»Ø");
+    private final Label passwd_Label2 = new Label("ÑéÖ¤ÃÜÂë");
+    private final PasswordField passwd_Field2 = new PasswordField();
 
     static void Panel_Layout(Button register, Label lb1, Label lb2, TextField txfd1, TextField txfd2, GridPane gridpane) {
         gridpane.setHgap(5);
@@ -31,24 +26,28 @@ public class Register extends Login {
         gridpane.add(txfd1, 1, 0);
         gridpane.add(lb2, 0, 1);
         gridpane.add(txfd2, 1, 1);
-        gridpane.add(register, 1, 2);
+        gridpane.add(register, 1, 4);
         gridpane.setAlignment(Pos.CENTER);
     }
 
     public void start(Stage stage) {
 
-        // TODO è‡ªåŠ¨ç”Ÿæˆçš„æ–¹æ³•å­˜æ ¹
-        window = stage;
-        imageView.setFitHeight(810);
-        imageView.setFitWidth(1535); // èƒŒæ™¯å›¾ç‰‡å±žæ€§
+        // TODO ×Ô¶¯Éú³ÉµÄ·½·¨´æ¸ù
+        Account_Label.setStyle("-fx-text-fill: 'white';-fx-font-family: '»ªÎÄÐÐ¿¬'");
+        Passwd_Label.setStyle("-fx-text-fill: 'white';-fx-font-family: '»ªÎÄÐÐ¿¬'");
+        passwd_Label2.setStyle("-fx-text-fill: 'white';-fx-font-family: '»ªÎÄÐÐ¿¬'");
         imageView.setImage(new Image("file:D:\\IJ_WorkSpace\\out\\production\\IJ_WorkSpace\\Teacher_Salary\\image\\bg.jpg"));
-        Account_TextField.setPromptText("8~15æ•°å­—ã€å­—æ¯ ä¸èƒ½å­˜åœ¨ç¬¦å·");
-        Passwd_TextField.setPromptText("8~15æ•°å­—ã€å­—æ¯ èƒ½å­˜åœ¨ç¬¦å·");
+        Account_TextField.setPromptText("8~15Êý×Ö¡¢×ÖÄ¸ ²»ÄÜ´æÔÚ·ûºÅ");
+        Passwd_TextField.setPromptText("8~15Êý×Ö¡¢×ÖÄ¸ ÄÜ´æÔÚ·ûºÅ");
+        passwd_Field2.setPromptText("ÔÙ´ÎÊäÈëÃÜÂë");
         Passwd_TextField.setPrefColumnCount(20);
-
+        Passwd_TextField.copy();
+        passwd_Field2.copy();
         box.setPadding(new Insets(20, 0, 0, 20));
         box.getChildren().add(Bt_Return);
         Panel_Layout(Bt_Register, Account_Label, Passwd_Label, Account_TextField, Passwd_TextField, gridpane);
+        gridpane.add(passwd_Label2, 0, 2);
+        gridpane.add(passwd_Field2, 1, 2);
         Bt_Return.setOnAction(e -> new Login().start(stage));
         Bt_Register.setOnAction(e -> Judgement(stage));
         Passwd_TextField.setOnAction(e -> Judgement(stage));
@@ -57,55 +56,40 @@ public class Register extends Login {
         stackPane.getChildren().addAll(imageView, borderPane);
         Scene scene = new Scene(stackPane, 500, 500);
         stage.setScene(scene);
-        stage.setTitle("æ³¨å†Œ");
+        stage.setTitle("×¢²á");
         stage.setMinHeight(500);
         stage.setMinWidth(500);
         stage.show();
     }
 
+
     void Judgement(Stage stage) {
         if ((Account_TextField.getText().matches("") || Passwd_TextField.getText().matches(""))) {
-            Alert alert = new Alert(Alert.AlertType.WARNING, "è´¦æˆ·æˆ–è€…å¯†ç ä¸ºç©º");
+            Alert alert = new Alert(Alert.AlertType.WARNING, "ÕË»§»òÕßÃÜÂëÎª¿Õ");
             alert.showAndWait();
-            System.out.println("è´¦æˆ·æˆ–è€…å¯†ç ä¸ºç©º");
+            System.out.println("ÕË»§»òÕßÃÜÂëÎª¿Õ");
         } else if (!(Account_TextField.getLength() >= 8 && Account_TextField.getLength() <= 15 && Passwd_TextField.getLength() >= 8 && Passwd_TextField.getLength() <= 15)) {
-            Alert alert = new Alert(Alert.AlertType.WARNING, "è´¦æˆ·æˆ–è€…å¯†ç é•¿åº¦å°äºŽ8|å¤§äºŽ15");
+            Alert alert = new Alert(Alert.AlertType.WARNING, "ÕË»§»òÕßÃÜÂë³¤¶ÈÐ¡ÓÚ8|´óÓÚ15");
             alert.showAndWait();
-            System.out.println("è´¦æˆ·æˆ–è€…å¯†ç é•¿åº¦å°äºŽ8|å¤§äºŽ15");
-        } else {
+            System.out.println("ÕË»§»òÕßÃÜÂë³¤¶ÈÐ¡ÓÚ8|´óÓÚ15");
+        } else if (passwd_Field2.getText().matches(Passwd_TextField.getText())) {
+
             try {
-                OperationData operationData = new OperationData();
-                if (operationData.Select_User_Account(Account_TextField)) {
-                    Alert alert = new Alert(Alert.AlertType.ERROR, "User     Exist");
+
+                if (super.Select_User_Account(Account_TextField)) {
+                    Alert alert = new Alert(Alert.AlertType.ERROR, "User    Exist");
                     alert.showAndWait();
-                } else
-                    Register_User();
+                } else {
+
+                    super.Register_user(Account_TextField, Passwd_TextField, passwd_Field2);
+                }
+                //Register_User();
             } catch (SQLException e) {
                 e.printStackTrace();
             }
-        }
-    }
-
-    void Register_User() {
-        OperationData operationData = new OperationData(con);
-        try {
-
-            Class.forName("com.mysql.cj.jdbc.Driver");
-            Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/xsl", "root", "xsl203457XSL@");
-            PreparedStatement ps = con.prepareStatement("insert into xsl.passwd_date (account,passwd)values (?,?)");
-            System.out.println("egister");
-            ps.setString(1, Account_TextField.getText());
-            ps.setString(2, Passwd_TextField.getText());
-            System.out.println("register");
-            ps.execute();
-            ps.close();
-            Alert alert = new Alert(Alert.AlertType.INFORMATION, "æ³¨å†ŒæˆåŠŸ");
+        } else {
+            Alert alert = new Alert(Alert.AlertType.WARNING, "Á½´ÎÃÜÂë²»Ò»Ñù");
             alert.showAndWait();
-            System.out.println("æ³¨å†ŒæˆåŠŸ");
-            Account_TextField.clear();
-            Passwd_TextField.clear();
-        } catch (Exception ex) {
-            ex.getStackTrace();
         }
     }
 

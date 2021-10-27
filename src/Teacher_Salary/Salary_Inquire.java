@@ -6,8 +6,6 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.StackPane;
@@ -19,7 +17,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 
 
-public class Salary_Inquire {
+public class Salary_Inquire extends OperationData{
     TextField ID_TextField = new TextField();
     TextField Name_TextField = new TextField();
     TextField Allowance_TextField = new TextField();
@@ -27,28 +25,24 @@ public class Salary_Inquire {
     TextField Tootle_TextField = new TextField();
     TextField AverageSalary_TextField = new TextField();
 
-    public void start(Stage stage) throws Exception {
+    public void start(Stage stage) {
 
-        ImageView imageView = new ImageView(new Image("file:/home/ximeng/IdeaProjects/IJ_WorkSpace/out/production/IJ_WorkSpace/Teacher_Salary/image/bg.jpg"));
-        imageView.setFitHeight(1080);
-        imageView.setFitWidth(1980);
+        Label ID_Label = new Label("¹¤ºÅ");
+        Label Name_Label = new Label("Ãû×Ö");
+        Label Allowance_Label = new Label("½òÌù");
+        Label Base_Label = new Label("»ù±¾¹¤×Ê");
+        Label Tootle_Label = new Label("×Ü¹¤×Ê");
+        Label AverageSalary_Label = new Label("Æ½¾ù¹¤×Ê");
 
-        Label ID_Label = new Label("å·¥å·");
-        Label Name_Label = new Label("åå­—");
-        Label Allowance_Label = new Label("æ´¥è´´");
-        Label Base_Label = new Label("åŸºæœ¬å·¥èµ„");
-        Label Tootle_Label = new Label("æ€»å·¥èµ„");
-        Label AverageSalary_Label = new Label("å¹³å‡å·¥èµ„");
+        ID_Label.setStyle("-fx-font-family: '»ªÎÄĞĞ¿¬';-fx-text-fill: 'white';-fx-font-size: 20");
+        Name_Label.setStyle("-fx-font-family: '»ªÎÄĞĞ¿¬';-fx-text-fill: 'white';-fx-font-size: 20");
+        Allowance_Label.setStyle("-fx-font-family: '»ªÎÄĞĞ¿¬';-fx-text-fill: 'white';-fx-font-size: 20");
+        Base_Label.setStyle("-fx-font-family: '»ªÎÄĞĞ¿¬';-fx-text-fill: 'white';-fx-font-size: 20");
+        Tootle_Label.setStyle("-fx-font-family: '»ªÎÄĞĞ¿¬';-fx-text-fill: 'white';-fx-font-size: 20");
+        AverageSalary_Label.setStyle("-fx-font-family: '»ªÎÄĞĞ¿¬';-fx-text-fill: 'white';-fx-font-size: 20");
 
-        ID_Label.setStyle("-fx-font-family: 'åæ–‡è¡Œæ¥·';-fx-text-fill: 'white';-fx-font-size: 20");
-        Name_Label.setStyle("-fx-font-family: 'åæ–‡è¡Œæ¥·';-fx-text-fill: 'white';-fx-font-size: 20");
-        Allowance_Label.setStyle("-fx-font-family: 'åæ–‡è¡Œæ¥·';-fx-text-fill: 'white';-fx-font-size: 20");
-        Base_Label.setStyle("-fx-font-family: 'åæ–‡è¡Œæ¥·';-fx-text-fill: 'white';-fx-font-size: 20");
-        Tootle_Label.setStyle("-fx-font-family: 'åæ–‡è¡Œæ¥·';-fx-text-fill: 'white';-fx-font-size: 20");
-        AverageSalary_Label.setStyle("-fx-font-family: 'åæ–‡è¡Œæ¥·';-fx-text-fill: 'white';-fx-font-size: 20");
-
-        Button Bt_Inquire = new Button("æŸ¥è¯¢");
-        Button Bt_Return = new Button("è¿”å›");
+        Button Bt_Inquire = new Button("²éÑ¯");
+        Button Bt_Return = new Button("·µ»Ø");
         GridPane gridPane = new GridPane();
         gridPane.setAlignment(Pos.CENTER);
         gridPane.setHgap(5);
@@ -75,18 +69,15 @@ public class Salary_Inquire {
 
         BorderPane borderPane = new BorderPane();
         borderPane.setCenter(gridPane);
-
         StackPane stackPane = new StackPane();
         stackPane.getChildren().addAll(imageView, borderPane);
-
         stage.setScene(new Scene(stackPane, 500, 500));
-        stage.setTitle("æ•™å¸ˆå·¥èµ„æŸ¥è¯¢");
+        stage.setTitle("½ÌÊ¦¹¤×Ê²éÑ¯");
         stage.setMinWidth(500);
         stage.setMinHeight(500);
         stage.show();
 
     }
-
     static void Panel_Layout(Label ID_Label, Label name_Label, Label allowance_Label, Label base_Label, GridPane gridPane, TextField id_textField, TextField name_textField, TextField allowance_textField, TextField baseSalary_textField) {
         gridPane.add(ID_Label, 0, 0);
         gridPane.add(id_textField, 1, 0);
@@ -106,7 +97,7 @@ public class Salary_Inquire {
             AverageSalary_TextField.setText(String.valueOf(average));
             Add_Salary_To_Table(tootle, average);
         } else {
-            Alert alert = new Alert(Alert.AlertType.WARNING, "ä¿¡æ¯ä¸èƒ½ä¸ºç©º");
+            Alert alert = new Alert(Alert.AlertType.WARNING, "ĞÅÏ¢²»ÄÜÎª¿Õ");
             alert.showAndWait();
         }
     }
@@ -115,7 +106,7 @@ public class Salary_Inquire {
         boolean user_exit = false;
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");
-            Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/xsl?", "root", "xsl203457XSL@");
+            Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/xsl?", "root", "xsl203457");
             PreparedStatement preparedStatement = connection.prepareStatement("update xsl.teacher_salary set tootle_salary=? ,average_salary=? where id=?");
             PreparedStatement preparedStatement1 = connection.prepareStatement("select id, name  from xsl.teacher_salary ");
             ResultSet resultSet = preparedStatement1.executeQuery();
@@ -129,13 +120,22 @@ public class Salary_Inquire {
                 preparedStatement.setDouble(2, average);
                 preparedStatement.setString(3, ID_TextField.getText());
                 preparedStatement.executeUpdate();
-                System.out.println("æ’å…¥æˆåŠŸ");
+                System.out.println("²åÈë³É¹¦");
             } else {
-                Alert alert = new Alert(Alert.AlertType.ERROR, "ç”¨æˆ·ä¸å­˜åœ¨");
+                Alert alert = new Alert(Alert.AlertType.ERROR, "ÓÃ»§²»´æÔÚ");
                 alert.showAndWait();
+                clear();
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+    void clear(){
+        ID_TextField.clear();
+        Name_TextField.clear();
+        Allowance_TextField.clear();
+        Tootle_TextField.clear();
+        AverageSalary_TextField.clear();
+        BaseSalary_TextField.clear();
     }
 }

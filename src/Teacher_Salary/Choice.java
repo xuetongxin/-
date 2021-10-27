@@ -5,7 +5,6 @@ import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.image.Image;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
@@ -15,7 +14,6 @@ import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
 public class Choice extends Login {
-    final HBox box = new HBox(50);
     final Label Input_Label = new Label();
     final Label Update_label = new Label();
     final Label Select_Label = new Label();
@@ -26,38 +24,36 @@ public class Choice extends Login {
 
     public void start(Stage stage) {
         Body();
-        Label_Button_Choice_Method(stage); // æŒ‰é”®é€‰é¡¹
-        imageView.setFitHeight(1080);
-        imageView.setFitWidth(1985); // èƒŒæ™¯å›¾ç‰‡å±žæ€§
-        imageView.setImage(new Image("file:/home/ximeng/IdeaProjects/IJ_WorkSpace/out/production/IJ_WorkSpace/Teacher_Salary/image/bg.jpg"));
+        Label_Button_Choice_Method(stage); // °´¼üÑ¡Ïî
+
         borderpane.setCenter(gridpane);
         stackPane.getChildren().addAll(imageView, borderpane);
-        stage.setScene(new Scene(stackPane, 500, 500));
+        stage.setScene(new Scene(stackPane, 550, 500));
         stage.setMinHeight(500);
-        stage.setMinWidth(500);
+        stage.setMinWidth(550);
         stage.setTitle("");
         stage.show();
     }
 
     private void Body() {
-        //è®¾ç½®å½•å…¥æ ‡ç­¾
-        Input_Label.setText("1.å½•å…¥ä¿¡æ¯");
-        // æ ‡ç­¾å­—ä½“å±žæ€§  å­—ä½“ç±»åž‹ã€åŠ ç²—ã€å€¾æ–œã€å¤§å°
-        Input_Label.setFont(Font.font("åŽæ–‡è¡Œæ¥·", FontWeight.BOLD, FontPosture.ITALIC, 20));
-        // æ ‡ç­¾å­—ä½“é¢œè‰²
+        //ÉèÖÃÂ¼Èë±êÇ©
+        Input_Label.setText("1.Â¼ÈëÐÅÏ¢");
+        // ±êÇ©×ÖÌåÊôÐÔ  ×ÖÌåÀàÐÍ¡¢¼Ó´Ö¡¢ÇãÐ±¡¢´óÐ¡
+        Input_Label.setFont(Font.font("»ªÎÄÐÐ¿¬", FontWeight.BOLD, FontPosture.ITALIC, 20));
+        // ±êÇ©×ÖÌåÑÕÉ«
         Input_Label.setTextFill(Color.WHITE);
-        // è®¾ç½®æ›´æ–°æ ‡ç­¾
-        Update_label.setText("2.æ›´æ–°ä¿¡æ¯");
-        // å­—ä½“å±žæ€§ â€œå­—ä½“ç±»åž‹ã€å­—ä½“ç²—ç»†ã€å­—ä½“å€¾æ–œã€å­—ä½“å¤§å°â€
-        Update_label.setFont(Font.font("åŽæ–‡è¡Œæ¥·", FontWeight.BOLD, FontPosture.ITALIC, 20));
-        // å­—ä½“é¢œè‰²
+        // ÉèÖÃ¸üÐÂ±êÇ©
+        Update_label.setText("2.¸üÐÂÐÅÏ¢");
+        // ×ÖÌåÊôÐÔ ¡°×ÖÌåÀàÐÍ¡¢×ÖÌå´ÖÏ¸¡¢×ÖÌåÇãÐ±¡¢×ÖÌå´óÐ¡¡±
+        Update_label.setFont(Font.font("»ªÎÄÐÐ¿¬", FontWeight.BOLD, FontPosture.ITALIC, 20));
+        // ×ÖÌåÑÕÉ«
         Update_label.setTextFill(Color.WHITE);
-        //è®¾ç½®æŸ¥è¯¢æ ‡ç­¾
-        Select_Label.setText("3.æŸ¥è¯¢ä¿¡æ¯");
-        Select_Label.setFont(Font.font("åŽæ–‡è¡Œæ¥·", FontWeight.BOLD, FontPosture.ITALIC, 20));
+        //ÉèÖÃ²éÑ¯±êÇ©
+        Select_Label.setText("3.²éÑ¯ÐÅÏ¢");
+        Select_Label.setFont(Font.font("»ªÎÄÐÐ¿¬", FontWeight.BOLD, FontPosture.ITALIC, 20));
         Select_Label.setTextFill(Color.WHITE);
-        Close_Label.setText("4.é€€å‡º");
-        Close_Label.setFont(Font.font("åŽæ–‡è¡Œæ¥·", FontWeight.BOLD, FontPosture.ITALIC, 20));
+        Close_Label.setText("4.ÍË³ö");
+        Close_Label.setFont(Font.font("»ªÎÄÐÐ¿¬", FontWeight.BOLD, FontPosture.ITALIC, 20));
         Close_Label.setTextFill(Color.WHITE);
 
         gridpane.setHgap(30);
@@ -76,23 +72,25 @@ public class Choice extends Login {
         Update_label.setOnMouseClicked(e -> new Update().start(stage));
 
         Select_Label.setOnMouseClicked(e -> Choice_Inquire_Method(stage));
-        //å…³é—­ç•Œé¢
+        //¹Ø±Õ½çÃæ
         Close_Label.setOnMouseClicked(e -> {
             Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "Exit?");
             alert.showAndWait();
             if (alert.getResult().getButtonData().isDefaultButton()) {
                 stage.close();
-                System.out.println("å…³é—­çª—ä½“");
+                System.out.println("¹Ø±Õ´°Ìå");
             }
+            new OperationData().Exit_Log(super.Account_TextField.getText());
+
         });
     }
 
     void Choice_Inquire_Method(Stage stage) {
-        Button Bt_Return = new Button("è¿”å›ž");
-        Text Teacher_Salary = new Text("æ•™å¸ˆå·¥èµ„æŸ¥è¯¢");
-        Text Information_Inquire = new Text("æ•™å¸ˆä¿¡æ¯æŸ¥è¯¢");
-        Teacher_Salary.setStyle("-fx-font-family: 'åŽæ–‡è¡Œæ¥·';-fx-font-size: 30");
-        Information_Inquire.setStyle("-fx-font-family: 'åŽæ–‡è¡Œæ¥·';-fx-font-size: 30");
+        Button Bt_Return = new Button("·µ»Ø");
+        Text Teacher_Salary = new Text("½ÌÊ¦¹¤×Ê²éÑ¯");
+        Text Information_Inquire = new Text("½ÌÊ¦ÐÅÏ¢²éÑ¯");
+        Teacher_Salary.setStyle("-fx-font-family: '»ªÎÄÐÐ¿¬';-fx-font-size: 30");
+        Information_Inquire.setStyle("-fx-font-family: '»ªÎÄÐÐ¿¬';-fx-font-size: 30");
 
         Teacher_Salary.setOnMouseClicked(e -> {
             try {
@@ -102,9 +100,7 @@ public class Choice extends Login {
             }
         });
 
-        Information_Inquire.setOnMouseClicked(e -> {
-            new Inquire().start(stage);
-        });
+        Information_Inquire.setOnMouseClicked(e -> new Inquire().start(stage));
         Bt_Return.setOnAction(e -> new Choice().start(stage));
 
         VBox box = new VBox(10);
@@ -113,7 +109,7 @@ public class Choice extends Login {
         stage.setScene(new Scene(box, 500, 500));
         stage.setMinWidth(500);
         stage.setMinHeight(500);
-        stage.setTitle("é€‰æ‹©æŸ¥è¯¢ç±»åž‹");
+        stage.setTitle("Ñ¡Ôñ²éÑ¯ÀàÐÍ");
         stage.show();
 
     }

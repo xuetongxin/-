@@ -7,24 +7,24 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
-import javafx.scene.image.Image;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 
-import java.sql.*;
+import java.sql.SQLException;
 
-public class Input extends Login {
+public class Input extends OperationData{
     final StackPane stackPane = new StackPane();
+
     final HBox box1 = new HBox();
     final HBox box2 = new HBox(200);
     final GridPane gridpane = new GridPane();
-    private final Button Bt_Ok = new Button("ç¡®è®¤");
-    final Button Bt_Return = new Button("è¿”å›");
-    final Button Bt_Reset = new Button("é‡ç½®");
-    final Button Bt_Inquire = new Button("æŸ¥è¯¢");
+    private final Button Bt_Ok = new Button("È·ÈÏ");
+    final Button Bt_Return = new Button("·µ»Ø");
+    final Button Bt_Reset = new Button("ÖØÖÃ");
+    final Button Bt_Inquire = new Button("²éÑ¯");
     final TextField Id_Txfd = new TextField();
     final TextField Name_Txfd = new TextField();
     final TextField Sex_Txfd = new TextField();
@@ -35,21 +35,16 @@ public class Input extends Login {
     final TextField Position_Txfd = new TextField();
     BorderPane borderPane = new BorderPane();
 
-
     public void start(Stage stage) {
-        // TODO è‡ªåŠ¨ç”Ÿæˆçš„æ–¹æ³•å­˜æ ¹
+        // TODO ×Ô¶¯Éú³ÉµÄ·½·¨´æ¸ù
         box1.setPadding(new Insets(20, 0, 0, 20));
         box2.setAlignment(Pos.CENTER);
         box2.setPadding(new Insets(0, 0, 100, 0));
 
-        Id_Txfd.setPromptText("ï¼å¿…é¡»ä¸ºæ•°å­—");
-        Name_Txfd.setPromptText("è¾“å…¥æ•°å­—ã€å­—æ¯ã€æ±‰å­—");
+        Id_Txfd.setPromptText("£¡±ØĞëÎªÊı×Ö");
+        Name_Txfd.setPromptText("ÊäÈëÊı×Ö¡¢×ÖÄ¸¡¢ºº×Ö");
         Id_Txfd.setPrefColumnCount(150);
         Id_Txfd.setPrefWidth(150);
-
-        imageView.setFitHeight(1080);
-        imageView.setFitWidth(1980); // èƒŒæ™¯å›¾ç‰‡å±æ€§
-        imageView.setImage(new Image("file:/home/ximeng/IdeaProjects/IJ_WorkSpace/out/production/IJ_WorkSpace/Teacher_Salary/image/bg.jpg"));
 
         Panel_Layout(gridpane, Id_Txfd, Name_Txfd, Position_Txfd, Sex_Txfd, Birth_Txfd, Age_Txfd, Address_Txfd, Marriage_Status_txfd, Bt_Ok);
 
@@ -73,7 +68,7 @@ public class Input extends Login {
         stackPane.getChildren().addAll(imageView, borderPane);
 
         stage.setScene(new Scene(stackPane, 500, 500));
-        stage.setTitle("å½•å…¥");
+        stage.setTitle("Â¼Èë");
         stage.setMinHeight(500);
         stage.setMinWidth(500);
         stage.show();
@@ -81,67 +76,30 @@ public class Input extends Login {
 
     private void Judgement_Input() throws SQLException {
         if (Id_Txfd.getLength() == 0 || Name_Txfd.getLength() == 0 || Position_Txfd.getLength() == 0 || Age_Txfd.getLength() == 0 || Address_Txfd.getLength() == 0 || Marriage_Status_txfd.getLength() == 0 || Birth_Txfd.getLength() == 0 || Sex_Txfd.getLength() == 0) {
-            Alert alert = new Alert(Alert.AlertType.WARNING, "è¾“å…¥ä¿¡æ¯ä¸èƒ½ä¸ºç©º");
+            Alert alert = new Alert(Alert.AlertType.WARNING, "ÊäÈëĞÅÏ¢²»ÄÜÎª¿Õ");
             alert.showAndWait();
         } else if (Id_Txfd.getLength() > 10) {
-            Alert alert = new Alert(Alert.AlertType.ERROR, "IDé•¿åº¦å°äº8æˆ–è€…å¤§äº15");
+            Alert alert = new Alert(Alert.AlertType.ERROR, "ID³¤¶ÈĞ¡ÓÚ8»òÕß´óÓÚ15");
             alert.showAndWait();
         } else {
-            if (new OperationData().ID_Exist(Integer.parseInt(Id_Txfd.getText()))) {
+            if (super.ID_Exist(Integer.parseInt(Id_Txfd.getText()))){
                 Alert alert = new Alert(Alert.AlertType.ERROR, "Teacher has existed");
                 alert.showAndWait();
             } else
-                Input_Teacher_data();
+                super.Input_Teacher_data(Id_Txfd, Name_Txfd, Birth_Txfd, Age_Txfd, Marriage_Status_txfd, Address_Txfd, Position_Txfd, Sex_Txfd);
         }
     }
 
-    private void Input_Teacher_data() {
-        try {
-            System.out.println("è¿æ¥æ•°æ®åº“");
-            Class.forName("com.mysql.cj.jdbc.Driver");
-            Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/xsl", "root", "xsl203457XSL@");
-            System.out.println("è¿æ¥æˆåŠŸ");
-            PreparedStatement ps = con.prepareStatement("insert into xsl.teacher_salary (id, name, sex, birth, age, marriage_status, address, position) values (?,?,?,?,?,?,?,?)");
-            ps.setInt(1, Integer.parseInt(Id_Txfd.getText()));
-            ps.setString(2, Name_Txfd.getText());
-            ps.setString(3, Sex_Txfd.getText());
-            ps.setInt(4, Integer.parseInt(Birth_Txfd.getText()));
-            ps.setInt(5, Integer.parseInt(Age_Txfd.getText()));
-            ps.setString(6, Marriage_Status_txfd.getText());
-            ps.setString(7, Address_Txfd.getText());
-            ps.setString(8, Position_Txfd.getText());
-            ps.execute();
-            ps.close();
-            Clear_TextField();
-            Alert alert = new Alert(Alert.AlertType.INFORMATION, "å½•å…¥æˆåŠŸ");
-            alert.showAndWait();
-            System.out.println("å½•å…¥æˆåŠŸ");
-
-        } catch (Exception ex) {
-            ex.getStackTrace();
-        }
-    }
-
-    void Clear_TextField() {
-        Id_Txfd.clear();
-        Name_Txfd.clear();
-        Position_Txfd.clear();
-        Sex_Txfd.clear();
-        Birth_Txfd.clear();
-        Age_Txfd.clear();
-        Marriage_Status_txfd.clear();
-        Address_Txfd.clear();
-    }
 
     private static void Panel_Layout(GridPane gridpane, TextField id_txfd, TextField name_txfd, TextField position_txfd, TextField sex_Txfd, TextField birth_Txfd, TextField age_Txfd, TextField address_Txfd, TextField marriage_Status_txfd, Button bt_ok) {
-        Label Id_Label = new Label("åºå·");
-        Label Name_label = new Label("åå­—");
-        Label Sex_Label = new Label("æ€§åˆ«");
-        Label Birth_Label = new Label("å‡ºç”Ÿå¹´æœˆ");
-        Label Age_Label = new Label("å¹´é¾„");
-        Label Marriage_status_label = new Label("å©šå§»çŠ¶æ€");
-        Label Address_Label = new Label("å®¶åº­åœ°å€");
-        Label Position_Label = new Label("èŒä½");
+        Label Id_Label = new Label("ĞòºÅ");
+        Label Name_label = new Label("Ãû×Ö");
+        Label Sex_Label = new Label("ĞÔ±ğ");
+        Label Birth_Label = new Label("³öÉúÄêÔÂ");
+        Label Age_Label = new Label("ÄêÁä");
+        Label Marriage_status_label = new Label("»éÒö×´Ì¬");
+        Label Address_Label = new Label("¼ÒÍ¥µØÖ·");
+        Label Position_Label = new Label("Ö°Î»");
 
         Id_Label.setStyle("-fx-text-fill:'white'");
         Name_label.setStyle("-fx-text-fill:'white'");
@@ -168,5 +126,16 @@ public class Input extends Login {
 
     }
 
+    int  Clear_TextField() {
+        Id_Txfd.clear();
+        Name_Txfd.clear();
+        Position_Txfd.clear();
+        Sex_Txfd.clear();
+        Birth_Txfd.clear();
+        Age_Txfd.clear();
+        Marriage_Status_txfd.clear();
+        Address_Txfd.clear();
+        return 1;
+    }
 }
 

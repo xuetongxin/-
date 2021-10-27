@@ -3,19 +3,18 @@ package Teacher_Salary;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
-import javafx.scene.control.*;
-import javafx.scene.image.Image;
-import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.StackPane;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Button;
+import javafx.scene.control.CheckBox;
+import javafx.scene.control.Label;
 import javafx.stage.Stage;
 
-import java.sql.*;
+import java.sql.SQLException;
 
 public class Update extends Input {
 
-    final Button Bt_Update = new Button("确认");
-    final Button Bt_Inquire = new Button("查询");
+    final Button Bt_Update = new Button("ȷ��");
+    final Button Bt_Inquire = new Button("��ѯ");
     final CheckBox Name_Box = new CheckBox();
     final CheckBox Position_Box = new CheckBox();
     final CheckBox Age_Box = new CheckBox();
@@ -27,23 +26,20 @@ public class Update extends Input {
     @Override
 
     public void start(Stage stage) {
-        // TODO 自动生成的方法存根
-        imageView.setFitHeight(1080);
-        imageView.setFitWidth(1980); // 背景图片属性
-        imageView.setImage(new Image("file:/home/ximeng/IdeaProjects/IJ_WorkSpace/out/production/IJ_WorkSpace/Teacher_Salary/image/bg.jpg"));
+        // TODO �Զ����ɵķ������
 
-        Id_Txfd.setPromptText("ID必须正确");
-        Name_Txfd.setPromptText("输入数字、字母、汉字");
-        Position_Txfd.setPromptText("输入数字、字母、汉字");
+        Id_Txfd.setPromptText("ID������ȷ");
+        Name_Txfd.setPromptText("�������֡���ĸ������");
+        Position_Txfd.setPromptText("�������֡���ĸ������");
 
-        Label Id_Label = new Label("序号");
-        Label Name_label = new Label("名字");
-        Label Sex_Label = new Label("性别");
-        Label Birth_Label = new Label("出生年月");
-        Label Age_Label = new Label("年龄");
-        Label Marriage_status_label = new Label("婚姻状态");
-        Label Address_Label = new Label("家庭地址");
-        Label Position_Label = new Label("职位");
+        Label Id_Label = new Label("���");
+        Label Name_label = new Label("����");
+        Label Sex_Label = new Label("�Ա�");
+        Label Birth_Label = new Label("��������");
+        Label Age_Label = new Label("����");
+        Label Marriage_status_label = new Label("����״̬");
+        Label Address_Label = new Label("��ͥ��ַ");
+        Label Position_Label = new Label("ְλ");
 
         Id_Label.setStyle("-fx-text-fill:'white'");
         Name_label.setStyle("-fx-text-fill:'white'");
@@ -108,54 +104,30 @@ public class Update extends Input {
         stackPane.getChildren().addAll(imageView, borderPane);
 
         stage.setScene(new Scene(stackPane, 500, 500));
-        stage.setTitle("修改");
+        stage.setTitle("�޸�");
         stage.setMinWidth(500);
         stage.setMinHeight(500);
         stage.show();
     }
 
-    void user_exist() {
-
-    }
-
     private void Inquire_User() {
-        Connection con;
-        Statement stmt;
-        ResultSet resultSet;
         try {
-            Class.forName("com.mysql.cj.jdbc.Driver");
-            con = DriverManager.getConnection("jdbc:mysql://localhost:3306/xsl", "root", "xsl203457XSL@");
-            stmt = con.createStatement();
-            resultSet = stmt.executeQuery("select id from xsl.teacher_salary");
-            System.out.println("查询用户");
-            boolean User_Exit = false;
-            while (resultSet.next()) {
-                if (Id_Txfd.getText().matches(String.valueOf(resultSet.getInt(1)))) {
-                    User_Exit = true;
-                    // System.out.println("用户存在");
-                    // Bt_Update_Method();
-                    break;
-                } else {
-                    System.out.println("用户不存在");
-                }
-            }
-            if (User_Exit) {
-                System.out.println("用户存在");
+            if (super.ID_Exist(Integer.parseInt(Id_Txfd.getText())))
                 Choice_Update();
-                //Bt_Update_Method();
-            } else {
-                Alert alert = new Alert(Alert.AlertType.ERROR, "用户不存在");
+            else {
+                System.out.println("�û�������");
+                Alert alert = new Alert(Alert.AlertType.ERROR, "�û�������");
                 alert.showAndWait();
             }
-        } catch (Exception ex) {
-            ex.getStackTrace();
-        }
 
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
     private void Choice_Update() {
         int choice;
-        if (Name_Box.isSelected() && Position_Box.isSelected() && Sex_Box.isSelected() && Age_Box.isSelected() && Birth_Box.isSelected() && Marriage_Box.isSelected() && Address_Box.isSelected())
+        if ((Name_Box.isSelected() && Position_Box.isSelected() && Sex_Box.isSelected() && Age_Box.isSelected() && Birth_Box.isSelected() && Marriage_Box.isSelected() && Address_Box.isSelected()))
             choice = 0;
         else if (Name_Box.isSelected())
             choice = 1;
@@ -175,276 +147,85 @@ public class Update extends Input {
             choice = 8;
 
         switch (choice) {
-            case 0: {
-                if (Name_Txfd.getLength() > 0 && Position_Txfd.getLength() > 0 && Sex_Txfd.getLength() > 0 && Age_Txfd.getLength() > 0 && Birth_Txfd.getLength() > 0 && Marriage_Status_txfd.getLength() > 0 && Address_Txfd.getLength() > 0)
-                    All_Update();
-                else
+            case 0 -> {
+                if (Name_Txfd.getLength() > 0 && Position_Txfd.getLength() > 0 && Sex_Txfd.getLength() > 0 && Age_Txfd.getLength() > 0 && Birth_Txfd.getLength() > 0 && Marriage_Status_txfd.getLength() > 0 && Address_Txfd.getLength() > 0) {
+                    super.All_Update(Integer.parseInt(Id_Txfd.getText()), Name_Txfd.getText(), Sex_Txfd.getText(), Integer.parseInt(Age_Txfd.getText()), Integer.parseInt(Birth_Txfd.getText()), Marriage_Status_txfd.getText(), Position_Txfd.getText(), Address_Txfd.getText());
+                    super.Update_Log(choice, Id_Txfd.getText());
+                } else
                     Null_Tips();
-            }
-            case 1: {
-                if (Name_Txfd.getLength() > 0)
-                    Name_Update(Name_Txfd);
-                else
-                    Null_Tips();
-                break;
-            }
 
-            case 2: {
-                if (Position_Txfd.getLength() > 0)
-                    Position_Update();
-                else
-                    Null_Tips();
-                break;
             }
+            case 1 -> {
+                if (Name_Txfd.getLength() > 0) {
+                    super.Name_Update(Integer.parseInt(Id_Txfd.getText()), Name_Txfd.getText());
+                    super.Update_Log(choice, Id_Txfd.getText());
+                } else
+                    Null_Tips();
 
-            case 3: {
-                if (Sex_Txfd.getLength() > 0)
-                    Sex_Update();
-                else
-                    Null_Tips();
-                break;
             }
-            case 4: {
-                if (Birth_Txfd.getLength() > 0)
-                    Birth_Update();
-                else
-                    Null_Tips();
-                break;
-            }
-            case 5: {
-                if (Age_Txfd.getLength() > 0)
-                    Age_Update();
-                else
+            case 2 -> {
+                if (Position_Txfd.getLength() > 0) {
+                    super.Position_Update(Integer.parseInt(Id_Txfd.getText()), Position_Txfd.getText());
+                    super.Update_Log(choice, Id_Txfd.getText());
+                } else
                     Null_Tips();
             }
-            case 6: {
-                if (Marriage_Status_txfd.getLength() > 0)
-                    Marriage_Update();
-                else
+            case 3 -> {
+                if (Sex_Txfd.getLength() > 0) {
+                    super.Sex_Update(Integer.parseInt(Id_Txfd.getText()), Sex_Txfd.getText());
+                    super.Update_Log(choice, Id_Txfd.getText());
+                } else
                     Null_Tips();
-                break;
             }
-            case 7: {
-                if (Address_Txfd.getLength() > 0)
-                    Address_Update();
-                else
+            case 4 -> {
+                if (Birth_Txfd.getLength() > 0) {
+                    super.Birth_Update(Integer.parseInt(Id_Txfd.getText()), Integer.parseInt(Birth_Txfd.getText()));
+                    super.Update_Log(choice, Id_Txfd.getText());
+                } else
                     Null_Tips();
-                break;
             }
-            case 8: {
-                Alert alert = new Alert(Alert.AlertType.WARNING, "请选择你要修改的信息，一次只能修改一个或者全部修改");
+            case 5 -> {
+                if (Age_Txfd.getLength() > 0) {
+                    super.Age_Update(Integer.parseInt(Id_Txfd.getText()), Integer.parseInt(Age_Txfd.getText()));
+                    super.Update_Log(choice, Id_Txfd.getText());
+                } else
+                    Null_Tips();
+            }
+            case 6 -> {
+                if (Marriage_Status_txfd.getLength() > 0) {
+                    super.Marriage_Update(Integer.parseInt(Id_Txfd.getText()), Marriage_Status_txfd.getText());
+                    super.Update_Log(choice, Id_Txfd.getText());
+                } else
+                    Null_Tips();
+            }
+            case 7 -> {
+                if (Address_Txfd.getLength() > 0) {
+                    super.Address_Update(Integer.parseInt(Id_Txfd.getText()), Address_Txfd.getText());
+                    super.Update_Log(choice, Id_Txfd.getText());
+                } else
+                    Null_Tips();
+            }
+            case 8 -> {
+                Alert alert = new Alert(Alert.AlertType.WARNING, "��ѡ����Ҫ�޸ĵ���Ϣ��һ��ֻ���޸�һ������ȫ���޸�");
                 alert.showAndWait();
             }
-            default:
-                throw new IllegalStateException("Unexpected value: " + choice);
+            default -> throw new IllegalStateException("Unexpected value: " + choice);
         }
-
-
+        System.out.println(choice);
     }
 
     private void Null_Tips() {
-        Alert alert = new Alert(Alert.AlertType.ERROR, "不能为空");
+        Alert alert = new Alert(Alert.AlertType.ERROR, "����Ϊ��");
         alert.showAndWait();
     }
 
-    private void All_Update() {
-        Connection con;
-        PreparedStatement ps;
-        try {
-            System.out.println("连接数据库");
-            Class.forName("com.mysql.cj.jdbc.Driver");
-            con = DriverManager.getConnection("jdbc:mysql://localhost:3306/xsl", "root", "xsl203457XSL@");
-
-            ps = con.prepareStatement("update xsl.teacher_salary set name=?,position=? where id=?");
-            ps.setDouble(3, Double.parseDouble(Id_Txfd.getText()));
-            ps.setString(1, Name_Txfd.getText());
-            ps.setString(2, Position_Txfd.getText());
-            ps.executeUpdate();
-            System.out.println("连接成功");
-
-            Alert alert = new Alert(Alert.AlertType.INFORMATION, "修改成功");
-            alert.showAndWait();
-            System.out.println("修改成功");
-
-            //格式化文本域
-            Clear_TextField();
-            Name_Box.setSelected(false);
-            Position_Box.setSelected(false);
-
-        } catch (Exception ex) {
-            ex.getStackTrace();
-        }
-    }
-
-
-    private void Name_Update(TextField name_Txfd) {
-        try {
-            System.out.println("连接数据库");
-            Class.forName("com.mysql.cj.jdbc.Driver");
-            Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/xsl", "root", "xsl203457XSL@");
-
-            PreparedStatement ps = con.prepareStatement("update xsl.teacher_salary set name=? where id=?");
-            ps.setDouble(2, Double.parseDouble(Id_Txfd.getText()));
-            ps.setString(1, name_Txfd.getText());
-            ps.executeUpdate();
-            System.out.println("连接成功");
-
-        } catch (Exception ex) {
-            ex.getStackTrace();
-        }
-
-        Alert alert = new Alert(Alert.AlertType.INFORMATION, "名字修改成功");
-        alert.showAndWait();
-        System.out.println("名字修改成功");
-        //格式化文本域
-        Clear_TextField();
+    void Clear_Box() {
         Name_Box.setSelected(false);
-    }
-
-    private void Position_Update() {
-        try {
-            System.out.println("连接数据库");
-            Class.forName("com.mysql.cj.jdbc.Driver");
-            Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/xsl", "root", "xsl203457XSL@");
-
-            PreparedStatement ps = con.prepareStatement("update xsl.teacher_salary set position=? where id=?");
-            ps.setDouble(2, Double.parseDouble(Id_Txfd.getText()));
-            ps.setString(1, Position_Txfd.getText());
-            ps.executeUpdate();
-            System.out.println("连接成功");
-
-        } catch (Exception ex) {
-            ex.getStackTrace();
-        }
-        //格式化文本域
-        Id_Txfd.clear();
-        Position_Txfd.clear();
         Position_Box.setSelected(false);
-        Alert alert = new Alert(Alert.AlertType.INFORMATION, "职位修改成功");
-        alert.showAndWait();
-        System.out.println("职位修改成功");
-    }
-
-
-    private void Sex_Update() {
-        try {
-            System.out.println("连接数据库");
-            Class.forName("com.mysql.cj.jdbc.Driver");
-            Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/xsl", "root", "xsl203457XSL@");
-            PreparedStatement ps = con.prepareStatement("update xsl.teacher_salary set sex=? where id=?");
-            ps.setDouble(2, Double.parseDouble(Id_Txfd.getText()));
-            ps.setString(1, Sex_Txfd.getText());
-            ps.executeUpdate();
-            System.out.println("连接成功");
-
-        } catch (Exception ex) {
-            ex.getStackTrace();
-        }
-        Id_Txfd.clear();
-        Sex_Txfd.clear();
         Sex_Box.setSelected(false);
-        Alert alert = new Alert(Alert.AlertType.INFORMATION, "性别修改成功");
-        alert.showAndWait();
-        System.out.println("性别修改成功");
-
-    }
-
-    private void Address_Update() {
-        try {
-            System.out.println("连接数据库");
-            Class.forName("com.mysql.cj.jdbc.Driver");
-            Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/xsl", "root", "xsl203457XSL@");
-            PreparedStatement ps = con.prepareStatement("update xsl.teacher_salary set address=? where id=?");
-            ps.setDouble(2, Double.parseDouble(Id_Txfd.getText()));
-            ps.setString(1, Address_Txfd.getText());
-            ps.executeUpdate();
-            System.out.println("连接成功");
-
-        } catch (Exception ex) {
-            ex.getStackTrace();
-        }
-        Id_Txfd.clear();
-        Address_Txfd.clear();
-        Address_Box.setSelected(false);
-        Alert alert = new Alert(Alert.AlertType.INFORMATION, "地址修改成功");
-        alert.showAndWait();
-        System.out.println("地址修改成功");
-
-    }
-
-
-    private void Age_Update() {
-        try {
-            System.out.println("连接数据库");
-            Class.forName("com.mysql.cj.jdbc.Driver");
-            Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/xsl", "root", "xsl203457XSL@");
-
-            PreparedStatement ps = con.prepareStatement("update xsl.teacher_salary set age=? where id=?");
-            ps.setDouble(2, Double.parseDouble(Name_Txfd.getText()));
-            ps.setInt(1, Integer.parseInt(Age_Txfd.getText()));
-            ps.executeUpdate();
-            System.out.println("连接成功");
-
-        } catch (Exception ex) {
-            ex.getStackTrace();
-        }
-        //格式化文本域
-        Id_Txfd.clear();
-        Age_Txfd.clear();
-        Age_Box.setSelected(false);
-        Alert alert = new Alert(Alert.AlertType.INFORMATION, "年龄修改成功");
-        alert.showAndWait();
-        System.out.println("年龄修改成功");
-    }
-
-    private void Birth_Update() {
-        try {
-            System.out.println("连接数据库");
-            Class.forName("com.mysql.cj.jdbc.Driver");
-            Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/xsl", "root", "xsl203457XSL@");
-
-            PreparedStatement ps = con.prepareStatement("update xsl.teacher_salary set birth=? where id=?");
-            ps.setDouble(2, Double.parseDouble(Id_Txfd.getText()));
-            ps.setInt(1, Integer.parseInt(Birth_Txfd.getText()));
-            ps.executeUpdate();
-            System.out.println("连接成功");
-
-        } catch (Exception ex) {
-            ex.getStackTrace();
-        }
-        //格式化文本域
-        Id_Txfd.clear();
-        Birth_Txfd.clear();
-        Birth_Box.setSelected(false);
-
-        Alert alert = new Alert(Alert.AlertType.INFORMATION, "出生年月修改成功");
-        alert.showAndWait();
-        System.out.println("出生年月修改成功");
-    }
-
-    private void Marriage_Update() {
-        try {
-            System.out.println("连接数据库");
-            Class.forName("com.mysql.cj.jdbc.Driver");
-            Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/xsl", "root", "xsl203457XSL@");
-
-            PreparedStatement ps = con.prepareStatement("update xsl.teacher_salary set marriage_status=? where id=?");
-            ps.setDouble(2, Double.parseDouble(Id_Txfd.getText()));
-            ps.setString(1, Marriage_Status_txfd.getText());
-            ps.executeUpdate();
-            System.out.println("连接成功");
-
-        } catch (Exception ex) {
-            ex.getStackTrace();
-        }
-        //格式化文本域
-        Id_Txfd.clear();
-        Marriage_Status_txfd.getText();
         Marriage_Box.setSelected(false);
-
-        Alert alert = new Alert(Alert.AlertType.INFORMATION, "薪水和职位修改成功");
-        alert.showAndWait();
-        System.out.println("职位和薪水修改成功");
+        Birth_Box.setSelected(false);
+        Age_Box.setSelected(false);
+        Address_Box.setSelected(false);
     }
-
 }
