@@ -1,7 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="SqlDialectMappings">
+    <file url="file://$PROJECT_DIR$/out/production/IJ_WorkSpace/database.sql" dialect="MySQL" />
     <file url="file://$PROJECT_DIR$/src/Teacher_Salary/Input.java" dialect="GenericSQL" />
+    <file url="file://$PROJECT_DIR$/src/Teacher_Salary/Inquire.java" dialect="GenericSQL" />
     <file url="file://$PROJECT_DIR$/src/Teacher_Salary/Login.java" dialect="GenericSQL" />
+    <file url="file://$PROJECT_DIR$/src/Teacher_Salary/OperationData.java" dialect="GenericSQL" />
+    <file url="file://$PROJECT_DIR$/src/Teacher_Salary/Salary_Inquire.java" dialect="GenericSQL" />
+    <file url="file://$PROJECT_DIR$/src/database.sql" dialect="MySQL" />
   </component>
 </project>

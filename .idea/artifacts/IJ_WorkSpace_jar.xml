@@ -1,0 +1,22 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="IJ_WorkSpace:jar">
+    <output-path>$PROJECT_DIR$/out/artifacts/IJ_WorkSpace_jar</output-path>
+    <root id="archive" name="IJ_WorkSpace.jar">
+      <element id="module-output" name="IJ_WorkSpace" />
+      <element id="extracted-dir" path="$PATH-TO-SQL$" path-in-jar="/" />
+      <element id="extracted-dir" path="$PATH_TO_FX$/src.zip" path-in-jar="/" />
+      <element id="extracted-dir" path="$PATH_TO_FX$/javafx-swt.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$PATH_TO_FX$/javafx.web.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$PATH_TO_FX$/javafx.base.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$PATH_TO_FX$/javafx.fxml.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$PATH_TO_FX$/javafx.media.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$PATH_TO_FX$/javafx.swing.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$PATH_TO_FX$/javafx.controls.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$PATH_TO_FX$/javafx.graphics.jar" path-in-jar="/" />
+      <element id="library" level="application" name="openjfx-17-ea+11_windows-x64_bin-sdk" />
+      <element id="library" level="project" name="javafx17" />
+      <element id="library" level="project" name="mysql-connector-java-8.0.25" />
+      <element id="dir-copy" path="$PROJECT_DIR$/out/production/IJ_WorkSpace/Teacher_Salary/image" />
+    </root>
+  </artifact>
+</component>

@@ -1,6 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
-  <component name="Encoding">
+  <component name="Encoding" defaultCharsetForPropertiesFiles="GBK">
+    <file url="file://$PROJECT_DIR$/src/Teacher_Salary/Choice.java" charset="GBK" />
+    <file url="file://$PROJECT_DIR$/src/Teacher_Salary/Input.java" charset="GBK" />
+    <file url="file://$PROJECT_DIR$/src/Teacher_Salary/Inquire.java" charset="GBK" />
+    <file url="file://$PROJECT_DIR$/src/Teacher_Salary/Login.java" charset="GBK" />
+    <file url="file://$PROJECT_DIR$/src/Teacher_Salary/OperationData.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/Teacher_Salary/Register.java" charset="GBK" />
+    <file url="file://$PROJECT_DIR$/src/Teacher_Salary/Salary_Inquire.java" charset="GBK" />
+    <file url="file://$PROJECT_DIR$/src/Teacher_Salary/Update.java" charset="GBK" />
     <file url="PROJECT" charset="UTF-8" />
   </component>
 </project>
