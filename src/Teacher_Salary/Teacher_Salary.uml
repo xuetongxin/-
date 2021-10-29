@@ -3,24 +3,19 @@
   <ID>JAVA</ID>
   <OriginalElement>Teacher_Salary</OriginalElement>
   <nodes>
-    <node x="3.5" y="160.0">Teacher_Salary.Choice</node>
-    <node x="2.5" y="240.0">Teacher_Salary.Inquire</node>
-    <node x="69.54545454545456" y="80.0">Teacher_Salary.Login</node>
-    <node x="177.0" y="0.0">Teacher_Salary.OperationData</node>
-    <node x="349.54545454545456" y="80.0">Teacher_Salary.Input</node>
-    <node x="122.5" y="160.0">Teacher_Salary.Register</node>
-    <node x="342.04545454545456" y="160.0">Teacher_Salary.Update</node>
-    <node x="180.54545454545456" y="80.0">Teacher_Salary.Salary_Inquire</node>
-    <node x="0.0" y="395.0">Teacher_Salary.Main</node>
-    <node x="0.0" y="320.0">Teacher_Salary.Inquire.Teacher</node>
+    <node x="1.0" y="160.0">Teacher_Salary.Choice</node>
+    <node x="0.0" y="240.0">Teacher_Salary.Inquire</node>
+    <node x="67.05263157894737" y="80.0">Teacher_Salary.Login</node>
+    <node x="347.0526315789474" y="80.0">Teacher_Salary.Input</node>
+    <node x="120.0" y="160.0">Teacher_Salary.Register</node>
+    <node x="174.5" y="0.0">Teacher_Salary.OperationData</node>
+    <node x="339.5526315789474" y="160.0">Teacher_Salary.Update</node>
+    <node x="178.05263157894737" y="80.0">Teacher_Salary.Salary_Inquire</node>
+    <node x="0.0" y="315.0">Teacher_Salary.Main</node>
   </nodes>
   <notes />
   <edges>
     <edge source="Teacher_Salary.Salary_Inquire" target="Teacher_Salary.OperationData" relationship="GENERALIZATION">
-      <point x="0.0" y="-15.0" />
-      <point x="0.0" y="15.0" />
-    </edge>
-    <edge source="Teacher_Salary.Inquire.Teacher" target="Teacher_Salary.Inquire" relationship="INNER_CLASS">
       <point x="0.0" y="-15.0" />
       <point x="0.0" y="15.0" />
     </edge>
@@ -30,8 +25,8 @@
     </edge>
     <edge source="Teacher_Salary.Input" target="Teacher_Salary.OperationData" relationship="GENERALIZATION">
       <point x="0.0" y="-15.0" />
-      <point x="394.04545454545456" y="55.0" />
-      <point x="255.0" y="55.0" />
+      <point x="391.5526315789474" y="55.0" />
+      <point x="252.5" y="55.0" />
       <point x="0.0" y="15.0" />
     </edge>
     <edge source="Teacher_Salary.Update" target="Teacher_Salary.Input" relationship="GENERALIZATION">
@@ -40,30 +35,26 @@
     </edge>
     <edge source="Teacher_Salary.Choice" target="Teacher_Salary.Login" relationship="GENERALIZATION">
       <point x="0.0" y="-15.0" />
-      <point x="53.0" y="135.0" />
-      <point x="115.04545454545456" y="135.0" />
+      <point x="50.5" y="135.0" />
+      <point x="112.55263157894737" y="135.0" />
       <point x="0.0" y="15.0" />
     </edge>
     <edge source="Teacher_Salary.Login" target="Teacher_Salary.OperationData" relationship="GENERALIZATION">
       <point x="0.0" y="-15.0" />
-      <point x="115.04545454545456" y="55.0" />
-      <point x="255.0" y="55.0" />
+      <point x="112.55263157894737" y="55.0" />
+      <point x="252.5" y="55.0" />
       <point x="0.0" y="15.0" />
     </edge>
     <edge source="Teacher_Salary.Register" target="Teacher_Salary.Login" relationship="GENERALIZATION">
       <point x="0.0" y="-15.0" />
-      <point x="177.0" y="135.0" />
-      <point x="115.04545454545456" y="135.0" />
+      <point x="174.5" y="135.0" />
+      <point x="112.55263157894737" y="135.0" />
       <point x="0.0" y="15.0" />
     </edge>
   </edges>
-  <settings layout="分层" zoom="1.0" showDependencies="false" x="223.5" y="212.5" />
-  <SelectedNodes>
-    <node>Teacher_Salary.OperationData</node>
-  </SelectedNodes>
-  <Categories>
-    <Category>内部类</Category>
-  </Categories>
+  <settings layout="分层" zoom="1.0" showDependencies="false" x="222.0" y="172.5" />
+  <SelectedNodes />
+  <Categories />
   <SCOPE>All</SCOPE>
   <VISIBILITY>private</VISIBILITY>
 </Diagram>

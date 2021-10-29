@@ -8,7 +8,10 @@ import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
-import javafx.scene.control.*;
+import javafx.scene.control.Button;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
+import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.scene.layout.*;
@@ -25,7 +28,7 @@ public class Inquire extends Choice {
     final Button Bt_Inquire = new Button("查询");
     final Button Bt_Return = new Button("返回");
     final Button Bt_Delete = new Button("删除");
-    final Button Bt_Print=new Button("打印");
+    final Button Bt_Print = new Button("打印");
     ObservableList<Teacher> data = FXCollections.observableArrayList();
 
     @SuppressWarnings({"rawtypes", "unchecked"})
@@ -79,7 +82,7 @@ public class Inquire extends Choice {
         box.setBackground(new Background(new BackgroundImage(new Image("file:D:\\IJ_WorkSpace\\out\\production\\IJ_WorkSpace\\Teacher_Salary\\image\\bg.jpg"), BackgroundRepeat.REPEAT, BackgroundRepeat.REPEAT, BackgroundPosition.CENTER, BackgroundSize.DEFAULT)));
         box.setAlignment(Pos.CENTER);
         box.setPadding(new Insets(30, 0, 30, 0));
-        box.getChildren().addAll(Text_Field, Bt_Inquire,Bt_Print,Bt_Delete ,Bt_Return);
+        box.getChildren().addAll(Text_Field, Bt_Inquire, Bt_Print, Bt_Delete, Bt_Return);
 
         // 宽度绑定窗口的宽度（意思窗口大小改变，它也跟着改变，自适应效果）
         //table.prefWidthProperty().bind(stage.widthProperty());
@@ -88,7 +91,7 @@ public class Inquire extends Choice {
         Bt_Return.setOnAction(e -> new Choice().Choice_Inquire_Method(stage));
         Bt_Delete.setOnAction(e -> Delete_User(Text_Field, stage));
         Bt_Inquire.setOnAction(e -> Refresh_Table());
-        Bt_Print.setOnAction(e->{
+        Bt_Print.setOnAction(e -> {
             try {
                 new OperationData().Print_Data();
             } catch (IOException ex) {
@@ -137,8 +140,6 @@ public class Inquire extends Choice {
             preparedStatement.setString(1, Text_Field.getText());
             ResultSet rs1 = preparedStatement.executeQuery();
             Insert(rs1);
-            System.out.println("查询成功");
-
         } catch (Exception exception) {
             exception.getStackTrace();
         }
@@ -168,32 +169,40 @@ public class Inquire extends Choice {
     }
 
     private void Delete_User(TextField Text_Field, Stage stage) {
-        if (Text_Field.getLength()<=0){
-            Alert alert=new Alert(Alert.AlertType.ERROR,"Delete information is null");
-            alert.showAndWait();
-        }else{
+        if (Text_Field.getLength() <= 0) {
+            Error_Tip("Delete information is null");
+        } else {
+
             try {
-                Class.forName("com.mysql.cj.jdbc.Driver");
-                Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/xsl", "root", "xsl203457");
-                PreparedStatement preparedStatement = connection.prepareStatement("delete from xsl.teacher_salary where id=?");
-                preparedStatement.setInt(1, Integer.parseInt(Text_Field.getText()));
-                preparedStatement.execute();
-                new Inquire().start(stage);
+                if (ID_Exist(Integer.parseInt(Text_Field.getText()))) {
+                    if (Confirm_Tip("Do you want to delete teacher whose name is\n"+Text_Field.getText())){
+                        try {
+                            Class.forName("com.mysql.cj.jdbc.Driver");
+                            Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/xsl", "root", "xsl203457");
+                            PreparedStatement preparedStatement = connection.prepareStatement("delete from xsl.teacher_salary where id=?");
+                            preparedStatement.setInt(1, Integer.parseInt(Text_Field.getText()));
+                            preparedStatement.execute();
+                            new Inquire().start(stage);
+                            Information_Tip("Delete Successfully");
+                            Text_Field.clear();
+                            Mysql_Select();
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                    }else
+                        Information_Tip("Delete Failed");
 
-                Alert alert = new Alert(Alert.AlertType.INFORMATION, "删除成功");
-                alert.showAndWait();
+                }else
+                    Error_Tip("User dose not exit");
 
-                Text_Field.clear();
-                System.out.println("删除成功");
-            } catch (Exception e) {
+            } catch(SQLException e){
                 e.printStackTrace();
             }
+
         }
-        Refresh_Table();
+
 
     }
-
-
 
     public static class Teacher {
 

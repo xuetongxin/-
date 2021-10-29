@@ -3,7 +3,6 @@ package Teacher_Salary;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
-import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
@@ -15,7 +14,7 @@ import javafx.stage.Stage;
 
 import java.sql.SQLException;
 
-public class Input extends OperationData{
+public class Input extends OperationData {
     final StackPane stackPane = new StackPane();
 
     final HBox box1 = new HBox();
@@ -76,17 +75,14 @@ public class Input extends OperationData{
 
     private void Judgement_Input() throws SQLException {
         if (Id_Txfd.getLength() == 0 || Name_Txfd.getLength() == 0 || Position_Txfd.getLength() == 0 || Age_Txfd.getLength() == 0 || Address_Txfd.getLength() == 0 || Marriage_Status_txfd.getLength() == 0 || Birth_Txfd.getLength() == 0 || Sex_Txfd.getLength() == 0) {
-            Alert alert = new Alert(Alert.AlertType.WARNING, "输入信息不能为空");
-            alert.showAndWait();
+            Warring_Tip("Input information is not null");
         } else if (Id_Txfd.getLength() > 10) {
-            Alert alert = new Alert(Alert.AlertType.ERROR, "ID长度小于8或者大于15");
-            alert.showAndWait();
+            Error_Tip("ID长度小于8或者大于15");
         } else {
-            if (super.ID_Exist(Integer.parseInt(Id_Txfd.getText()))){
-                Alert alert = new Alert(Alert.AlertType.ERROR, "Teacher has existed");
-                alert.showAndWait();
+            if (super.ID_Exist(Integer.parseInt(Id_Txfd.getText()))) {
+                Error_Tip("Teacher has existed");
             } else
-                super.Input_Teacher_data(Id_Txfd, Name_Txfd, Birth_Txfd, Age_Txfd, Marriage_Status_txfd, Address_Txfd, Position_Txfd, Sex_Txfd);
+                Input_Teacher_data(Id_Txfd, Name_Txfd, Birth_Txfd, Age_Txfd, Marriage_Status_txfd, Address_Txfd, Position_Txfd, Sex_Txfd);
         }
     }
 
@@ -126,7 +122,7 @@ public class Input extends OperationData{
 
     }
 
-    int  Clear_TextField() {
+    int Clear_TextField() {
         Id_Txfd.clear();
         Name_Txfd.clear();
         Position_Txfd.clear();

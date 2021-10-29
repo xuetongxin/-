@@ -1,7 +1,13 @@
 package Teacher_Salary;
 
+import javafx.event.Event;
+import javafx.event.EventHandler;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
+import javafx.scene.chart.BarChart;
+import javafx.scene.chart.CategoryAxis;
+import javafx.scene.chart.NumberAxis;
+import javafx.scene.chart.XYChart;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -11,22 +17,22 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
+import java.sql.*;
 
 
-public class Salary_Inquire extends OperationData{
+public class Salary_Inquire extends OperationData {
     TextField ID_TextField = new TextField();
     TextField Name_TextField = new TextField();
     TextField Allowance_TextField = new TextField();
     TextField BaseSalary_TextField = new TextField();
     TextField Tootle_TextField = new TextField();
     TextField AverageSalary_TextField = new TextField();
-
+    Button Bt_Inquire = new Button("确认");
+    Button Bt_Return = new Button("返回");
+    Button Bt_Chart=new Button("图表显示");
+    Stage windows;
     public void start(Stage stage) {
-
+        windows=stage;
         Label ID_Label = new Label("工号");
         Label Name_Label = new Label("名字");
         Label Allowance_Label = new Label("津贴");
@@ -41,8 +47,7 @@ public class Salary_Inquire extends OperationData{
         Tootle_Label.setStyle("-fx-font-family: '华文行楷';-fx-text-fill: 'white';-fx-font-size: 20");
         AverageSalary_Label.setStyle("-fx-font-family: '华文行楷';-fx-text-fill: 'white';-fx-font-size: 20");
 
-        Button Bt_Inquire = new Button("查询");
-        Button Bt_Return = new Button("返回");
+
         GridPane gridPane = new GridPane();
         gridPane.setAlignment(Pos.CENTER);
         gridPane.setHgap(5);
@@ -54,11 +59,14 @@ public class Salary_Inquire extends OperationData{
         gridPane.add(Tootle_TextField, 1, 10);
         gridPane.add(AverageSalary_Label, 0, 11);
         gridPane.add(AverageSalary_TextField, 1, 11);
+        gridPane.add(Bt_Chart,0,13);
+        Tootle_TextField.setEditable(false);
+        AverageSalary_TextField.setEditable(false);
         gridPane.add(Bt_Inquire, 0, 12);
         gridPane.add(Bt_Return, 2, 12);
 
-
-        Bt_Inquire.setOnAction(e -> Inquire_Result());
+        Bt_Chart.setOnAction(e->Chart());
+        Bt_Inquire.setOnAction(e -> Salary_Result());
         Bt_Return.setOnAction(e -> {
             try {
                 new Choice().Choice_Inquire_Method(stage);
@@ -66,6 +74,7 @@ public class Salary_Inquire extends OperationData{
                 ex.printStackTrace();
             }
         });
+
 
         BorderPane borderPane = new BorderPane();
         borderPane.setCenter(gridPane);
@@ -78,6 +87,7 @@ public class Salary_Inquire extends OperationData{
         stage.show();
 
     }
+
     static void Panel_Layout(Label ID_Label, Label name_Label, Label allowance_Label, Label base_Label, GridPane gridPane, TextField id_textField, TextField name_textField, TextField allowance_textField, TextField baseSalary_textField) {
         gridPane.add(ID_Label, 0, 0);
         gridPane.add(id_textField, 1, 0);
@@ -87,9 +97,10 @@ public class Salary_Inquire extends OperationData{
         gridPane.add(allowance_textField, 1, 2);
         gridPane.add(base_Label, 0, 3);
         gridPane.add(baseSalary_textField, 1, 3);
+
     }
 
-    private void Inquire_Result() {
+    private void Salary_Result() {
         if (ID_TextField.getLength() > 0 && Name_TextField.getLength() > 0 && Allowance_TextField.getLength() > 0 && BaseSalary_TextField.getLength() > 0) {
             double tootle = Double.parseDouble(Allowance_TextField.getText()) + Double.parseDouble(BaseSalary_TextField.getText()) * 12;
             double average = tootle / 12;
@@ -130,7 +141,29 @@ public class Salary_Inquire extends OperationData{
             e.printStackTrace();
         }
     }
-    void clear(){
+
+    void Chart(){
+       Stage stage=new Stage();
+        stage.setTitle("Bar Chart Sample");
+        final NumberAxis xAxis = new NumberAxis();
+        final CategoryAxis yAxis = new CategoryAxis();
+        final BarChart<String,Number> BarChart =
+                new BarChart<>(yAxis,xAxis);
+        BarChart.setTitle("Salary charts");
+        xAxis.setLabel("Salary");
+        yAxis.setLabel("Name");
+
+
+        XYChart.Series series = new XYChart.Series();
+        Display_Charts(series);
+        Scene scene  = new Scene(BarChart,500,500);
+
+        BarChart.getData().addAll(series);
+        stage.setScene(scene);
+        stage.show();
+    }
+
+    void clear() {
         ID_TextField.clear();
         Name_TextField.clear();
         Allowance_TextField.clear();
@@ -138,4 +171,7 @@ public class Salary_Inquire extends OperationData{
         AverageSalary_TextField.clear();
         BaseSalary_TextField.clear();
     }
+
+
+
 }

@@ -23,7 +23,6 @@ public class Update extends Input {
     final CheckBox Sex_Box = new CheckBox();
     final CheckBox Address_Box = new CheckBox();
 
-    @Override
 
     public void start(Stage stage) {
         // TODO 自动生成的方法存根
@@ -83,7 +82,6 @@ public class Update extends Input {
         gridpane.add(Address_Label, 0, 7);
         gridpane.add(Address_Txfd, 1, 7);
         gridpane.add(Address_Box, 2, 7);
-
         gridpane.add(Bt_Update, 0, 9);
 
         box1.getChildren().add(Bt_Return);
@@ -102,7 +100,6 @@ public class Update extends Input {
         borderPane.setBottom(box2);
 
         stackPane.getChildren().addAll(imageView, borderPane);
-
         stage.setScene(new Scene(stackPane, 500, 500));
         stage.setTitle("修改");
         stage.setMinWidth(500);
@@ -114,11 +111,8 @@ public class Update extends Input {
         try {
             if (super.ID_Exist(Integer.parseInt(Id_Txfd.getText())))
                 Choice_Update();
-            else {
-                System.out.println("用户不存在");
-                Alert alert = new Alert(Alert.AlertType.ERROR, "用户不存在");
-                alert.showAndWait();
-            }
+            else
+                Error_Tip("User dose not exist");
 
         } catch (SQLException e) {
             e.printStackTrace();
@@ -152,7 +146,7 @@ public class Update extends Input {
                     super.All_Update(Integer.parseInt(Id_Txfd.getText()), Name_Txfd.getText(), Sex_Txfd.getText(), Integer.parseInt(Age_Txfd.getText()), Integer.parseInt(Birth_Txfd.getText()), Marriage_Status_txfd.getText(), Position_Txfd.getText(), Address_Txfd.getText());
                     super.Update_Log(choice, Id_Txfd.getText());
                 } else
-                    Null_Tips();
+                    Error_Tip("Information cannot be empty");
 
             }
             case 1 -> {
@@ -160,7 +154,7 @@ public class Update extends Input {
                     super.Name_Update(Integer.parseInt(Id_Txfd.getText()), Name_Txfd.getText());
                     super.Update_Log(choice, Id_Txfd.getText());
                 } else
-                    Null_Tips();
+                    Error_Tip("Information cannot be empty");
 
             }
             case 2 -> {
@@ -168,42 +162,42 @@ public class Update extends Input {
                     super.Position_Update(Integer.parseInt(Id_Txfd.getText()), Position_Txfd.getText());
                     super.Update_Log(choice, Id_Txfd.getText());
                 } else
-                    Null_Tips();
+                    Error_Tip("Information cannot be empty");
             }
             case 3 -> {
                 if (Sex_Txfd.getLength() > 0) {
                     super.Sex_Update(Integer.parseInt(Id_Txfd.getText()), Sex_Txfd.getText());
                     super.Update_Log(choice, Id_Txfd.getText());
                 } else
-                    Null_Tips();
+                    Error_Tip("Information cannot be empty");
             }
             case 4 -> {
                 if (Birth_Txfd.getLength() > 0) {
                     super.Birth_Update(Integer.parseInt(Id_Txfd.getText()), Integer.parseInt(Birth_Txfd.getText()));
                     super.Update_Log(choice, Id_Txfd.getText());
                 } else
-                    Null_Tips();
+                    Error_Tip("Information cannot be empty");
             }
             case 5 -> {
                 if (Age_Txfd.getLength() > 0) {
                     super.Age_Update(Integer.parseInt(Id_Txfd.getText()), Integer.parseInt(Age_Txfd.getText()));
                     super.Update_Log(choice, Id_Txfd.getText());
                 } else
-                    Null_Tips();
+                    Error_Tip("Information cannot be empty");
             }
             case 6 -> {
                 if (Marriage_Status_txfd.getLength() > 0) {
                     super.Marriage_Update(Integer.parseInt(Id_Txfd.getText()), Marriage_Status_txfd.getText());
                     super.Update_Log(choice, Id_Txfd.getText());
                 } else
-                    Null_Tips();
+                    Error_Tip("Information cannot be empty");
             }
             case 7 -> {
                 if (Address_Txfd.getLength() > 0) {
                     super.Address_Update(Integer.parseInt(Id_Txfd.getText()), Address_Txfd.getText());
                     super.Update_Log(choice, Id_Txfd.getText());
                 } else
-                    Null_Tips();
+                    Error_Tip("Information cannot be empty");
             }
             case 8 -> {
                 Alert alert = new Alert(Alert.AlertType.WARNING, "请选择你要修改的信息，一次只能修改一个或者全部修改");
@@ -212,11 +206,6 @@ public class Update extends Input {
             default -> throw new IllegalStateException("Unexpected value: " + choice);
         }
         System.out.println(choice);
-    }
-
-    private void Null_Tips() {
-        Alert alert = new Alert(Alert.AlertType.ERROR, "不能为空");
-        alert.showAndWait();
     }
 
     void Clear_Box() {

@@ -1,9 +1,12 @@
 package Teacher_Salary;
 
+import javafx.event.Event;
+import javafx.scene.chart.XYChart;
 import javafx.scene.control.Alert;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.stage.Stage;
 
 import java.io.File;
 import java.io.FileWriter;
@@ -34,13 +37,13 @@ public class OperationData {
         try {
             Class.forName(driver);
         } catch (ClassNotFoundException e) {
-            Error_Information();
+            Error_Tip("Connection Failed");
             e.printStackTrace();
         }
         try {
             con = DriverManager.getConnection(url, Account, Password);
         } catch (SQLException e) {
-            Error_Information();
+            Error_Tip("Connection Failed");
             e.printStackTrace();
         }
         imageView.setImage(new Image("file:D:\\IJ_WorkSpace\\out\\production\\IJ_WorkSpace\\Teacher_Salary\\image\\bg.jpg"));
@@ -48,23 +51,35 @@ public class OperationData {
         imageView.setFitWidth(1980); // 背景图片属性
     }
 
-    public void Error_Information() {
-        Alert alert = new Alert(Alert.AlertType.ERROR, "Connection Error");
-        alert.showAndWait();
-    }
 
     protected void Register_user(TextField account_textfield, TextField passwd_textfield, TextField passwd2_textfield) {
         try {
             PreparedStatement ps = con.prepareStatement("insert into xsl.passwd_date (account,passwd)values (?,?)");
-            System.out.println("egister");
+
             ps.setString(1, account_textfield.getText());
             ps.setString(2, passwd_textfield.getText());
-            System.out.println("register");
+
             ps.execute();
             ps.close();
-            Alert alert = new Alert(Alert.AlertType.INFORMATION, "注册成功");
-            alert.showAndWait();
-            System.out.println("注册成功");
+            Information_Tip("Registration success");
+
+            account_textfield.clear();
+            passwd_textfield.clear();
+            passwd2_textfield.clear();
+        } catch (Exception ex) {
+            ex.getStackTrace();
+        }
+    }
+
+    void ResetPassword(TextField account_textfield, TextField passwd_textfield, TextField passwd2_textfield) {
+        try {
+            PreparedStatement ps = con.prepareStatement("update  xsl.passwd_date set passwd=? where account=?");
+            ps.setString(2, account_textfield.getText());
+            ps.setString(1, passwd_textfield.getText());
+            ps.execute();
+            ps.close();
+            Information_Tip("The password has been changed");
+
             account_textfield.clear();
             passwd_textfield.clear();
             passwd2_textfield.clear();
@@ -84,8 +99,8 @@ public class OperationData {
                 user_Account_exit = true;
         }
         if (!user_Account_exit) {
-            Alert alert = new Alert(Alert.AlertType.ERROR, "user dose not exist");
-            alert.showAndWait();
+            Error_Tip("user dose not exist");
+
             Account_ErrorLog(Account.getText());
         }
         rst.close();
@@ -103,8 +118,9 @@ public class OperationData {
         if (rst.getString(1).matches(Password.getText()))
             user_passwd_true = true;
         else {
-            Alert alert = new Alert(Alert.AlertType.ERROR, "passwd is false");
-            alert.showAndWait();
+
+            Error_Tip("Password is False");
+
             Passwd_ErrorLog(Account.getText());
 
         }
@@ -137,9 +153,7 @@ public class OperationData {
             System.out.println(i);
             ps.close();
             new Input().Clear_TextField();
-            Alert alert = new Alert(Alert.AlertType.INFORMATION, "Input Successfully");
-            alert.showAndWait();
-            System.out.println("Input Successfully");
+            Information_Tip("Input Successfully");
             Input_Log(id.getText());
 
         } catch (Exception ex) {
@@ -162,8 +176,7 @@ public class OperationData {
             ps.executeUpdate();
             new Input().Clear_TextField();
             new Update().Clear_Box();
-            Alert alert = new Alert(Alert.AlertType.INFORMATION, "Update Successfully");
-            alert.showAndWait();
+            Information_Tip("Update Successfully");
         } catch (Exception ex) {
             ex.getStackTrace();
         }
@@ -182,8 +195,7 @@ public class OperationData {
         }
         new Input().Clear_TextField();
         new Update().Clear_Box();
-        Alert alert = new Alert(Alert.AlertType.INFORMATION, "Age Update Successfully");
-        alert.showAndWait();
+        Information_Tip("Age Update Successfully");
     }
 
 
@@ -199,8 +211,7 @@ public class OperationData {
         int i = new Input().Clear_TextField();
         System.out.println(i);
         new Update().Clear_Box();
-        Alert alert = new Alert(Alert.AlertType.INFORMATION, "Address Update Successfully");
-        alert.showAndWait();
+        Information_Tip("Address Update Successfully");
     }
 
     void Name_Update(int id, String name) {
@@ -214,8 +225,7 @@ public class OperationData {
         }
         new Input().Clear_TextField();
         new Update().Clear_Box();
-        Alert alert = new Alert(Alert.AlertType.INFORMATION, "Name Update Successfully");
-        alert.showAndWait();
+        Information_Tip("Name Update Successfully");
     }
 
     void Position_Update(int id, String position) {
@@ -232,9 +242,7 @@ public class OperationData {
         //格式化文本域
         new Input().Clear_TextField();
         new Update().Clear_Box();
-        Alert alert = new Alert(Alert.AlertType.INFORMATION, "Position Update Successfully");
-        alert.showAndWait();
-        System.out.println("职位修改成功");
+        Information_Tip("Sex Update Successfully");
     }
 
 
@@ -249,8 +257,7 @@ public class OperationData {
         }
         new Input().Clear_TextField();
         new Update().Clear_Box();
-        Alert alert = new Alert(Alert.AlertType.INFORMATION, "Sex Update Successfully");
-        alert.showAndWait();
+        Information_Tip("Sex Update Successfully");
     }
 
     void Birth_Update(int id, int birth) {
@@ -265,8 +272,7 @@ public class OperationData {
         }
         new Input().Clear_TextField();
         new Update().Clear_Box();
-        Alert alert = new Alert(Alert.AlertType.INFORMATION, "Born Update Successfully");
-        alert.showAndWait();
+        Information_Tip("Born Update Successfully");
     }
 
     void Marriage_Update(int id, String marriage) {
@@ -280,8 +286,7 @@ public class OperationData {
         }
         new Input().Clear_TextField();
         new Update().Clear_Box();
-        Alert alert = new Alert(Alert.AlertType.INFORMATION, "Marriage Status Update Successfully");
-        alert.showAndWait();
+        Information_Tip("Marriage Status Update Successfully");
     }
 
     void File_Connect() {
@@ -425,50 +430,48 @@ public class OperationData {
     }
 
     void Print_Data() throws IOException {
-        Alert alert=new Alert(Alert.AlertType.CONFIRMATION,"Are you want to print all?");
-        alert.showAndWait();
-        sql="select * from teacher_salary";
+        sql = "select * from teacher_salary";
         FileWriter write = null;
         try {
-            File file=new File("D:\\IJ_WorkSpace\\src\\META-INF\\Salary");
-            write =new FileWriter(file ,true);
+            File file = new File("D:\\IJ_WorkSpace\\src\\META-INF\\Salary");
+            write = new FileWriter(file, true);
         } catch (IOException e) {
             e.printStackTrace();
         }
-        if (alert.getResult().getButtonData().isDefaultButton()){
-            write.write("\n"+"id\t"+"name\t"+"sex\t"+"age\t"+"birth\t"+"marriage\t"+"position\t"+"address\t"+"tootle\t"+"average\n");
+        if (Confirm_Tip("Are you want to print all?")) {
+            write.write("\n" + "id\t" + "name\t" + "sex\t" + "age\t" + "birth\t" + "marriage\t" + "position\t" + "address\t" + "tootle\t" + "average\n");
             try {
-                PreparedStatement  preparedStatement=con.prepareStatement(sql);
-                rst=preparedStatement.executeQuery();
-               while(rst.next()){
-                   String id= String.valueOf(rst.getInt(1));
-                   String name=rst.getString(2);
-                   String sex=rst.getString(3);
-                   String age= String.valueOf(rst.getInt(4));
-                   String birth = String.valueOf(rst.getInt(5));
-                   String marriage=rst.getString(6);
-                   String position=rst.getString(7);
-                   String address=rst.getString(8);
-                   String tootle= String.valueOf(rst.getDouble(9));
-                   String average= String.valueOf(rst.getDouble(10));
-                   write.write(id+"\t"+name+"\t"+sex+"\t"+age+"\t"+birth+"\t"+marriage+"\t"+position+"\t"+address+"\t"+tootle+"\t"+average+"\n");
-               }
-               write.close();
+                PreparedStatement preparedStatement = con.prepareStatement(sql);
+                rst = preparedStatement.executeQuery();
+                while (rst.next()) {
+                    String id = String.valueOf(rst.getInt(1));
+                    String name = rst.getString(2);
+                    String sex = rst.getString(3);
+                    String age = String.valueOf(rst.getInt(4));
+                    String birth = String.valueOf(rst.getInt(5));
+                    String marriage = rst.getString(6);
+                    String position = rst.getString(7);
+                    String address = rst.getString(8);
+                    String tootle = String.valueOf(rst.getDouble(9));
+                    String average = String.valueOf(rst.getDouble(10));
+                    write.write(id + "\t" + name + "\t" + sex + "\t" + age + "\t" + birth + "\t" + marriage + "\t" + position + "\t" + address + "\t" + tootle + "\t" + average + "\n");
+                }
+                write.close();
 
             } catch (SQLException e) {
                 e.printStackTrace();
             }
-        }else{
-            write.write("\n"+"id\t"+"name\t"+"tootle\t"+"average\n");
+        } else {
+            write.write("\n" + "id\t" + "name\t" + "tootle\t" + "average\n");
             try {
-                PreparedStatement  preparedStatement=con.prepareStatement(sql);
-                rst=preparedStatement.executeQuery();
-                while(rst.next()){
-                    String id= String.valueOf(rst.getInt(1));
-                    String name=rst.getString(2);
-                    String tootle= String.valueOf(rst.getDouble(9));
-                    String average= String.valueOf(rst.getDouble(10));
-                    write.write(id+"\t"+name+"\t"+tootle+"\t"+average+"\n");
+                PreparedStatement preparedStatement = con.prepareStatement(sql);
+                rst = preparedStatement.executeQuery();
+                while (rst.next()) {
+                    String id = String.valueOf(rst.getInt(1));
+                    String name = rst.getString(2);
+                    String tootle = String.valueOf(rst.getDouble(9));
+                    String average = String.valueOf(rst.getDouble(10));
+                    write.write(id + "\t" + name + "\t" + tootle + "\t" + average + "\n");
                 }
                 write.close();
 
@@ -477,6 +480,44 @@ public class OperationData {
             }
         }
 
+    }
+    void Display_Charts(XYChart.Series series){
+        try {
+            preparedStatement=con.prepareStatement("select tootle_salary,name from xsl.teacher_salary ");
+            rst=preparedStatement.executeQuery();
+            while(rst.next()){
+                series.getData().add(new XYChart.Data(rst.getString(2), rst.getDouble(1)));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    void Warring_Tip(String text) {
+        Alert alert = new Alert(Alert.AlertType.WARNING, text);
+        alert.showAndWait();
+    }
+
+    void Error_Tip(String text) {
+        Alert alert = new Alert(Alert.AlertType.ERROR, text);
+        alert.showAndWait();
+    }
+
+    boolean Confirm_Tip(String text) {
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION, text);
+        alert.showAndWait();
+        return alert.getResult().getButtonData().isDefaultButton();
+    }
+
+    void Information_Tip(String text) {
+        Alert alert = new Alert(Alert.AlertType.INFORMATION, text);
+        alert.showAndWait();
+    }
+
+    void NULL_Tip(String text) {
+        Alert alert = new Alert(Alert.AlertType.NONE);
+        alert.showAndWait();
     }
 
 }

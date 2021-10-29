@@ -2,10 +2,12 @@ package Teacher_Salary;
 
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
-import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.layout.*;
+import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.GridPane;
+import javafx.scene.layout.StackPane;
+import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontPosture;
@@ -25,7 +27,6 @@ public class Choice extends Login {
     public void start(Stage stage) {
         Body();
         Label_Button_Choice_Method(stage); // 按键选项
-
         borderpane.setCenter(gridpane);
         stackPane.getChildren().addAll(imageView, borderpane);
         stage.setScene(new Scene(stackPane, 550, 500));
@@ -74,14 +75,11 @@ public class Choice extends Login {
         Select_Label.setOnMouseClicked(e -> Choice_Inquire_Method(stage));
         //关闭界面
         Close_Label.setOnMouseClicked(e -> {
-            Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "Exit?");
-            alert.showAndWait();
-            if (alert.getResult().getButtonData().isDefaultButton()) {
+
+            if (super.Confirm_Tip("Close Stage?")) {
                 stage.close();
-                System.out.println("关闭窗体");
             }
             new OperationData().Exit_Log(super.Account_TextField.getText());
-
         });
     }
 
@@ -91,7 +89,6 @@ public class Choice extends Login {
         Text Information_Inquire = new Text("教师信息查询");
         Teacher_Salary.setStyle("-fx-font-family: '华文行楷';-fx-font-size: 30");
         Information_Inquire.setStyle("-fx-font-family: '华文行楷';-fx-font-size: 30");
-
         Teacher_Salary.setOnMouseClicked(e -> {
             try {
                 new Salary_Inquire().start(stage);
